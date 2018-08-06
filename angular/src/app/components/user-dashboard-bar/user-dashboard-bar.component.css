@@ -1,0 +1,38 @@
+
+
+.bar {
+  fill: #FE6896;
+}
+
+.bar:hover {
+  fill: #FE4980;
+}
+
+.axis-title {
+  fill: none;
+  stroke: rgb(30, 18, 190);
+  stroke-width: 0.5px;
+}
+.no-g-data{
+  text-align: center;
+  /* min-height: 550px;
+  padding: 72px 0 55px 0; */
+}
+.no-g-data h4{
+  font-size: 30px;
+  font-weight: 800;
+  color: #4F657D
+}
+.no-g-data img{
+
+  width: 62px;
+  margin: 100px 0 0 0;
+}
+.bg-g{background:#17a88f;color:#fff; padding: 10px;margin-bottom:10px;}
+.bg-hash{background:#E9E9E9;padding: 10px;margin-bottom:10px;}
+.bg-hash select{background:none;border:none;width:100%;}
+h1{text-align:center;}
+.sales{margin-bottom: 25px;}
+  .legend-text {
+    fill: #fff;
+  }

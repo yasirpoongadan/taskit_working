@@ -1,0 +1,43 @@
+.count-txt{
+    font-weight: 700;
+}
+.count-sub-txt{
+    font-size: 14px;
+}
+.gr-cont{
+    padding-top: 30px;
+}
+.bg-white{
+    background-color: #fff;
+    padding: 29px;
+}
+
+@media only screen and (max-width : 1920px) {
+    
+    
+    
+    }
+    
+    @media only screen and (max-width : 1600px) {
+    
+    }
+    
+    
+    @media only screen and (max-width : 1366px) {
+        .pie-gr{padding: 21px 0px;}
+        .bg-white{min-height: 497px;}
+    }
+    
+    @media only screen and (max-width : 1280px) {
+        .count-sub-txt{
+            font-size: 13px;
+        }
+        .pie-gr{padding: 21px 0px !important;}
+        .bg-white{min-height: 497px;}
+    
+    }
+    
+    @media only screen and (max-width : 1024px) {
+    
+    }
+    @media only screen and (max-width : 768px) {}

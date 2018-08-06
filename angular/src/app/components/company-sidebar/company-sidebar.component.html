@@ -1,0 +1,87 @@
+<div class="logo">
+  <a><img src="./assets/images/logo.jpg" alt="" class="">
+   
+</a>
+</div>
+
+<nav class="navbar navbar-default">
+
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+      aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div *ngIf="disp" class="collapse navbar-collapse navi" id="bs-example-navbar-collapse-1">
+    <ul class="zx nav navbar-nav">
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="/company-dashboard"><i class="fa fa-desktop" aria-hidden="true"></i><span class="">Dashboard</span></a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a routerLink="/company-users"><i class="fa fa-user" aria-hidden="true"></i><span class="">Users</span></a></li>
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="/company-team"><i class="fa fa-users fa-2x text-purple"></i> Team</a></li>
+        
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs" aria-hidden="true"></i><span class="">Master Settings</span></a>
+        <!-- *ngIf="exist2(1,2,3,4,5)" -->
+        <div *ngIf="exist(1) || exist(2) || exist(3) || exist(11) || role == 1" >
+        <ul class="dropdown-menu" role="menu" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft">
+          <!-- {{role}} -->
+          <li *ngIf="(role == 3 && exist(3)) || role == 1"><a routerLink="/company-project-category">Project Category</a></li>
+          <li *ngIf="role == 1"><a routerLink="/company-access-rights">Access Rights</a></li>
+          <li *ngIf="role == 1"><a routerLink="/company-working-time">Office Time</a></li>
+          <li *ngIf="(role == 3 && exist(1)) || role == 1"><a routerLink="/company-manage-holyday">Public Holiday</a></li>
+          <li *ngIf="(role == 3 && exist(2)) || role == 1"><a routerLink="/company-employee-leaves">Employee Leaves</a></li>
+          <li *ngIf="(role == 3 && exist(11)) || role == 1"><a routerLink="/company-manage-designation">Designation</a></li>
+        </ul>
+      </div>
+      </li>
+
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+        <a routerLink="/project"><i class="fa fa-file-text" aria-hidden="true"></i><span class="">Projects</span></a></li>
+
+      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" *ngIf="(role == 3 && exist(7)) || role == 1" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-plus" aria-hidden="true"></i><span class="">Request Management</span></a>
+
+        <ul class="dropdown-menu" role="menu" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft">
+          <li><a routerLink="/company-task-requests">New Task Requests</a></li>
+          <li><a routerLink="/company-request-management">Time Extension Requests</a></li>
+          <li><a routerLink="/company-leave-request-list">Leave Requests</a></li>
+        </ul>
+
+      </li>
+
+      <!-- <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+              <a routerLink="/company-request-management"><i class="fa fa-user" aria-hidden="true"></i><span class="">Request Management</span></a></li> 
+           -->
+              
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="dropdown"><a  class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-leanpub" aria-hidden="true"></i><span class="">Reports</span></a>
+            
+              <ul class="dropdown-menu" role="menu" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft">
+                <li ><a  routerLink="/project-estimation-report">Estimation Report</a></li>
+                <li ><a routerLink="/project-report">Project Report</a></li>
+                <!-- <li *ngIf="((role == 3 && exist(9)) || (role == 1))"><a  routerLink="/project-estimation-report">Estimation Report</a></li>
+                <li *ngIf="((role == 3 && exist(10)) || (role == 1))"><a routerLink="/project-report">Project Report</a></li> -->
+                <li><a routerLink="/activity-log-report">Activity Log</a></li>
+               
+              </ul>
+            
+          </li>     
+    </ul>
+
+
+  </div>
+  <!-- /.navbar-collapse -->
+
+</nav>
+<div class="footerlink">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    <i class="fa fa-twitter" aria-hidden="true"></i>
+    <i class="fa fa-google" aria-hidden="true"></i>
+    <p>Copyright 2018  All Rights Reserved.</p>
+   </div>

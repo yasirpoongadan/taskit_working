@@ -1,0 +1,106 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <company-topbar></company-topbar>
+      <br>
+      <br>
+      <div class="container">
+        <div class="panel panel-default">
+          <div class="panel-heading">Payment Method</div>
+          <div class="panel-body">
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.cardnum" name="cardnum" autofocus placeholder="Card Number" required formControlName="cardnumValidation">
+            </mat-form-field>
+            <br>
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.cardname" name="cardname" placeholder="Name on Card" required formControlName="cardnameValidation">
+            </mat-form-field>
+            <br>
+            <mat-form-field [formGroup]="formGroup">
+              <input type="number" matInput [(ngModel)]="payment.cvv" min="1" max="3" name="cvv" placeholder="CVV" required formControlName="cvvValidation">
+            </mat-form-field>
+            <br>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Billing Details</div>
+          <div class="panel-body">
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.fname" name="fname" placeholder="First Name" required formControlName="fnameValidation">
+            </mat-form-field>
+            <br>
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.lname" name="lname" placeholder="Last Name" required formControlName="lnameValidation">
+            </mat-form-field>
+            <br>
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.addr" name="addr" placeholder="Address" required formControlName="addrValidation">
+            </mat-form-field>
+            <br>
+            <mat-form-field [formGroup]="formGroup">
+              <input matInput [(ngModel)]="payment.no" name="no" placeholder="Phone Number" required formControlName="noValidation">
+            </mat-form-field>
+            <br>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">Review and Confirm</div>
+          <div class="panel-body">
+            <table>
+              <tr>
+                <td>Plan </td>
+                <td>:</td>
+                <td><b>{{plan?.plan_name}}</b></td>
+              </tr>
+              <br>
+              <tr>
+                <td>No. of Months </td>
+                <td>:</td>
+                <td>
+                  <mat-form-field [formGroup]="formGroup"><input type="number" min="1" matInput [(ngModel)]="payment.no_months" name="no_months" required formControlName="no_monthsValidation">
+                  </mat-form-field>
+                </td>
+              </tr>
+              <br>
+              <tr>
+                <td>Price </td>
+                <td>:</td>
+                <td><b>{{plan?.plan_price}}</b></td>
+              </tr>
+              <br>
+              <tr>
+                <td>Amount </td>
+                <td>:</td>
+                <td><b>{{plan?.plan_price * payment.no_months}} </b></td>
+              </tr>
+              <br>
+            </table>
+
+            <div class="row">
+              <div class="col-md-3">
+                <button type="submit" class="btn round-button" (click)="confirm(plan?.id)">Confirm</button>
+              
+              </div>
+            
+             
+              <!-- <div class="col-md-8" *ngIf="showSpinner">
+                <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                  <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                    />
+                  </path>
+                </svg>
+              </div> -->
+
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

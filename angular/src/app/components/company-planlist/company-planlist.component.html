@@ -1,0 +1,61 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <company-topbar></company-topbar>
+
+      <section class="planz" id="section3">
+        <div class="container wid">
+          <h2>PLANS & PRICE</h2>
+          <div class="carry">
+            <div class="plan wow fadeInRight" data-wow-delay="0.2s" *ngFor="let plan of plans" [ngClass]="{'hilight': plan.is_best_value}">
+              <h3 class="plan-title">{{plan?.plan_name}}</h3>
+              <p class="plan-price">&#8377;{{plan?.plan_price}} <span class="plan-unit">per month</span></p>
+              <ul class="plan-features">
+                <li class="plan-feature">
+                  <h4>{{plan?.no_projects}} </h4><span class="plan-feature-name">Projects</span></li>
+                <li class="plan-feature">
+                  <h4>{{plan?.no_members}} </h4><span class="plan-feature-name">Members</span></li>
+                <li class="plan-feature">
+                  <h4>{{plan?.no_modules}} </h4><span class="plan-feature-name">Modules</span></li>
+                <li class="plan-feature">
+                  <h4>{{plan?.no_tasks}} </h4><span class="plan-feature-name">Tasks</span></li>
+              </ul>
+
+              <button type="submit" (click)="upgrade(plan.id)" class="btn round-button">Upgrade</button>
+
+            </div>
+
+            <!-- <div class="plan hilight">
+            <h3 class="plan-title">Premium</h3>
+            <p class="plan-price">&#8377;500 <span class="plan-unit">per month</span></p>
+            <ul class="plan-features">
+            <li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Projects</span></li>
+            <li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Members</span></li>
+            <li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Modules</span></li>
+            <li class="plan-feature"><h4>100 </h4><span class="plan-feature-name">Tasks</span></li>
+            </ul>
+            
+          </div> -->
+
+            <!-- <div class="plan mr-lft wow fadeInLeft" data-wow-delay="0.4s">
+            <h3 class="plan-title">Ultra</h3>
+            <p class="plan-price">&#8377;1000 <span class="plan-unit">per month</span></p>
+            <ul class="plan-features">
+            <li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Projects</span></li>
+            <li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Members</span></li>
+            <li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Modules</span></li>
+            <li class="plan-feature"><h4>120 </h4><span class="plan-feature-name">Tasks</span></li>
+            </ul>
+            
+          </div> -->
+          </div>
+        </div>
+      </section>
+      <br>
+      <br>
+    </div>
+  </div>
+</body>

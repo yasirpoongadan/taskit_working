@@ -1,0 +1,182 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <company-sidebar></company-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <company-topbar></company-topbar>
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+            <div class="col-md-12 margbt">
+              <div class="col-md-4">
+                <ul class="breadcrumb text-left">
+                  <li>
+                    <a routerLink="/project">Projects</a>
+                  </li>
+                  <li>Project Details</li>
+                </ul>
+              </div>
+              <div class="col-md-8">
+                <div class="projctlabel colz pull-right margright0">
+
+                </div>
+                <div id="custom-search-input" class="col-md-5 pull-right">
+                  <div class="input-group">
+                    <input type="text" class="search-query form-control" placeholder="Filter" value="" [(ngModel)]="searchTermTeam" />
+                    <span class="input-group-btn">
+                      <button class="btn btn-danger" type="button">
+                        <span class=" glyphicon glyphicon-search"></span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 gutter ">
+
+              <div class="col-md-12">
+                <div class="task-main">
+                  <div class="colz">
+                    <h2>{{allProjects?.project_name}}</h2>
+                    <p>{{allProjects?.project_code}}</p>
+                  </div>
+                  <div class="pull-right amounts">
+                    <h4>₹{{ allProjects && allProjects?.project_cost}}</h4>
+                  </div>
+                  <div class="timebox">
+                    <i class="fa fa-clock-o"></i>
+                    <div class="timedate">
+                      <p>
+                        <span class="xx">{{allProjects?.planned_start_date| date: 'yyyy-MM-dd'}}</span>
+                      </p>
+                      <h5 *ngIf="allProjects?.planned_start_date">{{allProjects?.projectstarttime}}
+                        <!-- <span class="xx">PM</span> -->
+                      </h5>
+                    </div>
+                    <div class="topborder"></div>
+
+                    <div class="timedate">
+                      <p>
+                        <span class="xx">{{allProjects && allProjects?.planned_end_date| date: 'yyyy-MM-dd'}}</span>
+                      </p>
+                      <h5 *ngIf="allProjects?.planned_end_date">{{allProjects?.projectendtime}}
+                        <!-- <span class="xx">PM</span> -->
+                      </h5>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-md-12" *ngFor="let project of projects  | viewproject:searchTermTeam">
+                <div class="task-main">
+                  <h3>{{project?.module_name}}</h3>
+                  <a href="#demo{{project?.id}}" class="morebt pull-right" data-toggle="collapse">
+                    <i class="fa fa-chevron-down"></i> View Task</a>
+                  <!-- <button class="statusbt pull-right">Pending</button> -->
+                  <div class="timebox hrtotal">
+                    <i class="fa fa-clock-o"></i>
+                    <div class="timedate">
+                      <h2>{{project?.totalhour}}
+                        <span class="xx">Hrs</span>
+                      </h2>
+                    </div>
+                    <div class="topborder"></div>
+                  </div>
+
+                </div>
+                <div id="demo{{project?.id}}" class="collapse" *ngFor="let i of project.tbl_project_tasks; let i=index">
+                  <div class="col-md-11 pull-right subtasks">
+                    <div class="colz">
+                      <p>Task Name</p>
+                      <h4>{{i.task_name}}</h4>
+                    </div>
+                    <div class="colz">
+                      <p>Assigned Person</p>
+                      <h4>{{i.tbl_user_profile.f_name}} {{i.tbl_user_profile.l_name}}</h4>
+                    </div>
+
+                    <div class="colz pull-right">
+                      <p>Planned Hours</p>
+                      <h5>{{i.planned_hour+i.buffer_hour}} Hrs</h5>
+                    </div>
+                    <div class="colz pull-right" *ngIf="i.actual_hour">
+                      <p>Actual Hours</p>
+                      <h5>{{i.actual_hour}} Hrs</h5>
+                    </div>
+                 
+                    <div class="colz pull-right" *ngIf="i.tbl_task_status_assocs[0]?.tbl_task_status.id==2 && i.tbl_task_status_assocs[0]?.reason ">
+                      <p>Reason to Pause</p>
+                      <h5>{{i.tbl_task_status_assocs[0]?.reason}} </h5>
+                    </div>
+
+                    
+                    <div class="colz pull-right" *ngIf="i.tbl_task_status_assocs[0]?.tbl_task_status.id==4 ">
+                      <p>Reason to Hold</p>
+                      <h5>{{i.tbl_task_status_assocs[0]?.reason}} </h5>
+                    </div>
+
+                    <div class="colz pull-right" *ngIf="i.tbl_task_status_assocs[0]?.progress_id">
+                      <p>Progress Percentage:</p>
+                      <h5>{{i.tbl_task_status_assocs[0]?.progress.percentage}}%</h5>
+                    </div>
+
+
+                    <button class="statusbt pull-right marginr20">{{i?.tbl_task_status_assocs[0]?.tbl_task_status.status}} </button>
+                    <div class="timebox">
+                      <i class="fa fa-clock-o"></i>
+                      <div class="timedate">
+                        <p>
+                          <span class="xx">{{i.planned_start_date_time | date: 'yyyy-MM-dd'}}</span>
+                        </p>
+                        <h5 *ngIf="i.planned_start_date_time">{{i.starttime}}
+                          <!-- <span class="xx">PM</span> -->
+                        </h5>
+                      </div>
+                      <div class="topborder"></div>
+                      <div class="timedate">
+                        <p>
+                          <span class="xx">{{i.planned_end_date_time | date: 'yyyy-MM-dd '}}</span>
+                        </p>
+                        <h5 *ngIf="i.planned_end_date_time">{{i.endtime }}
+                          <!-- <span class="xx">PM</span> -->
+                        </h5>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <!-- footer-->
+        <!-- <admin-footer></admin-footer> -->
+        <!-- end footer-->
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+
+  <!--delete modal------>
+</body>

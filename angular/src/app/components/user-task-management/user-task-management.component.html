@@ -1,0 +1,720 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+        <user-sidebar></user-sidebar>
+        <!-- end sidebar-->
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <user-topbar></user-topbar>
+        <div class="col-md-12">
+          <h2 style="text-align:left;">My Task</h2>
+          <ul class="breadcrumb">
+            <li>
+              <a>My Task</a>
+            </li>
+            <!-- <li><a routerLink="/company-request-management">Time Extension Request List</a></li> -->
+
+            <li>Task List</li>
+          </ul>
+        </div>
+        <!-- --------------------------------------------- add task modal ----------------------------------------------------------------- -->
+        <div id="additionalTask" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                <h4 class="modal-title">Additional task request </h4>
+              </div>
+              <div class="modal-body">
+                <form role="form" #f="ngForm" (ngSubmit)="addTask(index);">
+                  <div>
+                    <div class="example-container">
+                      <div class="col-md-4 col-xs-6">
+                        <label class="pad-top">Task Name * :</label>
+                      </div>
+                      <div class="col-md-7 col-xs-6">
+                        <mat-form-field>
+                          <input matInput name="task_name" [(ngModel)]="newTasks.task_name" autofocus>
+                        </mat-form-field>
+                      </div>
+                      <br>
+                      <div class="example-container">
+                        <div class="col-md-4 col-xs-6">
+                          <label class="pad-top">Assigned person * :</label>
+                        </div>
+                        <div class="col-md-7 col-xs-6 pad-top" *ngFor="let userdata of userData;">
+                          {{userdata.f_name}} {{userdata.l_name}}
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="example-container">
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top">Complexity :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <mat-form-field class="inputfileds">
+                              <mat-select placeholder="Complexity" name='complexity' #group="ngModel" [(ngModel)]="newTasks.complexity">
+                                <mat-option [value]="complexity.id" *ngFor="let complexity of complexitys;">{{complexity.percentage}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <br>
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top">Planned Hours *:</label>
+                          </div>
+                          <div class="col-md-2 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="planned_hour" min="0" name='planned_hour' [(ngModel)]="newTasks.planned_hour" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Buffer Hours :</label>
+                          </div>
+                          <div class="col-md-2 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="buffer_time" min="0" name='buffer_hour' [(ngModel)]="newTasks.buffer_hour" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <br>
+
+                          <div class="clearfix"></div>
+
+                          <div class="example-container">
+                            <!-- <div class="col-md-4 col-xs-6"><label class="pad-top">Task type :</label></div>
+                            <div class="col-md-7 col-xs-6">
+                              <mat-form-field class="inputfileds">
+                                <mat-select [(value)]="selected1" name='task_type' #group="ngModel" [(ngModel)]="newTasks.task_type">
+                           
+                                  <mat-option value="0">Billable</mat-option>
+                                  <mat-option value="1">Non Billable</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div> -->
+                            <div class="clearfix"></div>
+                            <div class="example-container">
+                              <!-- <div class="col-md-4 col-xs-6"><label class="pad-top">Priority *:</label></div>
+                              <div class="col-md-7 col-xs-6">
+                                <mat-form-field class="inputfileds">
+                                  <mat-select [(value)]="selected2" name='priority' #group="ngModel" [(ngModel)]="newTasks.priority">
+                                
+                                    <mat-option value="0">High</mat-option>
+                                    <mat-option value="1">Medium</mat-option>
+                                    <mat-option value="2">Low</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div> -->
+                              <div *ngIf="showTeam">
+                                <div class="col-md-4 col-xs-6">
+                                  <label class="pad-top">Select Team *:</label>
+                                </div>
+                                <div class="col-md-7 col-xs-6">
+                                  <mat-form-field class="inputfileds">
+                                    <mat-select placeholder="Team" name="team" [(ngModel)]="newTasks.team">
+                                      <mat-option [value]="team.id" *ngFor="let team of allteam">{{team?.team_name}} </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="example-container">
+                                <div class="col-md-4 col-xs-6">
+                                  <label class="pad-top">Description :</label>
+                                </div>
+                                <div class="col-md-7 col-xs-6">
+                                  <mat-form-field>
+                                    <textarea matInput name='description' [(ngModel)]="newTasks.description"></textarea>
+                                  </mat-form-field>
+                                </div>
+                                <br>
+                                <!-- <div class="example-container">
+                                <div class="col-md-4 col-xs-5"><label class="pad-top">Checklist :</label></div>
+                                <div class="col-md-5 col-xs-5">
+                                  <div *ngFor="let item of newTasks.newChecklist; let i = index; trackBy:trackByIndex">
+                                    <mat-form-field class="example-form-field">
+                                      <input matInput type="text" name="checklist{{i}}" required [(ngModel)]="newTasks.newChecklist[i].name" />
+                                      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                                  <mat-icon>close</mat-icon>
+                                </button>
+                                    </mat-form-field>
+                                    <input type="button" value="X" (click)="closeChecklist(i)" class="close-bt">
+                                  </div>
+                                </div> -->
+                                <!-- <div class="col-md-3 col-xs-2"><input type="button" value="Add More" (click)="addMore()" class="round-button padd-bt"></div> -->
+                                <div class="clearfix"></div>
+                                <div class="example-container">
+                                  <div class="col-md-3 col-xs-6">
+                                    <label class="pad-top">Attachment :</label>
+                                  </div>
+                                  <div class="col-md-7 col-xs-6">
+                                    <input (change)="displayDoc($event)" name="file" type="file" [(ngModel)]="newTasks.file" />
+                                  </div>
+                                  <div class="clearfix"></div>
+                                  <div class="center">
+                                    <button type="submit" [disabled]="aditionaltaskBtnDisable" class="btn round-button dropdown-toggle mrg-tp">Send Request</button>
+                                    <div *ngIf="aditionaltaskSpinner">
+                                      <app-spinner></app-spinner>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- --------------------------------------------- end add modal ----------------------------------------------------------------- -->
+        <!-- --------------------------------------------- add time extension ----------------------------------------------------------------- -->
+        <div id="extentionTask" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                <h4 class="modal-title">Time Extension request </h4>
+              </div>
+              <div class="modal-body">
+                <form role="form" #f="ngForm" (ngSubmit)="TimeExtention(newTasks);">
+                  <div>
+                    <div class="example-container">
+                      <div class="col-md-4 col-xs-6">
+                        <label class="pad-top">Task Name :</label>
+                      </div>
+                      <div class="col-md-7 col-xs-6">
+                        <label class="pad-top">
+                          {{newTasks.task_name}}
+                        </label>
+                      </div>
+                      <br>
+                      <div class="example-container">
+                        <div class="col-md-4 col-xs-6">
+                          <label class="pad-top">Assigned person :</label>
+                        </div>
+                        <div class="col-md-7 col-xs-6">
+                          <label class="pad-top" *ngFor="let userdata of  userData;">
+                            {{userdata.f_name}} {{userdata.l_name}}
+                          </label>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="example-container">
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top">Complexity :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <label class="pad-top" *ngIf="newTasks.complexity_id!=null">
+                              {{newTasks.tbl_complexity_percentage.percentage}}
+                            </label>
+                          </div>
+                          <div class="clearfix"></div>
+
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top">Planned Hours :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+
+                            <label class="pad-top">
+                              {{newTasks.planned_hour}}
+                              <!-- <mat-form-field class="wdth">
+                              <input type="number" matInput name="planned_hour" min="0" name='planned_hour' [(ngModel)]="newTasks.planned_hour" required>
+                            </mat-form-field> -->
+                            </label>
+                          </div>
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top">Buffer Hours :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+
+                            <label class="pad-top">
+                              {{newTasks.buffer_hour}}
+                            </label>
+                          </div>
+                          <!-- <mat-form-field class="wdth">
+                              <input type="number" matInput name="buffer_time" min="0" name='buffer_hour' [(ngModel)]="newTasks.buffer_hour" required>
+                            </mat-form-field> -->
+                          <div class="clearfix"></div>
+                          <div class="col-md-4 col-xs-6">
+                            <label class="pad-top"> Time required in Hrs:*</label>
+                          </div>
+                          <div class="col-md-4 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput min="0" name='timerequired' [(ngModel)]="newTasks.timerequired" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+
+                          <div class="clearfix"></div>
+                          <div class="clearfix"></div>
+                          <div class="center">
+                            <button type="submit" [disabled]="sendRequestBtnDisable" class="btn round-button dropdown-toggle mrg-tp">Send Request</button>
+                            <div *ngIf="sendRequestSpinner">
+                              <app-spinner></app-spinner>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- --------------------------------------------- end time extension ----------------------------------------------------------------- -->
+
+
+
+        <!-- end topbar-->
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+            <div class="col-md-12">
+                <mat-tab-group color="primary" (selectedTabChange)="onTabLinkClick($event)">
+
+                    <mat-tab label="Current Task">
+                        <div class="tab-content" *ngFor="let myTask of showDetails; let i = index">
+                            <div id="home" class="tab-pane fade in active" *ngIf="myTask.curTask.length != 0">
+                              <!-- <div class="col-md-12" *ngIf="myTask?.TaskExistForFinishInaModule">
+                                <div class="task-main">
+                                  <div class="colz">
+                                    <h2>{{myTask?.tbl_project.project_name}}</h2>
+                                    <p>{{myTask?.tbl_project.project_code}}</p>
+                                  </div>
+                                </div>
+                              </div> -->
+              
+                              <div class="col-md-12 pull-right"  >
+                                <div class="task-main">
+                                  <h3>Module name</h3>
+                                  
+                                  <div class="pull-right">
+                                   
+                                    <button class="requstnewbt pull-right" *ngIf="myTask.tbl_project.status!== 'Completed'" (click)="getId(i,myTask.id)" matTooltip="New Task Request"
+                                      data-toggle="modal" data-target="#additionalTask">
+                                      <i class="fa fa-plus"></i>New Task Request</button>
+                                  </div>
+                                  <div class="topborder pull-right"></div>
+                                  <div class="pull-right projectnames">
+                                    <h3>Samana Academy</h3>
+                                      <p>PRO323/2018</p>
+                                  </div>
+                                 
+                                </div>
+              
+              
+                                <div id="demo{{myTask.id}}" class="" *ngFor="let task of myTask.curTask; let j = index">
+                                  <div class="col-md-11 pull-right subtasks">
+                                    <div class="colz">
+                                      <p>Task Name</p>
+                                      <h4>{{task?.task_name}}</h4>
+                                    </div>
+              
+                                    <div class="colz pull-right">
+                                      <p>Total Hours</p>
+                                      <h5>{{task?.planned_hour + task?.buffer_hour}} hrs</h5>
+                                    </div>
+                                    <div class="colz pull-right" *ngIf="task?.status.tbl_task_status.id==5">
+                                      <p>Actual Hours</p>
+                                      <h5>{{task?.actual_hour }} hrs</h5>
+                                    </div>
+              
+                                    <button class="statusbt pull-right marginr20">{{task?.status.tbl_task_status.status }}</button>
+                                    <div class="timebox">
+                                      <i class="fa fa-clock-o"></i>
+                                      <div class="timedate">
+                                        <p>
+                                          <span class="xx">{{task?.planned_start_date_time | date:'MMM dd yyyy hh:mm aa'}}</span>
+                                        </p>
+                                        <h5>{{task?.starttime}}
+                                          <!-- <span class="xx">PM</span> -->
+                                        </h5>
+                                      </div>
+                                      <div class="topborder"></div>
+                                      <div class="timedate">
+                                        <p>
+                                          <span class="xx">{{task?.planned_end_date_time | date:'MMM dd yyyy hh:mm aa'}}</span>
+                                        </p>
+                                        <h5>{{task?.endtime}}
+                                          <!-- <span class="xx">PM</span> -->
+                                        </h5>
+                                      </div>
+                                    </div>
+              
+              
+                                    <div class="pull-right" *ngIf="task?.showRequest">
+                                      <div class="topborder pull-right"></div>
+                                      <button class="requstnewbt pull-right" matTooltip="Aditional time request" (click)="getId1(task,i,j)" type="button"
+                                        data-toggle="modal" data-target="#extentionTask">
+                                        <i class="fa fa-plus"></i>Time Extention Request</button>
+                                    </div>
+                                    <div class="pull-right">
+                                    <ul class="taskedit">
+                                                     
+                                        <div class="div1">
+                                          <div class="div">
+                                        
+                                          </div>
+                                    
+                                          <p class="pse" [ngClass]="{'rnng':task?.status?.status_id==3}">
+                                            <span id="hr">{{task?.appendHour}}</span>:
+                                            <span id="min">{{task?.appendMinute}}</span>:
+                                            <span id="sec">{{task?.appendSecond}}</span>
+                                          </p>
+                                        
+                                          <div class="d2">
+              
+                                          </div>
+                                        </div>
+                                        <div class="playul">
+                                        <li *ngIf="task?.status?.status_id == 3">
+                                          <button matTooltip="Pause" data-target="#demoo" class="iconButton" data-toggle="collapse" (click)="clearReason()">
+                                            <i class="fa fa-pause" aria-hidden="true"></i>
+                                          </button>
+                                          <ul class="collapse dropdown-menu puase-popup" role="menu" id="demoo">
+                                            <div class="col-md-8">
+                                              <div class="col-md-12 col-xs-6 text-left">
+                                                <label class="pad-top">Reason *</label>
+                                              </div>
+                                              <textarea rows="4" cols="50" name="name" [(ngModel)]="newTasks.reason"> </textarea>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <br>
+                                            <div class="col-md-4">
+                                              <button type="submit" (click)="pauseTask(task)" class="btn round-button">Pause</button>
+                                            </div>
+                                          </ul>
+                                        </li>
+                                        <li *ngIf="task?.status?.status_id == 3">
+                                          <button matTooltip="Completed" class="iconButton" data-toggle="collapse" data-target="#demo" (click)="clearprogress()">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                          </button>
+                                          <ul class="collapse bx-shdw" id="demo">
+                                            <div class="col-md-8">
+                                              <mat-form-field class="inputfileds">
+                                                <mat-select placeholder="Progress" name='progress' #group="ngModel" [(ngModel)]="newTasks.percentage">
+                                                  <mat-option [value]="percentage.id" *ngFor="let percentage of percentages;">{{percentage.percentage}}</mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="col-md-4">
+                                              <button type="submit" (click)="complete(task)" class="btn round-button closepanel">Save</button>
+                                            </div>
+                                          </ul>
+                                        </li>
+                                        <li *ngIf="task?.status?.status_id == 3">
+                                          <button matTooltip="Hold" class="iconButton" data-toggle="collapse" data-target="#demo1" (click)="clearhold()">
+                                            <i class="fa fa-stop" aria-hidden="true"></i>
+                                          </button>
+                                          <ul class="collapse bx-shdw" id="demo1">
+                                            <div class="col-md-12 text-left">
+                                              <label class="pad-top">Progress * : </label>
+                                              <mat-form-field class="inputfileds">
+                                                <mat-select placeholder="Progress" name='progress' #group="ngModel" [(ngModel)]="newTasks.percentage">
+                                                  <mat-option [value]="percentage.id" *ngFor="let percentage of percentages;">{{percentage.percentage}}</mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                              <div class="clearfix"></div>
+                                              <div class="col-md-12 col-xs-6 text-left">
+                                                <div class="row">
+                                                  <label class="pad-top">Reason * :</label>
+                                                </div>
+                                              </div>
+                                              <textarea rows="4" cols="50" name="name" [(ngModel)]="newTasks.reason"> </textarea>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <br>
+                                            <div class="col-md-4">
+                                              <button type="submit" (click)="holdTask(task)" class="btn round-button closepane">Save</button>
+                                            </div>
+                                          </ul>
+                                        </li>
+                                       
+                                        <div *ngIf="task?.status?.status_id == 1">
+                                          <li>
+                                            <button data-toggle="Start" matTooltip="Start" class="iconButton" (click)="start(task, myTask)">
+                                              <i class="fa fa-play" aria-hidden="true"></i>
+                                            </button>
+                                          </li>
+                                        </div>
+                                        <li *ngIf="task?.status?.status_id == 3">
+                                          <button data-toggle="tooltip" matTooltip="Finish" class="iconButton" (click)="Done(task)">
+                                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                          </button>
+                                        </li>
+                                        <li *ngIf="task?.status?.status_id == 2 || task?.status?.status_id == 4">
+                                          <button data-toggle="tooltip" matTooltip="Resume" class="iconButton" (click)="resumeTasks(task)">
+                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                          </button>
+                                        </li>
+                                        <li *ngIf="task?.status?.status_id == 7">
+                                          <button data-toggle="tooltip" matTooltip="Restart" class="iconButton" (click)="restartTasks(task)">
+                                            <i class="fa fa-play" aria-hidden="true"></i>
+                                          </button>
+                                        </li>
+                                      </div>
+                                      </ul>
+                                    </div>
+              
+                                  </div>
+              
+              
+                                </div>
+                              </div>
+                            </div>
+                            <!--current tab-->
+              
+              
+              
+                          </div>
+                    </mat-tab>
+                    <mat-tab label="Today's Task">
+                    </mat-tab>
+                    <mat-tab label="View All tasks">
+                    </mat-tab>
+                  </mat-tab-group>
+              <!-- <ul class="nav nav-tabs" (selectedTabChange)="onTabLinkClick($event)">
+                <li class="active">
+                  <a data-toggle="tab" href="#home">Current Task</a>
+                </li>
+                <li>
+                  <a data-toggle="tab" href="#menu1">View All Task</a>
+                </li>
+              </ul> -->
+            </div>
+
+    <ng-container *ngIf="showAllContent">
+
+            <div class="col-md-8 pull-right">
+              <!-- <div class="projctlabel colz pull-right margright0">
+            
+            </div> -->
+              <!-- <div class="projctlabel colz pull-right pending">
+         
+            </div> -->
+              <mat-form-field class="filter">
+                <mat-select (change)="statusBasedData()" [(value)]="selected">
+                  <mat-option value="all">All</mat-option>
+                  <mat-option value="1">New </mat-option>
+                  <mat-option value="2">Paused</mat-option>
+                  <mat-option value="3">In Progress</mat-option>
+                  <mat-option value="4">Hold</mat-option>
+                  <mat-option value="5">Done</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+
+
+            <div class="tab-content" *ngFor="let myTask of showDetails; let i = index">
+              <div id="home" class="tab-pane fade in active">
+                <!-- <div class="col-md-12" *ngIf="myTask?.TaskExistForFinishInaModule">
+                  <div class="task-main">
+                    <div class="colz">
+                      <h2>{{myTask?.tbl_project.project_name}}</h2>
+                      <p>{{myTask?.tbl_project.project_code}}</p>
+                    </div>
+                  </div>
+                </div> -->
+
+                <div class="col-md-12 pull-right" *ngIf="myTask?.TaskExistForFinishInaModule">
+                  <div class="task-main">
+                    <h3>Module name</h3>
+                    <!-- <a href="{{myTask.id}}" class="morebt pull-right">
+                      <i class="fa fa-chevron-down"></i> View Taks</a> -->
+                    <!-- <button class="statusbtcompleted pull-right">Completed</button> -->
+                    
+                    <div class="pull-right">
+                     
+                      <button class="requstnewbt pull-right" *ngIf="myTask.tbl_project.status!== 'Completed'" (click)="getId(i,myTask.id)" matTooltip="New Task Request"
+                        data-toggle="modal" data-target="#additionalTask">
+                        <i class="fa fa-plus"></i>New Task Request</button>
+                    </div>
+                    <div class="topborder pull-right"></div>
+                    <div class="pull-right projectnames">
+                      <h3>Samana Academy</h3>
+                        <p>PRO323/2018</p>
+                    </div>
+                   
+                  </div>
+
+
+                  <div id="demo{{myTask.id}}" class="" *ngFor="let task of myTask.tbl_project_tasks; let j = index">
+                    <div class="col-md-11 pull-right subtasks">
+                      <div class="colz">
+                        <p>Task Name</p>
+                        <h4>{{task?.task_name}}</h4>
+                      </div>
+
+                      <div class="colz pull-right">
+                        <p>Total Hours</p>
+                        <h5>{{task?.planned_hour + task?.buffer_hour}} hrs</h5>
+                      </div>
+                      <div class="colz pull-right" *ngIf="task?.status.tbl_task_status.id==5">
+                        <p>Actual Hours</p>
+                        <h5>{{task?.actual_hour }} hrs</h5>
+                      </div>
+
+                      <button class="statusbt pull-right marginr20">{{task?.status.tbl_task_status.status }}</button>
+                      <div class="timebox">
+                        <i class="fa fa-clock-o"></i>
+                        <div class="timedate">
+                          <p>
+                            <span class="xx">{{task?.planned_start_date_time | date:'MMM dd yyyy hh:mm aa'}}</span>
+                          </p>
+                          <h5>{{task?.starttime}}
+                            <!-- <span class="xx">PM</span> -->
+                          </h5>
+                        </div>
+                        <div class="topborder"></div>
+                        <div class="timedate">
+                          <p>
+                            <span class="xx">{{task?.planned_end_date_time | date:'MMM dd yyyy hh:mm aa'}}</span>
+                          </p>
+                          <h5>{{task?.endtime}}
+                            <!-- <span class="xx">PM</span> -->
+                          </h5>
+                        </div>
+                      </div>
+
+
+                      <div class="pull-right" *ngIf="task?.showRequest">
+                        <div class="topborder pull-right"></div>
+                        <button class="requstnewbt pull-right" matTooltip="Aditional time request" (click)="getId1(task,i,j)" type="button"
+                          data-toggle="modal" data-target="#extentionTask">
+                          <i class="fa fa-plus"></i>Time Extention Request</button>
+                      </div>
+                      <div class="pull-right">
+                      <ul class="taskedit">
+                                       
+                          <div class="div1">
+                            <div class="div">
+                          
+                            </div>
+                      
+                            <p class="pse" [ngClass]="{'rnng':task?.status?.status_id==3}">
+                              <span id="hr">{{task?.appendHour}}</span>:
+                              <span id="min">{{task?.appendMinute}}</span>:
+                              <span id="sec">{{task?.appendSecond}}</span>
+                            </p>
+                          
+                            <div class="d2">
+
+                            </div>
+                          </div>
+                          <div class="playul">
+                          <li *ngIf="task?.status?.status_id == 3">
+                            <button matTooltip="Pause" data-target="#demoo" class="iconButton" data-toggle="collapse" (click)="clearReason()">
+                              <i class="fa fa-pause" aria-hidden="true"></i>
+                            </button>
+                            <ul class="collapse dropdown-menu puase-popup" role="menu" id="demoo">
+                              <div class="col-md-8">
+                                <div class="col-md-12 col-xs-6 text-left">
+                                  <label class="pad-top">Reason *</label>
+                                </div>
+                                <textarea rows="4" cols="50" name="name" [(ngModel)]="newTasks.reason"> </textarea>
+                              </div>
+                              <div class="clearfix"></div>
+                              <br>
+                              <div class="col-md-4">
+                                <button type="submit" (click)="pauseTask(task)" class="btn round-button">Pause</button>
+                              </div>
+                            </ul>
+                          </li>
+                          <li *ngIf="task?.status?.status_id == 3">
+                            <button matTooltip="Completed" class="iconButton" data-toggle="collapse" data-target="#demo" (click)="clearprogress()">
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+                            <ul class="collapse bx-shdw" id="demo">
+                              <div class="col-md-8">
+                                <mat-form-field class="inputfileds">
+                                  <mat-select placeholder="Progress" name='progress' #group="ngModel" [(ngModel)]="newTasks.percentage">
+                                    <mat-option [value]="percentage.id" *ngFor="let percentage of percentages;">{{percentage.percentage}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="col-md-4">
+                                <button type="submit" (click)="complete(task)" class="btn round-button closepanel">Save</button>
+                              </div>
+                            </ul>
+                          </li>
+                          <li *ngIf="task?.status?.status_id == 3">
+                            <button matTooltip="Hold" class="iconButton" data-toggle="collapse" data-target="#demo1" (click)="clearhold()">
+                              <i class="fa fa-stop" aria-hidden="true"></i>
+                            </button>
+                            <ul class="collapse bx-shdw" id="demo1">
+                              <div class="col-md-12 text-left">
+                                <label class="pad-top">Progress * : </label>
+                                <mat-form-field class="inputfileds">
+                                  <mat-select placeholder="Progress" name='progress' #group="ngModel" [(ngModel)]="newTasks.percentage">
+                                    <mat-option [value]="percentage.id" *ngFor="let percentage of percentages;">{{percentage.percentage}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <div class="clearfix"></div>
+                                <div class="col-md-12 col-xs-6 text-left">
+                                  <div class="row">
+                                    <label class="pad-top">Reason * :</label>
+                                  </div>
+                                </div>
+                                <textarea rows="4" cols="50" name="name" [(ngModel)]="newTasks.reason"> </textarea>
+                              </div>
+                              <div class="clearfix"></div>
+                              <br>
+                              <div class="col-md-4">
+                                <button type="submit" (click)="holdTask(task)" class="btn round-button closepane">Save</button>
+                              </div>
+                            </ul>
+                          </li>
+                         
+                          <div *ngIf="task?.status?.status_id == 1">
+                            <li>
+                              <button data-toggle="Start" matTooltip="Start" class="iconButton" (click)="start(task, myTask)">
+                                <i class="fa fa-play" aria-hidden="true"></i>
+                              </button>
+                            </li>
+                          </div>
+                          <li *ngIf="task?.status?.status_id == 3">
+                            <button data-toggle="tooltip" matTooltip="Finish" class="iconButton" (click)="Done(task)">
+                              <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                            </button>
+                          </li>
+                          <li *ngIf="task?.status?.status_id == 2 || task?.status?.status_id == 4">
+                            <button data-toggle="tooltip" matTooltip="Resume" class="iconButton" (click)="resumeTasks(task)">
+                              <i class="fa fa-play" aria-hidden="true"></i>
+                            </button>
+                          </li>
+                        </div>
+                        </ul>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+              <!--current tab-->
+
+
+
+            </div>
+            <!--tab content close-->
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,19 @@
+.mat-form-field-underline {
+    position: absolute;
+    height: 1px;
+    width: 96%;
+    top: 48px;
+}
+
+.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label, .mat-form-field-empty.mat-form-field-label {
+    padding-left: 10px;
+}
+
+input.mat-input-element{
+    /* border-radius: 50px; */
+}
+.mat-fltr {
+    width: 100%;
+    background-color: #fff;
+    padding: 0 35px;
+}

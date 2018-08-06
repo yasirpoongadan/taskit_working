@@ -1,0 +1,96 @@
+html, body {
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  
+  body {
+    background: -webkit-gradient(linear, left top, left bottom, from(#606c88), to(#3f4c6b));
+    background: linear-gradient(to bottom, #606c88 0%, #3f4c6b 100%);
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  .bg-g{background:#17a88f;color:#fff; padding: 10px;margin-bottom:10px;}
+  .bg-hash{background:#E9E9E9;padding: 10px;margin-bottom:10px;}
+  .bg-hash select{background:none;border:none;width:100%;}
+  .total{font-weight:700;padding-top: 20px; line-height: 36px;}
+  .widget{margin-top:9%;}
+  .tasklabel{       background: #efefef;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size : 12px;
+  }
+  .pie {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    -webkit-filter: drop-shadow(0 2px 0px #333);
+            filter: drop-shadow(0 2px 0px #333);
+  }
+  
+  .data-path:hover {
+    cursor: pointer;
+  }
+  
+  .data-text {
+    -webkit-transition: -webkit-transform .2s ease-in-out;
+    transition: -webkit-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out;
+    transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+    fill: #fff;
+  }
+  .data-text__value {
+    font-size: 4rem !important;
+    -webkit-transform: translateY(-0.5rem);
+            transform: translateY(-0.5rem);
+    opacity: 0;
+  }
+  .data-text__name {
+    font-size: 2rem;
+    -webkit-transform: translateY(0.5rem);
+            transform: translateY(0.5rem);
+    opacity: 0;
+  }
+  .data-text--show {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation: fadeGraphTextIn 0.5s forwards;
+            animation: fadeGraphTextIn 0.5s forwards;
+  }
+  .data-text:hover {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+h1{text-align:center;}
+/* .sales{margin-bottom: 25px;} */
+  .legend-text {
+    fill: #fff;
+  }
+  
+  @-webkit-keyframes fadeGraphTextIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeGraphTextIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  /* .sales{    margin-bottom: 20px;} */
+  .sales{margin-bottom: 25px;border:none;    box-shadow: 4px 7px 31px #e8e8e8;}

@@ -1,0 +1,90 @@
+.thin-lbl{
+    font-weight: 400 !important;
+}
+.bg-grey-btn{
+    background-color: rgb(236, 236, 236);
+    border-radius: 4px;
+    border: none;
+    padding: 2px 7px;
+}
+.bg-grey-btn:hover{
+    background-color: #fe6a07;
+    color: #fff;
+}
+.rnd-btn{
+    position: absolute;
+    bottom: -13px;
+    right: 104px;
+}
+.white{
+    position: relative;
+}
+.week-btn{
+    background-color: transparent;
+    min-width: 90px;
+    text-align: center;
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    color: #848484;
+}
+td{
+    padding: 7px;
+}
+th{
+    text-align: center !important;
+}
+.clr-green{
+    color: #00cc6f;
+    font-weight: 500;
+}
+.week-nm{
+    font-weight: 600
+}
+.plus-btn {
+    float: right;
+    margin-right: 35px !important;}
+
+.add-brk{
+    padding: 4px;
+    background-color: transparent;
+    color: #00b136;
+    /* font-weight: 800; */
+    margin-top: 25px;
+    font-size: 20px;
+}
+.mrgn-tp{
+    margin-top: 18px;
+    width: 100%;
+}
+
+.plus-btn{
+    box-shadow: 2px 2px 5px #ffbb8e !important;
+}
+.dsbld{
+    background-color: #ccc;
+    box-shadow: none !important;
+    
+}
+.mrgn-ed{
+    margin-top: 0;
+}
+.red{
+    color: #ff0023
+}
+.material-icons{
+
+margin-top:190%;
+}
+@media only screen and (max-width: 1920px){
+    .week-btn{    min-width: 126px;}
+    }
+ @media only screen and (max-width: 1600px){
+     .week-btn{    min-width: 104px;}
+    }
+@media only screen and (max-width: 1366px){
+    .week-btn{    min-width: 82px;}
+    }
+    @media only screen and (max-width: 1280px){
+        .week-btn{min-width: 76px;}
+        }

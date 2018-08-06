@@ -1,0 +1,91 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: auto;
+    position: relative;
+  }
+  
+  text {
+    font: 15px sans-serif;
+  }
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  
+  #stacked-bar-chart-container {
+    /* position: relative;
+    border: 2px solid black; */
+    width: 510px;
+  }
+  
+  form {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+  }
+  
+  div.tooltip { 
+    position: absolute;     
+    min-width: 60px;          
+    padding: 4px;       
+    font: 12px sans-serif;    
+    background: lightsteelblue; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+  }
+  
+  .grid line {
+    stroke: white;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+  }
+  
+  g.grid {
+    stroke-opacity: 0;
+  }
+
+
+
+
+  svg {
+    font: 10px sans-serif;
+    shape-rendering: crispEdges;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+  }
+ 
+  path.domain {
+    stroke: none;
+  }
+ 
+  .y .tick line {
+    stroke: #ddd;
+  }
+  h1{padding-left: 6%;}
+  .sales{margin-top: 25px;}
+  .bg-g{
+    background: #17a88f;
+    color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.bg-hash{
+  background: #E9E9E9;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.no-dt{
+  text-align: center;
+  padding: 176px 0;
+  font-size: 30px;
+  font-weight: 800;
+  color: #a2a2a2;
+}

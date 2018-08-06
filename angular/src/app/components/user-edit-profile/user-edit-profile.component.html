@@ -1,0 +1,157 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <user-sidebar></user-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <user-topbar></user-topbar>
+        <br>
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+
+            <div class="col-md-12 col-sm-12 col-xs-12 gutter">
+
+              <div class="white">
+                <!-- img start -->
+                <div class="col-md-6 col-md-offset-3">
+                  <div class="relatve">
+                    <input type="file" accept=".jpeg, .jpg, .png, .gif" (change)="displayPhoto($event)" name="file" id="file-1" class="inputfile inputfile-1"
+                      data-multiple-caption="{count} files selected" multiple="">
+                    <label for="file-1"> <span> <i class="fa fa-camera"></i></span></label>
+                    <div class="photo"><img *ngIf="profile.imgSrc" [src]="profile.imgSrc"></div>
+                  </div>
+                  <div *ngIf="preloader">
+                      <app-spinner></app-spinner>
+                  </div>
+  
+                </div>
+                <!-- img end -->
+                <div class="col-md-8 col-md-offset-2 mrg-tp">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">First Name</label></div>
+                      <div class="col-md-6 col-xs-6"><input class="style" type="text" [(ngModel)]="profile.f_name" name="f_name"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Last Name</label></div>
+                      <div class="col-md-6 col-xs-6"><input class="style" type="text" [(ngModel)]="profile.l_name" name="l_name"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Email</label></div>
+                      <div class="col-md-6 col-xs-6"><label for="" class="label2">{{profile?.email}}</label></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Gender</label></div>
+                      <div class="col-md-5 col-xs-6">
+                        <select class="style2" [(ngModel)]="profile.gender" name="gender">
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Contact Number</label></div>
+                      <div class="col-md-6 col-xs-6"><input class="style" type="text" [(ngModel)]="profile.contact_no" name="contact_no"></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Designation</label></div>
+                      <div class="col-md-6 col-xs-6"><label for="" class="label2">{{profile?.tbl_designation?.designation}}</label></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">User Group</label></div>
+                      <div class="col-md-6 col-xs-6"><label for="" class="label2">{{profile?.tbl_role?.role}}</label></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Team</label></div>
+                      <div class="col-md-6 col-xs-6">
+                        <label for="" class="label2">
+                        <ul *ngFor="let item of profile.tbl_team_assocs">
+                          <li>{{item.tbl_team?.team_name}}</li>
+                        </ul>
+                      </label></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Previous Experience</label></div>
+                      <div class="col-md-6 col-xs-6"><label for="" class="label2">{{profile?.tbl_prev_exp?.exp_range}} Years</label></div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <div class="col-md-6 col-xs-6"><label for="">Join Date</label></div>
+                      <div class="col-md-6 col-xs-6"><label for="" class="label2">{{profile?.join_date| date:'EEE, d MMM,y'}}</label></div>
+                    </div>
+                  </div>
+
+                  <button type="button" class="btn center-bt" data-toggle="collapse" data-target="#demo">Change Password</button>
+
+                  <div id="demo" class="collapse">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="col-md-6 col-xs-6"><label for="">Password</label></div>
+                        <div class="col-md-6 col-xs-6"><input class="style" type="password" [(ngModel)]="profile.password" name="password">
+                          <span matTooltip="Password contain atleast 6 characters and should contain one number,one character and one special character"><i class="material-icons info-icon">info_outline</i></span></div>
+                        <!-- <mat-hint align="end">Password contain atleast 6 characters and should contain one number,one character and one special character</mat-hint> -->
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <div class="col-md-6 col-xs-6"><label for="">Confirm Password</label></div>
+                        <div class="col-md-6 col-xs-6"><input class="style" type="password" [(ngModel)]="profile.c_password" name="c_password"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 text-center">
+                    <button type="submit" (click)="updateUser(profile)" class="btn round-button center-bt">Update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-12">
+          <h3>Project Estimation</h3>
+        </div> -->
+        <!-- <div class="col-md-5 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+              <div class="row">
+                fff
+              </div>
+              </div>
+              </div>
+              </div> -->
+
+      </div>
+    </div>
+  </div>
+</body>

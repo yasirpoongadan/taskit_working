@@ -1,0 +1,312 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <!-- topbar-->
+        <company-topbar></company-topbar>
+
+        <!-- end topbar-->
+        <div class="user-dashboard">
+          <div class="">
+            <!-----------------------------------------------------------------table-------------------------------------->
+            <div class="col-md-4">
+              <h2>Projects</h2>
+              <ul class="breadcrumb">
+                <li>
+                  <a>Master Settings</a>
+                </li>
+                <!-- <li><a routerLink="/company-request-management">Time Extension Request List</a></li> -->
+
+                <li>Projects</li>
+              </ul>
+            </div>
+            <div id="custom-search-input" class="col-md-4 pull-right">
+              <br>
+              <div class="input-group">
+                <input type="text" class="search-query form-control" placeholder="Filter" value="" [(ngModel)]="searchTerm" />
+                <span class="input-group-btn">
+                  <button class="btn btn-danger" type="button">
+                    <span class=" glyphicon glyphicon-search"></span>
+                </button>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3 optionz pull-right">
+              <div class="">
+                <!-- <div class="col-md-6">
+                  <div class="example-header">
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+                </div> -->
+                <div class="col-md-12">
+                  <div>
+                    <mat-form-field class="filter">
+                      <mat-select (change)="getProject()" [(value)]="selected">
+                        <mat-option value="all">All</mat-option>
+                        <mat-option value="Drafted">Drafted</mat-option>
+                        <mat-option value="In Progress">In Progress</mat-option>
+                        <mat-option value="Planned">Planned</mat-option>
+                        <mat-option value="Completed">Completed</mat-option>
+                        <mat-option value="Cancelled">Cancelled</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <ul class="breadcrumb"> -->
+            <!-- <li><a routerLink="/">Request Management</a></li> -->
+            <!-- <li><a routerLink="/company-request-management">Time Extension Request List</a></li> -->
+
+            <!-- <li>Projects</li>
+              </ul> -->
+              <div class="add-button">
+                <button type="button" class="add-project" (click)="open()" data-backdrop="static">+</button>
+              </div>
+            <div class="col-md-12">
+              <div class="">
+                <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner">
+                    <div class="">
+                      <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                        width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+                        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                          <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                          />
+                        </path>
+                      </svg>
+                    </div>
+                  </div> -->
+               
+                <div class="clearfix"></div>
+                <div class="col-md-4" *ngFor="let item of data | project:searchTerm">
+                  <div class="whitebgs">
+                    <div class="btn-group btno">
+                      <button type="button" data-toggle="dropdown" class="btnz">
+                        <i class="fa fa-ellipsis-v"></i>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+
+                        <li>
+                          <a *ngIf="item.requirement_summary !== null && item.is_approved == false && item.is_estimation_completed == false && item.pm_id == loggedin_id "
+                          (click)="approve(item.id)"><span>Approve Estimation</span></a>
+                        </li>
+                        <li>
+                          <a  *ngIf="item.requirement_summary !== null &&  item.is_approved == false && item.is_estimation_completed == true && item.project_cost == null && item.assignee_id == loggedin_id "
+                          (click)="approveProject(item.id)"><span>Approve Project</span></a>
+                        </li>
+                        <li>
+                          <a  *ngIf="item.requirement_summary !== null && item.is_approved == true && item.status == 'Drafted' && item.project_cost !== null && item.pm_id == loggedin_id"
+                          (click)="planProject(item.id)"><span>Plan Project</span></a>
+                        </li>
+                       
+                        <li>
+                          <a  *ngIf="item.is_approved == false && item.assignee_id == loggedin_id && item.status == 'Drafted' " (click)="edit(item.id)"><span>Edit</span></a>
+                        </li>
+                        <li>
+                          <a *ngIf="item.requirement_summary == null && item.is_approved == false && item.assignee_id == loggedin_id"
+                          (click)="getId(item.id)" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false"><span>Delete</span></a>
+                        </li>
+                        <li>
+                          <a (click)="viewProject(item.id)" *ngIf="(item.status == 'Planned' || item.status == 'Completed' || item.status == 'In Progress'  )&& (item.assignee_id == loggedin_id || item.pm_id == loggedin_id)"><span>View Project</span></a>
+                        </li>
+                        <li>
+                          <a  (click)="revisedExecution(item.id)" *ngIf="(item.status == 'Planned' || item.status == 'In Progress'  )&& (item.assignee_id == loggedin_id || item.pm_id == loggedin_id)"><span>Revised Execution Planning</span></a>
+                        </li>
+                        <li>
+                          <a  *ngIf="item.requirement_summary == null && item.pm_id == loggedin_id" (click)="assign(item.id)"><span>Assign Team Head</span></a>
+                        </li>
+                      
+                      </ul>
+                    </div>
+
+                    <div class="firstletter">
+                      {{item.firstletter}}
+                    </div>
+                    <div class="clearfix"></div>
+                    <h4>{{item.project_name}}</h4>
+                    <p>{{item.description}}</p>
+                  </div>
+                  <div class="whitecaption">
+                    <div class="timebox">
+                      <i class="fa fa-clock-o"></i>
+                      <div class="timedate">
+                        <p>
+                          <span class="xx">{{item.planned_start_date |date:'yyyy-MM-dd' }}</span>
+                        </p>
+                        <h5 *ngIf="item.planned_start_date">{{item.starttime }}</h5>
+                      </div>
+                    </div>
+                    <div class="topborder"></div>
+                    <div class="timebox">
+                      <div class="timedate">
+                        <p>
+                          <span class="xx">{{item.planned_end_date |date:'yyyy-MM-dd ' }}</span>
+                        </p>
+                        <h5 *ngIf="item.planned_end_date">{{item.endtime }}</h5>
+                        <!-- <h5>{{item.planned_end_date}}</span></h5> -->
+                      </div>
+                    </div>
+
+                    <div class="pull-right amounts">
+                      <h4>₹{{item.project_cost}}</h4>
+
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="example-container mat-elevation-z8">
+                  <mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="slno">
+                      <mat-header-cell *matHeaderCellDef> SL NO. </mat-header-cell>
+                      <mat-cell *matCellDef="let row; let i = index"> {{i+1}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="project_name">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> PROJECT</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.project_name}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="startdate">
+                      <mat-header-cell *matHeaderCellDef> ACTUAL/PLANNED START DATE</mat-header-cell>
+                   
+                      <mat-cell *matCellDef="let row"> {{row.actual_start_date == null ? row.planned_start_date == null ? '-' : (row.planned_start_date| date:
+                        'yyyy-MM-dd HH:mm a') : (row.actual_start_date| date: 'yyyy-MM-dd HH:mm a')}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="enddate">
+                      <mat-header-cell *matHeaderCellDef> ACTUAL/PLANNED END DATE</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.actual_end_date == null ? row.planned_end_date == null ? '-' : (row.planned_end_date| date: 'yyyy-MM-dd
+                        HH:mm a') :(row.actual_end_date| date: 'yyyy-MM-dd HH:mm a')}}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="project_cost">
+                      <mat-header-cell *matHeaderCellDef> PROJECT COST</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.project_cost}}
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                      <mat-header-cell *matHeaderCellDef> DESCRIPTION</mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.description}}
+                      </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                      <mat-header-cell *matHeaderCellDef> ACTION</mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" class="matdropdown">
+                          <button mat-menu-item *ngIf="row.requirement_summary == null && row.pm_id == loggedin_id" (click)="assign(row.id)">
+                            <mat-icon>
+                              <i class="material-icons">group</i>
+                            </mat-icon>
+                            <span>Assign Team Head</span>
+                          </button>
+                          <button mat-menu-item *ngIf="row.requirement_summary !== null && row.is_approved == false && row.is_estimation_completed == false && row.pm_id == loggedin_id "
+                            (click)="approve(row.id)">
+                            <mat-icon>
+                              <i class="material-icons">assignment_turned_in</i>
+                            </mat-icon>
+                            <span>Approve Estimation</span>
+                          </button>
+                          <button mat-menu-item *ngIf="row.requirement_summary !== null &&  row.is_approved == false && row.is_estimation_completed == true && row.project_cost == null && row.assignee_id == loggedin_id "
+                            (click)="approveProject(row.id)">
+                            <mat-icon>
+                              <i class="material-icons">assignment_turned_in</i>
+                            </mat-icon>
+                            <span>Approve Project</span>
+                          </button>
+                          <button mat-menu-item *ngIf="row.requirement_summary !== null && row.is_approved == true && row.status == 'Drafted' && row.project_cost !== null && row.pm_id == loggedin_id"
+                            (click)="planProject(row.id)">
+                            <mat-icon>
+                              <i class="material-icons">event_available</i>
+                            </mat-icon>
+                            <span>Plan Project</span>
+                          </button>
+                          <button mat-menu-item *ngIf="row.is_approved == false && row.assignee_id == loggedin_id && row.status == 'Drafted' " (click)="edit(row.id)">
+                            <mat-icon>
+                              <i class="material-icons">mode_edit</i>
+                            </mat-icon>
+                            <span>Edit</span>
+                          </button>
+                          <button mat-menu-item *ngIf="row.requirement_summary == null && row.is_approved == false && row.assignee_id == loggedin_id"
+                            (click)="getId(row.id)" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false">
+                            <mat-icon>
+                              <i class="material-icons">delete</i>
+                            </mat-icon>
+                            <span>Delete</span>
+                          </button>
+                          <button mat-menu-item (click)="viewProject(row.id)" *ngIf="(row.status == 'Planned' || row.status == 'Completed' || row.status == 'In Progress'  )&& (row.assignee_id == loggedin_id || row.pm_id == loggedin_id)">
+                            <mat-icon>
+                              <i class="material-icons">description</i>
+                            </mat-icon>
+                            <span>View Project</span>
+                          </button>
+                          <button mat-menu-item (click)="revisedExecution(row.id)" *ngIf="(row.status == 'Planned' || row.status == 'In Progress'  )&& (row.assignee_id == loggedin_id || row.pm_id == loggedin_id)">
+                            <mat-icon>
+                              <i class="material-icons">description</i>
+                            </mat-icon>
+                            <span>Revised Execution Planning</span>
+                          </button>
+                        </mat-menu>
+                      </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                  </mat-table>
+                  <div class="col-md-12 noItemFound" *ngIf="notExist">
+                    <div class="col-md-4 col-md-offset-4">
+                      <mat-toolbar class="back-color">No item found!</mat-toolbar>
+                    </div>
+                  </div>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div> -->
+              </div>
+            </div>
+           
+
+            <!-- --------------------------------------------- delete modal ----------------------------------------------------------------- -->
+            <div id="deleteModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete </h4>
+                  </div>
+                  <!-- <div class="modal-header"> -->
+                  <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                  <!-- </div> -->
+                  <div class="modal-body delete-popup">
+                    <i class="fa fa-exclamation"></i>
+
+
+                    <h4 class="textalign">Are you sure?</h4>
+
+                  </div>
+
+                  <div class="modal-footer" style="text-align:center;">
+                    <button type="button" (click)="deleteProject(Pid)" class="btn round-button center-bt" data-dismiss="modal">Delete</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ----------------------------------------------------------------------delete modal------------------------------------------------------------------
+            
+              <!-----------------------------------------------------------------end table-------------------------------------->
+          </div>
+        </div>
+
+      </div>
+      <!-- footer-->
+      <!-- <company-footer></company-footer> -->
+      <!-- end footer-->
+    </div>
+  </div>
+</body>

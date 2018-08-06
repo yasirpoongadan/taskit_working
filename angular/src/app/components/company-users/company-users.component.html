@@ -1,0 +1,597 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <company-sidebar></company-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <company-topbar></company-topbar>
+
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <div class="col-md-4">
+          <h2>Users</h2>
+          <ul class="breadcrumb">
+            <li>
+              <a href="#">users</a>
+            </li>
+
+
+            <li>userslist</li>
+          </ul>
+          </div>
+          <div class="row">
+            <!-----------------------------------------------------------------table-------------------------------------->
+
+
+            <!-- <p>You selected: {{selected}} </p> -->
+
+            <div class="">
+              <div class="">
+                <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner" >
+            <div class=""  >
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+              <animateTransform attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 25 25"
+                to="360 25 25"
+                dur="0.6s"
+                repeatCount="indefinite"/>
+              </path>
+            </svg>
+        </div>
+        </div> -->
+
+                
+                <div class="col-md-3 optionz pull-right">
+                      
+                        <div *ngIf="all_value">
+                          <mat-form-field class="filter">
+  
+                            <mat-select (change)="refresh()" [(value)]="selected">
+                              <!-- <mat-option>None</mat-option> -->
+                              <mat-option value="All">All</mat-option>
+                              <mat-option value="Active">Active</mat-option>
+                              <mat-option value="Block">Block</mat-option>
+                              <mat-option value="Deleted">Deleted</mat-option>
+                              <!-- <mat-option value="Delete">Delete </mat-option> -->
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                </div>
+                <div id="custom-search-input" class="col-md-4 pull-right">
+                    <br>
+                      <div class="input-group">
+                          <input type="text" class="search-query form-control" placeholder="Filter" value="" [(ngModel)]="searchTermTeam"/>
+                          <span class="input-group-btn">
+                              <button class="btn btn-danger" type="button">
+                                  <span class=" glyphicon glyphicon-search"></span>
+                              </button>
+                          </span>
+                      </div>
+                  </div>
+
+                  <div class="add-button">
+                    <button type="button" class="add-project" data-toggle="modal" (click)="addNewUser()" data-target="#addModal" data-backdrop="static">+</button>
+                  </div>
+                <div class="clearfix"></div>
+                <div class="col-sm-4" *ngFor="let item of data | users:searchTermTeam">
+                    
+                 
+                    <div class="userbg">
+                      
+                       
+                      <div class="userrelative">
+                        <div class="userdp">
+                            <img src="../assets/profile_upload/{{item.tbl_login.profile_image}}" alt="" width="" height="" >
+                        </div>
+                        <div  *ngIf="item.tbl_login.delete_status==false && item.tbl_login.block_status == false"class="activeuser"></div>
+                        <div  *ngIf="item.tbl_login.delete_status==true || item.tbl_login.block_status == true"class="inactiveuser"></div>
+                      </div>
+                      <div class="col-md-8">
+                        <h2>{{item.f_name}} {{item.l_name}}</h2>
+                        <p>{{item.email}}</p>
+                        <p>{{item.contact_no}}</p>
+                      </div>
+                      <div class="useredits" *ngIf="item.tbl_login.delete_status==false" >
+                        <i matTooltip="Edit" *ngIf="item.tbl_login.is_verified==false && item.tbl_login.delete_status==false" (click)="getEditId(item.tbl_login.id)"
+                        data-toggle="modal" data-target="#editModal"  aria-hidden="true" class="fa fa-pencil"></i>
+                       
+
+                        <i matTooltip="Delete" *ngIf="item.tbl_login.delete_status==false && (item.tbl_login.block_status==false  || item.tbl_login.block_status==true)"
+                        (click)="getId(item.tbl_login.id)" data-toggle="modal" data-target="#deleteModal" aria-hidden="true" class="fa fa-trash"></i>
+
+                        <i matTooltip="Block" *ngIf="item.tbl_login.block_status==false && item.tbl_login.delete_status==false"
+                        (click)="blockUser(item.tbl_login.id)" class="fa fa-ban" aria-hidden="true"></i>
+
+                        <i matTooltip="Unblock" *ngIf="item.tbl_login.block_status==true && item.tbl_login.delete_status==false"
+                        (click)="unblockUser(item.tbl_login.id)" class="fa fa-history" aria-hidden="true"></i>
+
+
+                  
+                        <!-- <button *ngIf=" row.tbl_login.block_status==true && row.tbl_login.delete_status==false"
+                        (click)="unblockUser(row.tbl_login.id)" mat-menu-item>
+                        <i class="material-icons">block</i>
+                        <span>Unblock</span>
+                      </button> -->
+
+
+                      
+                      </div>
+                    </div>
+                  </div>
+
+
+   
+
+                  <!-- <div class="col-sm-4">
+                  <div class="userbg">
+                    <div class="userrelative">
+                      <div class="userdp">
+                      </div>
+                      <div class="inactiveuser"></div>
+                    </div>
+                    <div class="col-md-8">
+                      <h2>Asif Marakkar</h2>
+                      <p>asifmunnas35@gmail.com</p>
+                      <p>+91 8943498992</p>
+                    </div>
+                    <div class="useredits">
+                      <i aria-hidden="true" class="fa fa-pencil"></i>
+                      <i aria-hidden="true" class="fa fa-trash"></i>
+                    </div>
+                  </div>
+                  </div> -->
+                 <!-- <div class="col-sm-4">
+                  <div class="userbg">
+                    <div class="userrelative">
+                      <div class="userdp">
+                      </div>
+                      <div class="inactiveuser"></div>
+                    </div>
+                    <div class="col-md-8">
+                      <h2>Asif Marakkar</h2>
+                      <p>asifmunnas35@gmail.com</p>
+                      <p>+91 8943498992</p>
+                    </div>
+                    <div class="useredits">
+                      <i aria-hidden="true" class="fa fa-pencil"></i>
+                      <i aria-hidden="true" class="fa fa-trash"></i>
+                    </div>
+                  </div>
+                  </div> -->
+
+
+
+                <!--    
+              <div class="example-header" >
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+              </div> -->
+
+                <!-- <div class="example-container mat-elevation-z8 ">
+                  <div *ngIf="preloader">
+                    <app-spinner></app-spinner>
+                  </div>
+
+                  <mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="slno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Sl_No </mat-header-cell>
+                      <mat-cell *matCellDef="let row;let i = index">{{(paginator.pageIndex * paginator.pageSize) + (i+1)}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>NAME </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.f_name}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.email}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contactnumber">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> CONTACT NUMBER </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.contact_no}}</mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <div *ngIf="row.tbl_login.block_status==false && row.tbl_login.delete_status==false"> Active</div>
+                        <div *ngIf="row.tbl_login.block_status==true && row.tbl_login.delete_status==false "> Blocked</div>
+                        <div *ngIf="row.tbl_login.delete_status==true "> Deleted</div>
+
+                      </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> ACTION </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button *ngIf="row.tbl_login.is_verified==false && row.tbl_login.delete_status==false" (click)="getEditId(row.tbl_login.id)"
+                            data-toggle="modal" data-target="#editModal" mat-menu-item>
+                            <i class="material-icons">mode_edit</i>
+                            <span>Edit</span>
+                          </button>
+                          <button *ngIf="row.tbl_login.delete_status==false && (row.tbl_login.block_status==false  || row.tbl_login.block_status==true)"
+                            (click)="getId(row.tbl_login.id)" data-toggle="modal" data-target="#deleteModal" mat-menu-item>
+                            <i class="material-icons">delete</i>
+                            <span>Delete</span>
+                          </button>
+
+
+                          <button *ngIf="row.tbl_login.is_verified==true && row.tbl_login.block_status==false && row.tbl_login.delete_status==false"
+                            (click)="blockUser(row.tbl_login.id)" mat-menu-item>
+                            <i class="material-icons">block</i>
+                            <span>Block</span>
+                          </button>
+                          <button *ngIf="row.tbl_login.is_verified==true && row.tbl_login.block_status==true && row.tbl_login.delete_status==false"
+                            (click)="unblockUser(row.tbl_login.id)" mat-menu-item>
+                            <i class="material-icons">block</i>
+                            <span>Unblock</span>
+                          </button>
+                          <button *ngIf="row.tbl_login.delete_status==true" mat-menu-item disabled>
+                            <i class="material-icons">delete_forever</i>
+                            <span>Deleted</span>
+                          </button>
+                        </mat-menu>
+
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </mat-row>
+                  </mat-table>
+                  <div class="col-md-15 ">
+           
+                  </div>
+                  <div class="col-md-12 noItemFound" *ngIf="notExist">
+                    <div class="col-md-4 col-md-offset-4">
+                      <mat-toolbar class="back-color">No item found!</mat-toolbar>
+                    </div>
+                  </div>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div> -->
+
+
+              </div>
+            </div>
+        
+            <!-- --------------------------------------------- delete modal ----------------------------------------------------------------- -->
+
+            <div id="deleteModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn2>&times;</button>
+                    <h4 class="modal-title">Delete </h4>
+                  </div>
+                  <!-- <div class="modal-header"> -->
+                  <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                  <!-- </div> -->
+                  <div class="modal-body delete-popup">
+                    <i class="fa fa-exclamation"></i>
+
+
+                    <h4 class="textalign">Are you sure?</h4>
+
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" [disabled]="deleteuserBtnDisable" (click)="deleteUser(id)" class="btn round-button" data-dismiss="modal">Delete</button>
+                    <div *ngIf="deleteSpinner">
+                      <app-spinner></app-spinner>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-----------------------------------------------------------------delete modal-------------------------------------->
+            <!-----------------------------------------------------------------add modal-------------------------------------->
+            <div id="addModal" class="modal fade">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                    <h4 class="modal-title">Add New User</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" #f="ngForm" (ngSubmit)="addUser(newUser);">
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <div class="example-container">
+                            <mat-form-field>
+                              <input matInput placeholder="Email" [formControl]="email" name="email" [(ngModel)]="newUser.email">
+                              <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput placeholder="First Name" name="f_name" [(ngModel)]="newUser.f_name" pattern="[A-Za-z]">
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput placeholder="Last Name" name="l_name" [(ngModel)]="newUser.l_name" pattern="[A-Za-z]">
+                            </mat-form-field>
+                            <mat-form-field>
+
+                              <mat-select placeholder="Gender" name="gender" [(ngModel)]="newUser.gender">
+
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput placeholder="Phone Number" name="contact_no" [(ngModel)]="newUser.contact_no" min="10">
+
+
+                            </mat-form-field>
+
+                            <!-- <mat-form-field>
+
+                              <mat-select placeholder="Designation" name="design" [(ngModel)]="newUser.design">
+
+                                <mat-option *ngFor="let item of designation" [value]="item.id">{{item.designation}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field>
+
+                              <mat-select placeholder="Previous Experience" name="pre_exp" [(ngModel)]="newUser.pre_exp">
+
+                                <mat-option *ngFor="let item of prevexp" [value]="item.id">{{item.exp_range}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+
+                              <mat-select placeholder="User Group" name="user_group" [(ngModel)]="newUser.user_group">
+
+                                <mat-option *ngFor="let item of usergroup" [value]="item.id">{{item.role}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field *ngIf="newUser.user_group == 4">
+                              <mat-select placeholder="Team" name='team' #group="ngModel" [(ngModel)]="newUser.team" multiple>
+                                <mat-option [value]="item" *ngFor="let item of team;">{{item.team_name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput [matDatepicker]="picker" placeholder="Join date" name="join_date" [(ngModel)]="newUser.join_date">
+                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+
+                          </div>
+
+                        </div>
+                        <br>
+                        <!-- <div *ngIf="showSpinner">
+                                      <mat-spinner></mat-spinner>
+                                     </div> -->
+
+
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <button type="submit" [disabled]="addUserBtnDisable" class="btn round-button">Submit</button>
+                            <div *ngIf="addUserSpinner">
+                              <app-spinner></app-spinner>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-8" *ngIf="showSpinner">
+                      <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                        xml:space="preserve">
+                        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                          <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                          />
+                        </path>
+                      </svg>
+                    </div> -->
+
+                        </div>
+
+
+                      </div>
+                      <div class="col-md-5">
+                        <div class="brdr-left"></div>
+
+
+                        <div class="user">
+                          <label for="file-input">
+                            <!-- <img *ngIf="!newUser.photoSrc" src="./assets/images/user.png"/>
+                      <img *ngIf="newUser.photoSrc" [src]="newUser.photoSrc"/> -->
+                            <img *ngIf="newUser.photoSrc" [src]="newUser.photoSrc">
+                            <i *ngIf="!newUser.photoSrc" class="fa fa-camera"></i>
+                          </label>
+
+                        </div>
+                        <input style="display: none;" (change)="displayPhoto($event)" accept=".png,.jpeg,.jpg,.bmp,.gif" id="file-input" name="file"
+                          type="file" />
+
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!----------------------------------------addModal------------------------------>
+
+
+
+
+
+            <!-----------------------------------------------------------------Edit modal-------------------------------------->
+            <div id="editModal" class="modal fade">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                    <h4 class="modal-title">Update User</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form (ngSubmit)=" updateUser(user)">
+                      <div class="col-md-7">
+                        <div class="form-group">
+                          <div class="example-container">
+
+                            <label>{{user.email}} </label>
+
+
+                            <mat-form-field>
+                              <input matInput placeholder="First Name" name="f_name" [(ngModel)]="user.f_name" pattern="[A-Za-z]">
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput placeholder="Last Name" name="l_name" [(ngModel)]="user.l_name" pattern="[A-Za-z]">
+                            </mat-form-field>
+                            <mat-form-field>
+
+                              <mat-select placeholder="Gender" name="gender" [(ngModel)]="user.gender">
+
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput placeholder="Phone Number" name="contact_no" [(ngModel)]="user.contact_no" min="10">
+
+
+                            </mat-form-field>
+
+                            <!-- <mat-form-field>
+
+                              <mat-select placeholder="Designation" name="design" [(ngModel)]="user.designation_id">
+
+                                <mat-option *ngFor="let item of designation" [value]="item.id">{{item.designation}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field> -->
+                            <mat-form-field>
+
+                              <mat-select placeholder="Previous Experience" name="pre_exp" [(ngModel)]="user.prev_exp_id">
+
+                                <mat-option *ngFor="let item of prevexp" [value]="item.id">{{item.exp_range}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+
+                              <mat-select placeholder="User Group" name="user_group" [(ngModel)]="user.role_id">
+
+                                <mat-option *ngFor="let item of usergroup" [value]="item.id">{{item.role}}</mat-option>
+
+                              </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field *ngIf="user.role_id == 4">
+                              <mat-select placeholder="Team" name='team' #group="ngModel" [(ngModel)]="user.team" multiple>
+                                <mat-option [value]="item.id" *ngFor="let item of team;">{{item.team_name}}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                              <input matInput [matDatepicker]="picker1" placeholder="Join date" name="join_date" [(ngModel)]="user.join_date">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+
+
+                          </div>
+
+                        </div>
+                        <br>
+                        <!-- <div *ngIf="showSpinner">
+                                <mat-spinner></mat-spinner>
+                               </div> -->
+
+
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <button type="submit" [disabled]="editBtnDisable" class="btn round-button">Update</button>
+                            <div *ngIf="editSpinner">
+                              <app-spinner></app-spinner>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-8" *ngIf="showSpinner">
+                <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                  x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                  xml:space="preserve">
+                  <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                    <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                    />
+                  </path>
+                </svg>
+              </div> -->
+
+                        </div>
+
+
+                      </div>
+                      <div class="col-md-5">
+                        <div class="brdr-left"></div>
+
+
+                        <div class="user">
+                          <label for="file-input1">
+                            <!-- <img src="../assets/profile_upload/1521016755851_846408.jpeg"> -->
+                            <img *ngIf="user.editPhotoSrc" [src]="user.editPhotoSrc">
+                            <img *ngIf="user.photoSrc && user.editPhotoSrc != ''" src="../assets/profile_upload/{{user.photoSrc}}">
+                            <i *ngIf="!user.photoSrc && user.editPhotoSrc != ''" class="fa fa-camera"></i>
+                          </label>
+
+                        </div>
+                        <input style="display: none;" (change)="displayEditPhoto($event)" accept=".png,.jpeg,.jpg,.bmp,.gif" id="file-input1" name="file"
+                          type="file" />
+
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!----------------------------------------addModal------------------------------>
+            <!-----------------------------------------------------------------end table-------------------------------------->
+          </div>
+        </div>
+
+      </div>
+      <!-- footer-->
+      <!-- <company-footer></company-footer> -->
+      <!-- end footer-->
+    </div>
+  </div>
+  <!-- Modal -->
+</body>

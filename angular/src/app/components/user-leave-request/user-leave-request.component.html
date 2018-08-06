@@ -1,0 +1,518 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <user-sidebar></user-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <user-topbar></user-topbar>
+
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <h2>Leave Request</h2>
+          <ul class="breadcrumb">
+            <li><a href="#">Leave Request</a></li>
+
+
+            <li>Leave Request List </li>
+          </ul>
+          <div class="row">
+            <!-----------------------------------------------------------------table-------------------------------------->
+
+
+            <!-- <p>You selected: {{selected}} </p> -->
+
+            <div class="col-md-12">
+              <div class="">
+                <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner" >
+          <div class=""  >
+              <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+            <animateTransform attributeType="xml"
+              attributeName="transform"
+              type="rotate"
+              from="0 25 25"
+              to="360 25 25"
+              dur="0.6s"
+              repeatCount="indefinite"/>
+            </path>
+          </svg>
+      </div>
+      </div> -->
+
+
+                <div class="col-md-12 optionz">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="example-header">
+                        <mat-form-field>
+                          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <!--    
+            <div class="example-header" >
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+            </div> -->
+
+                <div class="example-container mat-elevation-z8 ">
+                    <div *ngIf="preloader">
+                        <app-spinner></app-spinner>
+                    </div>
+    
+                  <mat-table [dataSource]="dataSource" matSort>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="slno">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>Sl_No </mat-header-cell>
+                      <mat-cell *matCellDef="let row;let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}}</mat-cell>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <!-- <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> NAME </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.tbl_user_profile.f_name}} </mat-cell>
+      </ng-container> -->
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="leave_start_date">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Leave Start Date </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.start_date}} </mat-cell>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="start_available_hrs">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> Start Available hrs </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.start_available_hrs}} </mat-cell>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="leave_end_date">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> leave end date </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.end_date}} </mat-cell>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="end_available_hrs">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> end available hrs </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.end_available_hrs}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> status </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.request_status}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="reason">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> View Reason </mat-header-cell>
+                      <mat-cell *matCellDef="let row"> {{row.reject_reason}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header> ACTION </mat-header-cell>
+                      <mat-cell *matCellDef="let row">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+                        <mat-menu #menu="matMenu">
+                          <button *ngIf="row.request_status=='Accepted' || row.request_status=='Rejected'" mat-menu-item disabled>
+                    <i class="material-icons">error</i>
+                  <span>No Action</span>
+                </button>
+                          <button *ngIf="row.request_status=='Pending'" (click)="getEditId(row.id)" data-toggle="modal" data-target="#editModal" mat-menu-item>
+                    <i class="material-icons">mode_edit</i>
+                  <span>Edit</span>
+                </button>
+                          <button *ngIf="row.request_status=='Pending'" (click)="getId(row.id)" data-toggle="modal" data-target="#deleteModal" mat-menu-item>
+                  <i class="material-icons">delete</i>
+                <span>Delete</span>
+              </button>
+
+
+
+                        </mat-menu>
+
+                      </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </mat-row>
+                  </mat-table>
+                  <div class="col-md-15 ">
+                    <!-- <div *ngIf="showSpinner" class="deletespinner">
+            <mat-spinner></mat-spinner>
+           </div> -->
+                  </div>
+                  <div class="col-md-12 noItemFound" *ngIf="notExist">
+                    <div class="col-md-4 col-md-offset-4">
+                      <mat-toolbar class="back-color">No item found!</mat-toolbar>
+                    </div>
+                  </div>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </div>
+
+
+              </div>
+            </div>
+            <div class="add-button">
+              <button type="button" class="add-project" data-toggle="modal" (click)="addNewUserleave()" data-target="#addModal" data-backdrop="static">+</button>
+            </div>
+            <!-- --------------------------------------------- delete modal ----------------------------------------------------------------- -->
+
+            <div id="deleteModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn9>&times;</button>
+                    <h4 class="modal-title">Delete </h4>
+                  </div>
+                  <!-- <div class="modal-header"> -->
+                  <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                  <!-- </div> -->
+                  <div class="modal-body delete-popup">
+                    <i class="fa fa-exclamation"></i>
+
+
+                    <h4 class="textalign">Are you sure?</h4>
+
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" (click)="deleteuserleave(id)" [disabled]="deleteBtnDisable" class="btn round-button" data-dismiss="modal">Delete</button>
+                    <div *ngIf="deleteSpinner">
+                      <app-spinner></app-spinner>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            <!-----------------------------------------------------------------delete modal-------------------------------------->
+            <!-----------------------------------------------------------------add modal-------------------------------------->
+            <div id="addModal" class="modal fade">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                    <h4 class="modal-title">Add Leave</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" #f="ngForm" (ngSubmit)="addUserleave(newUserleave);" novalidate>
+                      <div class="col-md-11">
+
+
+                        <div class="form-group">
+
+                          <div class="col-md-3 paddtop">
+                            <label>Leave Start Date</label>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker1" name="startdate" [(ngModel)]="newUserleave.startdate"
+                                placeholder="Choose a date" [min]="this.todayDate">
+                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                              <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-2 paddtop">
+                            <label>Available hrs(HH:MM)</label>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="row">
+                              <ngb-timepicker name="startavlhr" class="col-md-9" [(ngModel)]="newUserleave.startavlhr" required></ngb-timepicker>
+                              <i matTooltip="Please mention hours, if you are available in office during the first day of leave" class="material-icons info-icon nx-tp nx-flt">info_outline</i>
+                              <!-- <div *ngIf="ctrl.valid" class="small form-text text-success">Great choice{{newEmpleave.startavlhr.hour}}</div>
+                              <div class="small form-text text-danger" *ngIf="!ctrl.valid">
+                                <div *ngIf="ctrl.errors['required']">Select some time during lunchtime</div>
+                                <div *ngIf="ctrl.errors['tooLate']">Oh no, it's way too late</div>
+                                <div *ngIf="ctrl.errors['tooEarly']">It's a bit too early</div>
+                              </div> -->
+
+                            </div>
+                            <p class="example"><i>eg: You can mention the working hour, if you are present half day of the  leave start  date </i></p>
+
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-12">
+                            <hr>
+
+                          </div>
+
+                          <div class="col-md-3 paddtop">
+                            <label>Leave End Date</label>
+                          </div>
+                          <div class="col-md-3">
+
+                            <mat-form-field class="example-full-width">
+                              <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker2" name="enddate" [(ngModel)]="newUserleave.enddate"
+                                placeholder="Choose a date" [min]="this.todayDate">
+                              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                              <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-2 paddtop">
+                            <label>Available hrs(HH:MM)</label>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="row">
+
+
+                              <ngb-timepicker name="endavlhr" class="col-md-9" [(ngModel)]="newUserleave.endavlhr" required></ngb-timepicker>
+                              <i matTooltip="Please mention hours, if you are available in office during the last day of leave " class="material-icons info-icon nx-tp nx-flt">info_outline</i>
+
+                              <!-- <div *ngIf="ctrl1.valid" class="small form-text text-success">Great choice{{newEmpleave.endavlhr.hour}}</div>
+                            <div class="small form-text text-danger" *ngIf="!ctrl1.valid">
+                              <div *ngIf="ctrl1.errors['required']">Select some time during lunchtime</div>
+                              <div *ngIf="ctrl1.errors['tooLate']">Oh no, it's way too late</div>
+                              <div *ngIf="ctrl1.errors['tooEarly']">It's a bit too early</div>
+                            </div> -->
+
+                            </div>
+                            <p class="example"><i>eg: You can mention the working hour, if you are present half day of the leave end date </i></p>
+                          </div>
+
+                          <div class="clearfix"></div>
+                          <div class="col-md-12">
+                            <hr>
+
+                          </div>
+                          <!-- <div class="col-md-12">
+                            <div class="col-md-3 paddtop">
+                                <label>Employee</label>
+                             </div>
+                             <div class="col-md-3">
+                                <mat-form-field>
+                                    
+                                    <mat-select placeholder="Select employee "  name="emp_id"  [(ngModel)]="newEmpleave.emp_id" required>
+                                    
+                                        <mat-option  *ngFor="let item of companyemployee"  [value]="item.id" >{{item.f_name}}</mat-option>
+                                                                    
+                                     </mat-select>
+                                </mat-form-field>   
+                             </div>
+                             
+                         </div> -->
+
+                          <!-- <div class="col-md-12">
+                            <div class="col-md-3 paddtop">
+                                <label>Leave Hour</label> 
+                             </div>
+                             <div class="col-md-3 paddtop">
+                                <label>10</label> 
+                             </div>
+                             
+                         </div> -->
+
+
+                        </div>
+
+                        <br>
+
+                        <div class="row">
+                          <div class="col-md-4">
+                            <button type="submit" [disabled]="addUserBtnDisable" class="btn round-button">Submit</button>
+                            <div *ngIf="addUserSpinner">
+                              <app-spinner></app-spinner>
+                            </div>
+                          </div>
+
+
+                        </div>
+
+
+                      </div>
+
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!----------------------------------------addModal------------------------------>
+            <!-- --------------------------------------------- edit modal ----------------------------------------------------------------- -->
+
+
+            <div id="editModal" class="modal fade">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                    <h4 class="modal-title">Update Leave</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" #f="ngForm" (ngSubmit)="updateUserleave(updateleave);" novalidate>
+
+                      <div class="col-md-11">
+
+
+                        <div class="form-group">
+
+                          <div class="col-md-3 paddtop">
+                            <label>Leave Start Date</label>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker3" name="startdate" [(ngModel)]="updateleave.start_date"
+                                placeholder="Choose a date">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-2 paddtop">
+                            <label>Available hrs(HH:MM)</label>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="row">
+                              <ngb-timepicker name="startavlhr" class="col-md-9" [(ngModel)]="updateleave.startavlhr" required></ngb-timepicker>
+                              <i matTooltip="Please mention hours, if you are available in office during the first day of leave " class="material-icons info-icon nx-tp nx-flt">info_outline</i>
+
+                              <!-- <div *ngIf="ctrl1.valid" class="small form-text text-success">Great choice{{newEmpleave.endavlhr.hour}}</div>
+                                    <div class="small form-text text-danger" *ngIf="!ctrl1.valid">
+                                      <div *ngIf="ctrl1.errors['required']">Select some time during lunchtime</div>
+                                      <div *ngIf="ctrl1.errors['tooLate']">Oh no, it's way too late</div>
+                                      <div *ngIf="ctrl1.errors['tooEarly']">It's a bit too early</div>
+                                    </div> -->
+
+                            </div>
+                            <p class="example"><i>eg: You can mention the working hour, if you are present half day of the leave start date </i></p>
+                          </div>
+
+                          <div class="clearfix"></div>
+                          <div class="col-md-12">
+                            <hr>
+
+                          </div>
+
+
+                          <div class="col-md-3 paddtop">
+                            <label>Leave End Date</label>
+                          </div>
+                          <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                              <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker4" name="enddate" [(ngModel)]="updateleave.end_date"
+                                placeholder="Choose a date">
+                              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                              <mat-datepicker #picker4></mat-datepicker>
+                            </mat-form-field>
+                          </div>
+                          <div class="col-md-2 paddtop">
+                            <label>Available hrs(HH:MM)</label>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="row">
+                              <ngb-timepicker name="endavlhr" class="col-md-9" [(ngModel)]="updateleave.endavlhr" required></ngb-timepicker>
+                              <i matTooltip="Please mention hours, if you are available in office during the last day of leave " class="material-icons info-icon nx-tp nx-flt">info_outline</i>
+                              <!-- <div *ngIf="ctrl1.valid" class="small form-text text-success">Great choice{{newEmpleave.endavlhr.hour}}</div>
+                                      <div class="small form-text text-danger" *ngIf="!ctrl1.valid">
+                                        <div *ngIf="ctrl1.errors['required']">Select some time during lunchtime</div>
+                                        <div *ngIf="ctrl1.errors['tooLate']">Oh no, it's way too late</div>
+                                        <div *ngIf="ctrl1.errors['tooEarly']">It's a bit too early</div>
+                                      </div> -->
+
+                            </div>
+                            <p class="example"><i>eg: You can mention the working hour, if you are present half day of the leave end date </i></p>
+                          </div>
+
+                          <div class="clearfix"></div>
+                          <div class="col-md-12">
+                            <hr>
+
+                          </div>
+
+                          <!-- <div class="col-md-12">
+                                      <div class="col-md-3 paddtop">
+                                          <label>Employee</label>
+                                       </div>
+                                       <div class="col-md-3">
+                                          <mat-form-field>
+                                              
+                                              <mat-select placeholder="Select employee "  name="emp_id"  [(ngModel)]="updateleave.user_profile_id" required>
+                                              
+                                                  <mat-option  *ngFor="let item of companyemployee"  [value]="item.id" >{{item.f_name}}</mat-option>
+                                                                              
+                                               </mat-select>
+                                          </mat-form-field>   
+                                       </div>
+                                       
+                                   </div> -->
+                          <!-- <div class="col-md-12">
+                                      <div class="col-md-3 paddtop">
+                                          <label>Leave Hour</label> 
+                                       </div>
+                                       <div class="col-md-3 paddtop">
+                                          <label>10</label> 
+                                       </div>
+                                       
+                                   </div> -->
+
+                        </div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <button type="submit" [disabled]="editUserBtnDisable" class="btn round-button">Submit</button>
+                            <div *ngIf="editUserSpinner">
+                              <app-spinner></app-spinner>
+                            </div>
+                          </div>
+                          <!-- <div class="col-md-8" *ngIf="showSpinner">
+                            <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                              x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                              xml:space="preserve">
+                              <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                                <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                                />
+                              </path>
+                            </svg>
+                          </div> -->
+
+                        </div>
+
+
+                      </div>
+
+
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-----------------------------------------------------------------edit modal-------------------------------------->
+
+            <!-----------------------------------------------------------------end table-------------------------------------->
+          </div>
+        </div>
+
+      </div>
+      <!-- footer-->
+      <user-footer></user-footer>
+      <!-- end footer-->
+    </div>
+  </div>
+  <!-- Modal -->
+
+</body>

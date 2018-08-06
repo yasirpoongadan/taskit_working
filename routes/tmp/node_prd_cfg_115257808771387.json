@@ -1,0 +1,1 @@
+{"reportBundlePath":"report-templates/project-report-no-cat-no-projct-param.prpt","outputFilePath":"F:\\Projects\\taskit\\out\\report\\projectpdf","outputType":"pdf","params":[{"name":"start_date","value":1531679400,"type":"Integer"},{"name":"cmp_id","value":116,"type":"Integer"},{"name":"end_date","value":1531679400,"type":"Integer"}]}

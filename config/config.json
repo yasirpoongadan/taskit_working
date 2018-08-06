@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "jooshifa",
+    "database": "taskit",
+    "host": "192.168.1.53",
+    "port" : "5432",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": "jooshifa",
+    "database": "taskit",
+    "host": "192.168.1.53",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "jooshifa",
+    "database": "taskit",
+    "host": "192.168.1.53",
+    "dialect": "postgres"
+  }
+}

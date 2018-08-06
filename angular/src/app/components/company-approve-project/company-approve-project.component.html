@@ -1,0 +1,146 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <company-topbar></company-topbar>
+        <br>
+        <div class="col-md-12">
+          <h2>Project Approval</h2>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+
+              <div class="row">
+
+                <div class="col-md-4 col-xs-6"><label>Project Name :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.project_name}}</label></div>
+                </div>
+                <br>
+                
+                <div class="col-md-4 col-xs-6"><label>Project Code :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.project_code}}</label></div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6"><label>Assigned to :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{pm}}</label></div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6"><label>Total Estimation Hours :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{estimation_hour}} Hr</label></div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6"><label>Prepared By :</label></div>
+                <div class="col-md-8 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">
+                  <ul *ngFor="let item of team_leaders" class="prepared">
+                    <li>{{item}}</li></ul>  
+                  </label></div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6"><label>Project Cost *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field>
+                    <span matPrefix>₹&nbsp;</span>
+                    <input matInput type="number" min="1" autofocus class="example-right-align" name="project_cost" [(ngModel)]="project_cost"
+                      required>
+                  </mat-form-field>
+                </div>
+                <br>
+
+              </div>
+
+              <br>
+              <br>
+              <div class="row all-buttons">
+                <div class="">
+                  <button type="submit" [disabled]="rejectBtnDisable" (click)="getCost(project_cost)" data-toggle="modal" data-target="#rejectModal" class="btn round-button" data-backdrop="static" data-keyboard="false">Reject</button>
+                </div>
+                <div class="">
+                  <button type="submit" [disabled]="approveProject" (click)="acceptProject(project_cost)" class="btn round-button">Accept</button>
+                </div>
+                <div class="">
+                  <button type="submit" (click)="getCost(project_cost)" data-toggle="modal" data-target="#resubmitModal" class="btn round-button " data-backdrop="static" data-keyboard="false">{{resubmitBtn}}</button>
+                </div>
+                <div *ngIf="approveBtnspinner">
+                  <app-spinner></app-spinner>
+              </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- --------------------------------------------- reject modal ----------------------------------------------------------------- -->
+      <div id="rejectModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Reject </h4>
+            </div>
+            <div class="modal-body delete-popup">
+              <i class="fa fa-exclamation"></i>
+
+
+              <h4 class="textalign">Are you sure?</h4>
+
+            </div>
+
+            <div class="modal-footer" style="text-align:center;">
+              <button type="button" (click)="rejectProject(project_cost)" class="btn round-button center-bt" data-dismiss="modal">Reject</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ----------------------------------------------------------------------reject modal-------------------------------------------------------- -->
+
+      <!-- --------------------------------------------- Resubmit modal ----------------------------------------------------------------- -->
+      <div id="resubmitModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Resubmit </h4>
+            </div>
+            <div class="modal-body delete-popup">
+              <i class="fa fa-exclamation"></i>
+
+
+              <h4 class="textalign">Are you sure?</h4>
+
+            </div>
+
+            <div class="modal-footer" style="text-align:center;">
+              <button type="button" (click)="resubmitProject(project_cost)" class="btn round-button center-bt" data-dismiss="modal">Resubmit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ----------------------------------------------------------------------Resubmit modal-------------------------------------------------------- -->
+    </div>
+  </div>
+</body>

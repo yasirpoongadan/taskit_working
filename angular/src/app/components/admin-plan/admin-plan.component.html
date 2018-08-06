@@ -1,0 +1,356 @@
+<body class="home">
+    <div class="container-fluid display-table">
+      <div class="row display-table-row">
+        <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+          <admin-sidebar></admin-sidebar>
+        </div>
+        <admin-topbar></admin-topbar>
+        <br>
+        <div class="col-md-12 col-xs-9">
+          <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="example-container mat-elevation-z8">
+                <div class="example-header">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+                <mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="slno">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> SL NO. </mat-header-cell>
+                    <mat-cell *matCellDef="let row; let i = index"> {{i+1}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="plan_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> PLAN NAME</mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.plan_name}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="plan_price">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> PRICE</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <span matPrefix>₹&nbsp;</span> {{row.plan_price | number : '1.2-2'}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="bestvalue">
+                    <mat-header-cell *matHeaderCellDef> BEST VALUE</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+  
+                      <mat-slide-toggle class="example-margin" name="best" [(ngModel)]="row.is_best_value" (change)="onChange(row.id,row.is_best_value)"
+                        [checked]="row.is_best_value">
+  
+                      </mat-slide-toggle>
+                    </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef> ACTION</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <!-- <button mat-menu-item disabled *ngIf="row.status==false" (click)="getEditId(row._id)" data-toggle="modal" data-target="#myModal2">
+                              <mat-icon><i class="material-icons">mode_edit</i></mat-icon>
+                              <span>Edit</span>
+                        </button> -->
+                        <button mat-menu-item (click)="getEditId(row.id)" data-toggle="modal" data-target="#myModal2" data-backdrop="static" data-keyboard="false">
+                          <mat-icon>
+                            <i class="material-icons">mode_edit</i>
+                          </mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="getId(row.id)" data-toggle="modal" data-target="#deleteModal" data-backdrop="static" data-keyboard="false">
+                          <mat-icon>
+                            <i class="material-icons">delete</i>
+                          </mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+                    </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;">
+                  </mat-row>
+                </mat-table>
+                <!-- <div class="col-md-15 "> -->
+                <!-- <div *ngIf="showSpinnerDelete" class="deletespinner">
+                            <mat-spinner></mat-spinner>
+                         </div> -->
+  
+                <!-- </div> -->
+                <div class="col-md-12 noItemFound" *ngIf="notExist">
+                  <div class="col-md-4 col-md-offset-4">
+                    <mat-toolbar class="back-color">No item found!</mat-toolbar>
+                  </div>
+                </div>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="add-button">
+          <button type="button" class="add-project" data-toggle="modal" data-target="#addModal" data-backdrop="static">+</button>
+        </div>
+        <!-- -------------------------Modal -add plan------------------------------ -->
+  
+        <div *ngIf="!reachMaxPlan" id="addModal" class="modal fade">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                <h4 class="modal-title">Add New Plan</h4>
+              </div>
+              <div class="modal-body">
+  
+                <form role="form" #f="ngForm" (ngSubmit)="addPlan(newPlan);">
+  
+                  <div>
+                    <div class="example-container">
+                      <mat-form-field>
+                        <input matInput placeholder="Plan Name" name="plan_name" [(ngModel)]="newPlan.plan_name">
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <span matPrefix>₹&nbsp;</span>
+                        <input matInput placeholder="Price" type="number" min="1" class="example-right-align" name="plan_price" [(ngModel)]="newPlan.plan_price">
+                        <!-- <span matSuffix>.00</span> -->
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <mat-select placeholder="No of projects" name="no_projects" [(ngModel)]="newPlan.no_projects">
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field *ngIf="newPlan.no_projects == 'limited'">
+                        <input matInput placeholder="value" type="number" name="value1" [(ngModel)]="newPlan.value1" min="1">
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <mat-select placeholder="No of Members" name="no_members" [(ngModel)]="newPlan.no_members">
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+  
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field *ngIf="newPlan.no_members == 'limited'">
+                        <input matInput placeholder="value" type="number" name="value2" [(ngModel)]="newPlan.value2" min="1" >
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <mat-select placeholder="No of Modules" name="no_modules" [(ngModel)]="newPlan.no_modules">
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field *ngIf="newPlan.no_modules == 'limited'">
+                        <input matInput placeholder="value" type="number" name="value3" [(ngModel)]="newPlan.value3" min="1" >
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field>
+                        <mat-select placeholder="No of Tasks" name="no_tasks" [(ngModel)]="newPlan.no_tasks">
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                      </mat-form-field>
+                      <br>
+                      <mat-form-field *ngIf="newPlan.no_tasks == 'limited'">
+                        <input matInput placeholder="value" type="number" name="value4" [(ngModel)]="newPlan.value4" min="1">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <br>
+                  <!-- <div *ngIf="showSpinner">
+                                      <mat-spinner></mat-spinner>
+                                     </div> -->
+                  <div class="row">
+                    <div class="col-md-4">
+                      <button type="submit" class="btn round-button">Submit</button>
+                    </div>
+                    <!-- <div class="col-md-8" *ngIf="showSpinner">
+                      <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                        xml:space="preserve">
+                        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                          <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                          />
+                        </path>
+                      </svg>
+                    </div> -->
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div *ngIf="reachMaxPlan" id="addModal" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Error..! </h4>
+              </div>
+              <div class="modal-body delete-popup">
+                <i class="fa fa-exclamation"></i>
+                <h4 class="textalign">Cant Add, Maximum number of plan reached</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- --------------------------------------------- delete modal ----------------------------------------------------------------- -->
+        <div id="deleteModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete </h4>
+              </div>
+              <!-- <div class="modal-header"> -->
+              <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+              <!-- </div> -->
+              <div class="modal-body delete-popup">
+                <i class="fa fa-exclamation"></i>
+  
+  
+                <h4 class="textalign">Are you sure?</h4>
+  
+              </div>
+  
+              <div class="modal-footer" style="text-align:center;">
+                <button type="button" (click)="deletePlan(planId)" class="btn round-button center-bt" data-dismiss="modal">Delete</button>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+        <!-- ----------------------------------------------------------------------delete modal-------------------------------------------------------------------------- -->
+  
+        <!-- ----------------------------------------------------------------------edit modal-------------------------------------------------------------------------- -->
+        <div id="myModal2" class="modal fade">
+          <div class="modal-dialog">
+  
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                <h4 class="modal-title">Update Plan</h4>
+              </div>
+              <div class="modal-body">
+  
+                <form role="form" #f="ngForm" (ngSubmit)="updatePlan(plan);">
+  
+                  <div class="form-group">
+                    <div class="example-container">
+  
+                      <mat-form-field>
+                        <input matInput placeholder="Plan Name" name="plan_name" [(ngModel)]="plan.plan_name">
+                      </mat-form-field>
+                    
+                      <div *ngIf="!disablePrice">
+                        <mat-form-field class="inputfileds">
+  
+                          <input matInput placeholder="Price" type="number" min="1" class="example-right-align" name="plan_price" [(ngModel)]="plan.plan_price">
+                          <span matPrefix>₹&nbsp;</span>
+                          <!-- <span matSuffix>.00</span> -->
+  
+                        </mat-form-field>
+                      </div>
+                      <mat-form-field class="inputfileds">
+                        <mat-select placeholder="No of projects" name="noprojects" [(ngModel)]="plan.noprojects">
+  
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="plan.noprojects != 'Unlimited'">
+                        <input matInput placeholder="value" type="number" name="value1" [(ngModel)]="plan.no_projects" min="1">
+                      </mat-form-field>
+  
+                      <!-- <mat-form-field *ngIf="newPlan.no_projects == 'limited'">
+                        <input matInput placeholder="value" type="number" name="value1" [(ngModel)]="newPlan.value1" min="1">
+                      </mat-form-field> -->
+  
+                      <mat-form-field class="inputfileds">
+                        <mat-select placeholder="No of members" name="no_members" [(ngModel)]="plan.nomembers">
+  
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="plan.nomembers != 'Unlimited'">
+                        <input matInput placeholder="value" type="number" name="value2" [(ngModel)]="plan.no_members" min="1">
+                      </mat-form-field>
+  
+                      <mat-form-field class="inputfileds">
+                        <mat-select placeholder="No of modules" name="no_modules" [(ngModel)]="plan.nomodules">
+  
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                   
+                      </mat-form-field>
+                      <mat-form-field *ngIf="plan.nomodules != 'Unlimited'">
+                        <input matInput placeholder="value" type="number" name="value3" [(ngModel)]="plan.no_modules" min="1">
+                      </mat-form-field>
+                      <mat-form-field class="inputfileds">
+                        <mat-select placeholder="No of tasks" name="no_tasks" [(ngModel)]="plan.notasks">
+  
+                          <mat-option value="Unlimited">Unlimited</mat-option>
+                          <mat-option value="limited">limited</mat-option>
+  
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="plan.notasks != 'Unlimited'">
+                        <input matInput placeholder="value" type="number" name="value4" [(ngModel)]="plan.no_tasks" min="1">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="showSpinner">
+              <mat-spinner></mat-spinner>
+             </div> -->
+                  <br>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <button type="submit" class="btn round-button">Update</button>
+                    </div>
+                    <!-- <div class="col-md-8" *ngIf="showSpinner">
+                      <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                        xml:space="preserve">
+                        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                          <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                          />
+                        </path>
+                      </svg>
+                    </div> -->
+  
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ----------------------------------------------------------------------edit modal-------------------------------------------------------------------------- -->
+      </div>
+    </div>
+   
+      <admin-footer></admin-footer>  
+   
+  
+  </body>

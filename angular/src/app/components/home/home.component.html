@@ -1,0 +1,222 @@
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Taskit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="css/bootstrap.css">
+
+<link href="css/homepage.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/animate.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/line-awesome-font-awesome.min.css"> -->
+
+<!-- </head> -->
+<body class="home">
+		<nav class="navbar navbar-trans navbar-fixed-top" role="navigation">
+			  <div class="container">
+				<div class="navbar-header">
+				  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				  </button>
+				  <a class="navbar-brand" href="#"><img src="./assets/images/logo.png"/></a>
+				</div>
+				<div class="navbar-collapse collapse pull-right" id="navbar-collapsible">
+				  <ul class="nav navbar-nav navbar-left">
+					<li><a scrollTo href="#section1">Home</a></li>
+					<li><a scrollTo href="#section2">About Us</a></li>
+					<li><a scrollTo scrollTargetSelector="#section3" scrollYTarget="900">Facilities</a></li>
+					<li><a scrollTo href="#section4" scrollYTarget="1300">Plans & Price</a></li>
+					<li class="login-bt">
+							<a routerLink="/company-login" >
+						<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+							</a>
+						 </li>		
+					<li class="login-bt"><a routerLink="/company-signup" >
+						<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Signup">
+					</a></li>
+				  </ul>
+				</div>
+			  </div>
+			</nav>
+			
+
+			<section class="banner" id="section1">
+				  
+				 
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3 left-c wow fadeInRight" data-wow-delay="0.4s">
+							<p><img src="./assets/images/logo2.png"/></p>
+							<h3>helps over 10 million people feel more in control of their lives</h3>
+							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus</p>
+						</div>
+						<div class="col-md-3 left-r pull-right wow fadeInLeft" data-wow-delay="0.5s">
+							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus</p>
+						</div>
+					</div>
+			    </div><!--/container-->
+				<div class="device wow fadeInLeft" data-wow-delay="0.2s"></div>
+			</section>
+
+			<section class="about" id="section2">
+			  <div class="container">
+				<div class="row">
+					<div class="col-md-6 wow fadeInRight">
+						<img src="./assets/images/about.jpg" class="img-responsive"/>
+					</div>
+					
+					<div class="col-md-6 paddtop wow fadeInLeft">
+						<h2>WHAT WE DO</h2>
+						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean</p>
+					</div>
+				</div>
+			  </div>
+			</section>
+			<section class="features" id="section3">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+						  <div class="shade wow fadeInRight">
+							<div class="row">
+								<div class="col-md-6">
+									<img src="./assets/images/img1.jpg" class="img-responsive"/>
+								</div>
+								<div class="col-md-6">
+									<h3>Facilities</h3>
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean </p>
+								</div>
+							</div>	
+						  </div>
+						</div>
+					
+						
+						<div class="col-md-4 col-sm-4 wow fadeInDown">
+						  <div class="shade">
+							<div class="row">
+								<div class="col-md-6">
+									<img src="./assets/images/img2.jpg" class="img-responsive"/>
+								</div>
+								<div class="col-md-6">
+									<h3>Facilities</h3>
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean</p>
+								</div>
+							</div>	
+						  </div>
+						</div>
+						
+						<div class="col-md-4 col-sm-4 wow fadeInLeft">
+						  <div class="shade">
+							<div class="row">
+								<div class="col-md-6">
+									<img src="./assets/images/img3.jpg" class="img-responsive"/>
+								</div>
+								<div class="col-md-6">
+									<h3>Facilities</h3>
+									<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean</p>
+								</div>
+							</div>	
+						  </div>
+						</div>
+					</div>  
+			    </div>
+			</section>
+			
+			<div class="clearfix"></div>
+			
+
+			<section class="planz" id="section4">
+				<div class="container">
+				<h2>PLANS & PRICE</h2>
+					<div class="carry">
+					    <div class="plan wow fadeInRight" data-wow-delay="0.2s" *ngFor="let plan of plans" [ngClass]="{'hilight': plan.is_best_value}">
+						  <h3 class="plan-title">{{plan?.plan_name}}</h3>
+						  <p class="plan-price">&#8377;{{plan?.plan_price | number : '1.2-2'}} <span class="plan-unit">per month</span></p>
+						  <ul class="plan-features">
+							<li class="plan-feature"><h4>{{plan?.no_projects}} </h4><span class="plan-feature-name">Projects</span></li>
+							<li class="plan-feature"><h4>{{plan?.no_members}} </h4><span class="plan-feature-name">Members</span></li>
+							<li class="plan-feature"><h4>{{plan?.no_modules}} </h4><span class="plan-feature-name">Modules</span></li>
+							<li class="plan-feature"><h4>{{plan?.no_tasks}} </h4><span class="plan-feature-name">Tasks</span></li>
+						  </ul>
+						  
+						</div>
+						
+						<!-- <div class="plan hilight">
+						  <h3 class="plan-title">Premium</h3>
+						  <p class="plan-price">&#8377;500 <span class="plan-unit">per month</span></p>
+						  <ul class="plan-features">
+							<li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Projects</span></li>
+							<li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Members</span></li>
+							<li class="plan-feature"><h4>50 </h4><span class="plan-feature-name">Modules</span></li>
+							<li class="plan-feature"><h4>100 </h4><span class="plan-feature-name">Tasks</span></li>
+						  </ul>
+						  
+						</div> -->
+						 
+						<!-- <div class="plan mr-lft wow fadeInLeft" data-wow-delay="0.4s">
+						  <h3 class="plan-title">Ultra</h3>
+						  <p class="plan-price">&#8377;1000 <span class="plan-unit">per month</span></p>
+						  <ul class="plan-features">
+							<li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Projects</span></li>
+							<li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Members</span></li>
+							<li class="plan-feature"><h4>70 </h4><span class="plan-feature-name">Modules</span></li>
+							<li class="plan-feature"><h4>120 </h4><span class="plan-feature-name">Tasks</span></li>
+						  </ul>
+						  
+						</div> -->
+					  </div>
+			    </div>
+			</section>
+<br>
+<br>
+		<footer>
+			<div class="container">
+				Taskit © 2018, All Rights Reserved 
+			</div>
+		</footer>
+    <!-- Modal -->
+ 
+	 <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	 <script src="js/wow.js"></script>
+	 <script>
+		wow = new WOW({
+    boxClass: 'wow', // default
+    animateClass: 'animated', // default
+    offset: 0, // default
+    mobile: true, // default
+    live: true // default
+		})
+		wow.init();
+	</script>
+	<script>
+		$('body').scrollspy({
+		  target: '#navbar-collapsible',
+		  offset: 50
+		});
+
+		/* smooth scrolling sections */
+		$('a[href*=#]:not([href=#])').click(function() {
+			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+			  var target = $(this.hash);
+			  target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+			  if (target.length) {
+				$('html,body').animate({
+				  scrollTop: target.offset().top - 50
+				}, 1000);
+				return false;
+			  }
+			}
+         });
+
+	</script> -->
+
+</body>
+
+
+<!-- </html> -->

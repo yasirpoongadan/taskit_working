@@ -1,0 +1,70 @@
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+      
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                 <!-- sidebar-->
+               
+                 <admin-sidebar></admin-sidebar> 
+                 <!-- end sidebar-->
+            </div>
+            
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <admin-topbar></admin-topbar> 
+                
+                    <!-- end topbar-->
+                
+                
+                <div class="user-dashboard">
+                        <h2>COMPANY</h2>
+                        <ul class="breadcrumb">
+                          <li><a href="#">company</a></li>
+                          
+                          
+                          <li>{{viewComp}}</li>
+                        </ul>
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2 col-xs-12 gutter">
+
+                            <ul class="nav tabs side-bar-menu">
+                                <li [ngClass]="{'active1': viewComp == 'AllCompanies'}"><a (click)="updateView('AllCompanies')" href="#tab1" data-toggle="tab">All Companies</a></li>
+                                <li [ngClass]="{'active1': viewComp == 'Subscribed'}"><a (click)="updateView('Subscribed')" href="#tab2" data-toggle="tab">Subscribed</a></li> 
+                                <li [ngClass]="{'active1': viewComp == 'Trial'}"><a (click)="updateView('Trial')" href="#tab3" data-toggle="tab">Trail</a></li>
+                                <li [ngClass]="{'active1': viewComp == 'NotVerified'}"><a (click)="updateView('NotVerified')" href="#tab4" data-toggle="tab">Not Verified</a></li>  
+                                <li [ngClass]="{'active1': viewComp == 'Expired'}"><a (click)="updateView('Expired')" href="#tab5" data-toggle="tab">Expired</a></li>
+                                              
+                          </ul>
+                        </div>
+                        <div class="col-md-10 col-sm-10 col-xs-12 gutter">
+
+                            <div *ngIf="viewComp == 'AllCompanies'">
+                                <admin-all-companies></admin-all-companies>
+                              </div>
+                              <div *ngIf="viewComp == 'Subscribed'">
+                                  <admin-subscribed></admin-subscribed>
+                                </div>
+                              <div *ngIf="viewComp == 'Trial'">
+                                <admin-trial></admin-trial>
+                              </div>
+                              <div *ngIf="viewComp == 'NotVerified'">
+                                <admin-not-verified></admin-not-verified>
+                              </div>
+                              <div *ngIf="viewComp == 'Expired'">
+                                <admin-expired></admin-expired>
+                              </div>
+                            
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+                <!-- footer-->
+                <admin-footer></admin-footer>
+       <!-- end footer-->
+        </div>
+         </div>
+        <!-- Modal -->
+     </body>

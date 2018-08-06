@@ -1,0 +1,301 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <company-topbar></company-topbar>
+        <br>
+        <div class="col-md-12">
+          <h2>Project Estimation</h2>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+
+              <div class="row">
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Project Name :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.project_name}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Project Code :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.project_code}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Assignee :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{assignee}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Category :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{category?.category_name}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Priority :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.priority}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Description :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">
+                      {{project?.description}}
+                    </label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Date :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{pro_date}}</label>
+                  </div>
+                </div>
+                <br>
+              </div>
+              <br>
+              <div class="clearfix"></div>
+              <!-- -----------------------------------------disable buttns-------------------------------------------------- -->
+              <div class="col-md-1 pull-right" *ngIf="estimations.length == 0">
+                <span class="houricon" matTooltip="No estimation found ">
+                  <i class="material-icons info-icon">info_outline</i>
+                </span>
+              </div>
+              <button type="button" *ngIf="estimations.length == 0" class="btn round-button pull-right right-btn" data-backdrop="static"
+                data-keyboard="false" disabled="disabled">ReSubmit </button>
+              <button type="button" *ngIf="estimations.length == 0" class="btn round-button pull-right right-btn" disabled="disabled">Accept </button>
+
+              <!-- -----------------------------------------disable buttns-------------------------------------------------- -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12 gutter">
+          <div class="white text-right">
+            <h4>Total time taken for estimation : {{total_time_tacken_for_estimation}} Hrs</h4>
+          </div>
+          <div *ngFor="let item of estimations">
+
+            <div class="white">
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <label>
+                    <b>{{item.tbl_project_estimation_team.tbl_team.team_name }} </b>
+                  </label>
+                  <div class="clearfix"></div>
+                  <p class="paddleft">Team Lead : {{item.tbl_project_estimation_team.tbl_user_profile.f_name}} {{item.tbl_project_estimation_team.tbl_user_profile.l_name}}</p>
+                </div>
+                <div class="col-md-6 text-right">
+                  Total Hours : {{item.estimation_hour}} Hrs
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="col-md-6">
+                  <div class="clearfix"></div>
+                  <p class="paddleft">time taken for estimation: {{item.time_tacken_for_estimation}} Hrs</p>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-md-12">
+                <button id="expandBtn{{item.id}}" type="button" (click)="expand(item.id)" class="btn round-button pull-right right-btn"
+                  data-toggle="collapse" attr.data-target="#demo{{item.id}}">{{labelToExpand}}</button>
+              </div>
+              <div class="clearfix"></div>
+              <div id="demo{{item.id}}" class="collapse">
+
+                <div *ngFor="let modules of item.tbl_estimation_modules">
+                  <div class="col-md-10 col-xs-12 pull-right">
+                    <div class="task">
+                      <div class="col-md-8 col-xs-7">
+                        <h5>{{modules.module_name}}</h5>
+                      </div>
+                      <div class="col-md-4 col-xs-5">
+                        <ul class="taskedit">
+                          <li>{{modules.module_time}} Hr</li>
+                          <!-- <li class="pull-right"><a href="#" data-toggle="modal" data-target="#deleteModuleModal" (click)="getId(i)"> <i class="fa fa-close" aria-hidden="true"></i></a></li>
+                      <li class="pull-right"><a><i (click)="editModules(i)" class="fa fa-pencil" aria-hidden="true"></i></a></li> -->
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngFor="let tasks of modules.tbl_estimation_tasks">
+                    <div class="col-md-9 col-xs-12 pull-right">
+                      <div class="task hash">
+                        <div class="col-md-8 col-xs-7">
+                          <label>Task :</label>
+                          <h5>{{tasks.task_name}} </h5>
+                          <!-- <label>Planned hour :</label>
+                          <h5>{{tasks.planned_hour }} Hr</h5>
+                          <label>Buffer hour :</label>
+                          <h5>{{ tasks.buffer_hour}} Hr</h5> -->
+                          <label>Verification hour :</label>
+                          <h5>{{ tasks.verification_hour}} Hr</h5>
+                        </div>
+                        <div class="col-md-4 col-xs-5">
+                          <ul class="taskedit">
+                            <label>Total task hour:</label>
+                            <li>{{ tasks.planned_hour + tasks.buffer_hour }} Hr</li>
+                            <!-- <li class="pull-right"><a href="#" data-toggle="modal" data-target="#deleteTaskModal" (click)="getId1(i,j)"> <i class="fa fa-close" aria-hidden="true"></i></a></li>
+                        <li class="pull-right"><a href="#" data-toggle="modal" data-target="#editTaskModal" (click)="getId1(i,j)"><i class="fa fa-pencil" aria-hidden="true"></i></a></li> -->
+                          </ul>
+                        </div>
+                        <div class="clearfix"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="clearfix"></div>
+              </div>
+              <br>
+              <div class="col-md-12">
+                <button type="button" [disabled]="resubmitDisable" (click)="getEstIdtoResubmit(item.id, item.tbl_project_estimation_team.tbl_user_profile.login_id)"
+                  data-toggle="modal" data-target="#resubmitModal" class="btn round-button pull-right right-btn" data-backdrop="static"
+                  data-keyboard="false">ReSubmit</button>
+                <button type="button" *ngIf="!acceptButtonHide[item.id]" [disabled]="approveEstimationDisable" (click)="acceptEstimation(item.id)"
+                  class="btn round-button pull-right right-btn">Accept</button>
+                <div *ngIf="approveestimSpinner">
+                  <app-spinner></app-spinner>
+                </div>
+
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+
+          <div class="col-md-12">
+            <button type="button" *ngIf="sendApprovalButtonShow" [disabled]="approveEstimationBtn" (click)="sendForApproval()" class="btn round-button pull-right right-btn">{{sendForApprovalBtn}}</button>
+            <button type="button" *ngIf="forwardButtonShow" data-toggle="modal" data-target="#forwardModal" class="btn round-button pull-right right-btn"
+              data-backdrop="static" data-keyboard="false">Forward To</button>
+            <div *ngIf="approveEstimSpinner">
+              <app-spinner></app-spinner>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- --------------------------------------------- resubmit modal ----------------------------------------------------------------- -->
+        <div id="resubmitModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                <h4 class="modal-title">Resubmit</h4>
+              </div>
+              <div class="modal-body">
+                <form role="form" #f="ngForm" (ngSubmit)="resubmit(est_id, team_head_loginId);" novalidate>
+                  <div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-3 col-xs-6">
+                      <label class="pad-top">Reason :</label>
+                    </div>
+                    <div class="col-md-7 col-xs-6">
+                      <mat-form-field class="wdth">
+                        <textarea matInput [(ngModel)]="reason" name="reason" required matAutosizeMinRows="3" class="brd" matAutosizeMaxRows="6"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <br>
+                  </div>
+                  <br>
+                  <div class="">
+                    <div class="col-md-12">
+                      <button type="submit" [disabled]="btnDisbled" class="btn round-button right-btn">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ----------------------------------------------------------------------resubmit modal------------------------------------------------------------------ -->
+
+        <!-- --------------------------------------------- forward modal ----------------------------------------------------------------- -->
+        <div id="forwardModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn2>&times;</button>
+                <h4 class="modal-title">Forward</h4>
+              </div>
+              <div class="modal-body">
+                <form role="form" #f="ngForm" (ngSubmit)="forward();" novalidate>
+                  <div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-3 col-xs-6">
+                      <label class="pad-top">Forward To *:</label>
+                    </div>
+                    <div class="col-md-7 col-xs-6">
+                      <mat-form-field class="wdth">
+                        <mat-select [(ngModel)]="forward_to" name="forward_to" required>
+                          <mat-option *ngFor="let item of teamheads" [value]="item">
+                            {{ item.tbl_user_profile.f_name}} {{ item.tbl_user_profile.l_name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <br>
+                  </div>
+                  <br>
+                  <div class="">
+                    <div class="col-md-12">
+                      <button type="submit" [disabled]="forwardDisable" class="btn round-button right-btn">Submit</button>
+                      <div *ngIf="forwardSpinner">
+                        <app-spinner></app-spinner>
+                      </div>
+
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ----------------------------------------------------------------------forward modal------------------------------------------------------------------ -->
+
+
+      </div>
+    </div>
+  </div>
+</body>

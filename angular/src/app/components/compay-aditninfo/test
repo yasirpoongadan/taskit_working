@@ -1,0 +1,92 @@
+<body class="logn">
+    <div class="row">
+	   <div class="col-md-8">
+			<div class="row">
+				<div class="logn-img">
+					<img src="./assets/images/login.jpg" class="img-responsive"/>
+					<div class="paragraph">
+						<div class="col-md-12" style="text-align:center;">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt bibendum malesuada. Fusce tincidunt nibh quis nisi tristique, sed ultrices lorem aliquam. Nam facilisis posuere vehicula. Integer tempus rhoncus volutpat.
+						</div>
+					</div>
+				</div>
+			</div>
+	   </div>
+	   <div class="col-md-4 bgz">
+			<h3>Registration</h3>
+			<section>
+				<form id="theForm" class="simform" autocomplete="off">
+					<div class="simform-inner">
+						
+						<div *ngFor="let item of questions;let i=index;">
+							<ng-container *ngIf="counter == i">
+									<label >{{item.question}}</label>
+									<input type="text" *ngIf="item.type == 'text' else password" [(ngModel)]="item.ans" name="item.ans">
+									<ng-template #password>
+										<input type="password" *ngIf="item.type == 'password' else multiple" [(ngModel)]="item.ans" name="item.ans">
+										<ng-template #multiple>
+												<select class="inp"  [(ngModel)]="item.ans" name="item.ans">
+														<ng-container *ngIf="i == 2 else size" >
+															<ng-container *ngFor="let c of industry">
+																	<option  value="{{c.industry}}">{{c.industry}}</option>
+					
+															</ng-container>
+															
+														</ng-container>
+														<ng-template #size>
+																<ng-container *ngFor="let s of cmpSize">
+																	<option  value="{{s.size_range}}">{{s.size_range}}</option>
+																</ng-container>
+														</ng-template>
+														<!-- <option>Select Company Size</option>
+														<option>1-10</option>
+														<option>1-20</option> -->
+													</select>
+										</ng-template>
+										
+									</ng-template>
+							<button *ngIf="counter != 5" class="" type="submit" (click)="validate()">next</button>
+									
+							</ng-container>
+						</div>
+						<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="70"
+								aria-valuemin="0" aria-valuemax="100" [style.width.%]="progressBarWidth">
+								  <span class="sr-only">70% Complete</span>
+								</div>
+							  </div>
+						<span class="">{{errMessage}}</span>
+						
+						<button *ngIf="counter == 5" class="submit-form" type="submit" (click)="register()">GO</button>
+
+						<div *ngIf="spinner">
+							<div class="">
+								<svg class="svg" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								 width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50; margin-left:25%;" xml:space="preserve">
+									<path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+										<animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+										/>
+									</path>
+								</svg>
+							</div>
+						</div>
+					</div><!-- /simform-inner -->
+					<span class="final-message"></span>
+				</form><!-- /simform -->			
+			</section>
+			
+			
+			
+		</div>
+			
+		  
+	   
+   </div>
+
+    <!-- Modal -->
+ 
+		<script>
+			
+		</script>
+
+</body>

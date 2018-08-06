@@ -1,0 +1,31 @@
+
+
+
+<ul
+*ngFor="let category of categories"
+[dragula]='"categories"'
+dragulaName="categories">
+
+<li
+  class="parent-draggable"
+  id="{{ category.id }}">
+  <span class="handler">+</span>
+  #{{category.id}} :: {{ category.name }}
+
+    <ul *ngIf="category.subCategories.length > 0"
+        [dragula]="category.subCategories.dragulaName"
+        [attr.dragulaName]="category.subCategories.dragulaName">
+
+      <li
+        *ngFor="let subCategory of category.subCategories"
+        id="{{ subCategory.id }}">
+        <span class="child-handler">+</span>
+          
+          #{{subCategory.id}} :: {{ subCategory.name }}
+
+      </li>
+
+    </ul>
+</li>
+
+</ul>

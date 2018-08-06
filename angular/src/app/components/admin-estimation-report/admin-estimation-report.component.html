@@ -1,0 +1,217 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+       <company-topbar></company-topbar> 
+      <br>
+      <div class="col-md-12 col-xs-9">
+          <div class="col-md-12">
+              <h2 _ngcontent-c16="">Project Estimation Report</h2>
+              <ul _ngcontent-c16="" class="breadcrumb">
+                <li _ngcontent-c16="">
+                  <a _ngcontent-c16="">Report</a>
+                </li>
+    
+    
+                <li _ngcontent-c16="">Project Estimation Report</li>
+              </ul>
+            </div>
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <div class="pull-right" >
+        <button id="create" class="btn round-button" (click)="exportPdf()">Export Pdf</button>
+        <input type="button" class="btn round-button"  (click)="tableToExcel('testTable', 'taskit')" value="Export to Excel">
+        <button id="create" class="btn round-button"  (click)="PrintDiv()">Print</button> 
+      </div>
+        <div class="row">
+            
+          <div class="col-md-12">
+              <!-- <div class="col-md-12" *ngIf="showxData"> -->
+             <div class="col-md-12">  
+              <div class="bottom-space">
+                  <div class="col-md-3">
+                      
+                                 <input type="text" class="form-control form-control2" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedStartDate($event, daterange)" />
+                       </div>
+                  <div class="col-md-3" >
+                      <mat-form-field>
+                          <input matInput (keyup)="applyFilter()" [(ngModel)]="filters.filterText" placeholder="Filter">
+                        </mat-form-field>
+                </div>
+               
+                  <div class="col-md-3" >
+                      <mat-form-field>
+                          <mat-select placeholder="Projects" [(ngModel)]="filters.selProj" (change)="getEstimation()" >
+                              <mat-option [value]="'All'" > All</mat-option>
+                              <mat-option [value]="item.id" *ngFor="let item of projects">
+                                  {{item.project_name}}
+                              </mat-option>
+                           
+                          </mat-select>
+                        </mat-form-field>
+                        
+                  </div>
+
+                 
+                  <div class="col-md-3" >
+                      <mat-form-field>
+                          <mat-select placeholder="Category" [(ngModel)]="filters.selCat" (change)="getEstimation()">
+                              <mat-option [value]="'All'" >All</mat-option>
+                              <mat-option [value]="item.id" *ngFor="let item of category">
+                                  {{item.category_name}}
+                              </mat-option>
+                           
+                          </mat-select>
+                        </mat-form-field>
+                </div>
+              </div>
+            </div>
+                <div class="col-md-12"> 
+
+            <div class="example-container mat-elevation-z8">
+
+                <!-- <div class="col-md-4" >
+                    <mat-form-field>
+                        <mat-select placeholder="Projects" (change)="getSelectedProjects()" [(value)]="ProjectSelected">
+                            <mat-option [value]="All" >
+                                All
+                            </mat-option>
+                            <mat-option [value]="item.tbl_project.id" *ngFor="let item of projects">
+                                {{item.tbl_project.project_name}}
+                            </mat-option>
+                         
+                        </mat-select>
+                      </mat-form-field>
+                      
+                </div>
+
+                <div class="col-md-4" >
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                      </mat-form-field>
+              </div>
+                <div class="col-md-4" >
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                      </mat-form-field>
+              </div> -->
+              
+              <!-- <div class="example-header">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+              </div> -->
+              <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="slno">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> SL NO. </mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="project_name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Project Name</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.tbl_project.project_name}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="project_code">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Project Code</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.tbl_project.project_code}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Date</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row?.createdAt |  date: 'yyyy-MM-dd HH:mm a'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ttl_hr">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Total Hours</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.estimation_hour}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="team_head">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Team Head</mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.tbl_project_estimation_team.tbl_user_profile.f_name}} {{row.tbl_project_estimation_team.tbl_user_profile.l_name}}</mat-cell>
+                </ng-container>
+           <!--      <ng-container matColumnDef="team_memb">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Team Members</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    
+                     <div *ngFor="let member of row.tbl_project_estimation_team.tbl_project_estimation_team_members"> {{member.tbl_user_profile.f_name}} {{member.tbl_user_profile.l_name}}</div>
+                    </mat-cell>
+                </ng-container> -->
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;">
+                </mat-row>
+              </mat-table>
+              <div *ngIf="showSpinner" class="spinner">
+                <app-spinner></app-spinner>
+              </div>
+              <!-- <div class="col-md-15 "> -->
+              <!-- <div *ngIf="showSpinnerDelete" class="deletespinner">
+                          <mat-spinner></mat-spinner>
+                       </div> -->
+
+              <!-- </div> -->
+
+              <div class="col-md-12 noItemFound" *ngIf="projectsFlt.length == 0">
+                <div class="col-md-4 col-md-offset-4">
+                  <mat-toolbar class="back-color">No item found!</mat-toolbar>
+                </div>
+              </div>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+   
+
+      <div *ngIf="reachMaxPlan" id="addModal" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Error..! </h4>
+            </div>
+            <div class="modal-body delete-popup">
+              <i class="fa fa-exclamation"></i>
+              <h4 class="textalign">Cant Add, Maximum number of plan reached</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+     
+
+      <div id="dvContents" style="display: none;" >
+        <table class="table" id="testTable">
+          <tr style="background-color: #CCC">
+            <th>Sl No.</th>
+            <th>Project Name</th>
+            <th>Code</th>
+            <th>Date</th>
+            <th>Total Hours</th>
+            <th>Team Head</th>
+            <th>Team Members</th>
+          </tr>
+          <tr *ngFor="let project of projectsFlt; let i=index">
+            <td>{{i}}</td>
+            <td>{{project.tbl_project.project_name}}</td>
+            <td>{{project.tbl_project.project_code}}</td>
+            <td>{{project?.createdAt |  date: 'yyyy-MM-dd HH:mm a'}}</td>
+            <td>{{project.estimation_hour}}</td>
+            <td>{{project.tbl_project_estimation_team.tbl_user_profile.f_name}} {{project.tbl_project_estimation_team.tbl_user_profile.l_name}}</td>
+            <td>
+              <div *ngFor="let member of project.tbl_project_estimation_team_members"> {{member.tbl_user_profile.f_name}} {{member.tbl_user_profile.l_name}}</div>
+            </td>
+          </tr>
+          <tr *ngIf="projects.length == 0">
+              <td colspan="7" style="text-align:center">No item found!</td>
+             
+            </tr>
+          
+        </table>
+      </div>
+
+ </div>
+  </div>
+  <!-- <footer></footer>  -->
+
+</body>

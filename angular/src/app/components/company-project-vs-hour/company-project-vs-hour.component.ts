@@ -1,0 +1,347 @@
+import { Component, OnInit } from '@angular/core';
+import { CompanyService } from './../../services/company.service';
+declare var d3: any;
+declare var $: any;
+import * as socketIo from 'socket.io-client';
+import { Config } from './../../config/config';
+@Component({
+  selector: 'company-project-vs-hour',
+  templateUrl: './company-project-vs-hour.component.html',
+  styleUrls: ['./company-project-vs-hour.component.css']
+})
+export class CompanyProjectVsHourComponent implements OnInit {
+
+  constructor(private companyService: CompanyService, private config: Config) {
+    this.socket = socketIo(config.socketURL);
+  }
+  projects: any;
+  project_id: any;
+  offenseNames: any;
+  years: any;
+  offensesByYear: any;
+  exists = false;
+  private socket: any;
+  ngAfterViewInit() {
+    this.getHoursforResourceGraph();
+    this.socket.on('new', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('paused', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('completed', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('hold', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('inProgress', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.getHoursforResourceGraph();
+    this.offenseNames = [
+      "New- Yet to Start",
+      "In Progress",
+      "Completed",
+      "On Hold",
+      "Paused"
+    ];
+  }
+  ngOnInit() {
+    this.socket.on('new', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('paused', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('completed', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('hold', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.socket.on('inProgress', (data) => {
+      this.getHoursforResourceGraph();
+    });
+    this.getHoursforResourceGraph();
+    this.offenseNames = [
+      "New- Yet to Start",
+      "In Progress",
+      "Completed",
+      "On Hold",
+      "Paused"
+    ];
+  }
+  getHoursforResourceGraph() {
+    console.log("getHoursforResourceGraph");
+    // ---------------------------------Start-------------------------------------------
+    // Function      : getTasksforResourceGraph
+    // Params        : pro_id, users
+    // Returns       : 
+    // Author        : Rinsha
+    // Date          :  18-04-2018
+    // Last Modified : 
+    // Desc          : 
+    this.companyService.getAllProject().subscribe(data => {
+      // console.log(data);
+      this.projects = [];
+      this.years = [];
+      data.forEach(element => {
+        if (element.status == "Planned" || element.status == "Completed" || element.status == "In Progress") {
+          this.projects.push(element);
+          this.years.push(element.project_name)
+        }
+      });
+      if (this.projects.length == 0) {
+        //no data in charts
+      } else {
+        this.exists = true;
+        this.companyService.getHoursforResourceGraph(this.projects).subscribe(info => {
+          // console.log(info)s
+          this.drawGraph(this.offenseNames, this.years, info);
+      });
+    };
+    });
+    // -----------------------------------End------------------------------------------
+  }
+  drawGraph(offenseNames, years, offensesByYear) {
+    d3.select('#stacked-bar-chart-container1').selectAll("svg").remove();
+    const generateClassStr = str => {
+      return str.replace(/\s+/g, '-').toLowerCase();
+    }
+
+    let n = offenseNames.length, // number of layers
+      m = offensesByYear.length, // number of samples per layer
+      stack = d3.stack().keys(offenseNames);
+
+    let layers = stack(offensesByYear); // calculate the stack layout
+
+    layers.forEach(function (d, i) {
+      // add keys to every datapoint
+      d.forEach(function (dd, j) {
+        dd.year = years[j];
+        dd.offenseName = offenseNames[i];
+        dd.class = generateClassStr(dd.offenseName);
+        dd.value = dd.data[dd.offenseName]
+      });
+    });
+
+    let yStackMax = d3.max(layers, function (layer) {
+      return d3.max(layer, function (d) {
+        return d[1];
+      });
+    });
+    let margin = { top: 70, right: 15, bottom: 140, left: 50 },
+      fullChartWidth = 1000,
+      fullChartHeight = 400,
+      width = fullChartWidth - margin.left - margin.right,
+      height = fullChartHeight - margin.top - margin.bottom;
+
+    d3.select("#stacked-bar-chart-container1")
+      .style("width", fullChartWidth)
+      .style("height", fullChartHeight)
+    let x = d3
+      .scaleBand()
+      .domain(years)
+      .rangeRound([0, width])
+      .padding(0.08);
+    let y = d3
+      .scaleLinear()
+      .domain([0, yStackMax])
+      .range([height, 0]);
+    let z = d3
+      .scaleBand()
+      .domain(offenseNames)
+      .rangeRound([0, x.bandwidth()]);
+    // let color = ["#17a88f", "#f2ac37", "#b74549", , "#4d5d6e", , "#2778a7"]
+    let color = ["#2778a7", "#99b745", "#17a88f", , "#f2ac37", , "#b74549"]
+    let svg = d3
+      .select("#stacked-bar-chart-container1")
+      .append("svg")
+      .attr("width", width + margin.left + margin.right + 20)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + (margin.left + 20) + "," + margin.top + ")");
+    let layer = svg
+      .selectAll(".layer")
+      .data(layers)
+      .enter()
+      .append("g")
+      .attr("class", "layer")
+      .style("fill", function (d, i) {
+        return color[i];
+      });
+
+    // Define the div for the tooltip
+    let tooltip = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
+    // alert(x.bandwidth());
+    // alert(m);
+    var myLPadd = 270;
+    var myTPadd = 1420;
+    // var myLPadd = 950;
+    // var myTPadd = 720;
+    let rect = layer
+      .selectAll(".bar")
+      .data(function (d) {
+        return d;
+      })
+      .enter()
+      .append("rect")
+      .attr("class", d => generateClassStr(d.offenseName) + " bar")
+      .attr("x", function (d) {
+        return x(d.year);
+      })
+      .attr("y", height)
+      .attr("width", x.bandwidth())
+      // .attr("width", x.bandwidth()/x)
+      .attr("height", 0)
+      .on("mouseover", d => {
+        // d3.selectAll(".bar")
+        //   .filter(dd => dd.class != d.class)
+        //   .style("opacity", 0.6)
+      })
+      .on("mousemove", function (d) {
+        let msgy = (d.data.totalCompletedHr != 0 && d.offenseName == 'Completed') ? ', Actual hour taken : ' + d.data.totalCompletedHr + ' Hr' : '';
+        tooltip
+          .style("opacity", .9)
+          // .html("<b>" + d.value + "</b> Hr task is " + d.offenseName + " for " + d.year )
+           .html("<b>" + d.value + "</b> Hr task is " + d.offenseName + " for " + d.year + msgy)
+          .style("left", (d3.mouse(this)[0]) + myLPadd + "px")
+          .style("top", (d3.mouse(this)[1]) + myTPadd + 40 + "px");
+      })
+      .on("mouseout", function (d) {
+        d3.selectAll(".bar").style("opacity", 1)
+        tooltip.style("opacity", 0);
+      });
+
+    rect
+      .transition()
+      .delay(function (d, i) {
+        return i * 10;
+      })
+      .attr("y", function (d) {
+        return y(d[1]);
+      })
+      .attr("height", function (d) {
+        return y(d[0]) - y(d[1]);
+      });
+    // alert(height);
+    // height = 10;
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).tickSizeOuter(0))
+      // .call(xAxis)
+      .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", "rotate(-65)");
+    // .append("g")
+    // .attr("class", "x axis")
+    // .attr("transform", "translate(0," + height + ")")
+    // .call(d3.axisBottom(x).tickSizeOuter(0))
+    // .attr("transform", "rotate(-90)");
+
+    // add the Y gridlines
+    svg.append("g")
+      .attr("class", "grid")
+      .call(d3.axisLeft(y)
+        .ticks(25)
+        //  .tickSize(-width)
+        .tickFormat("")
+      )
+
+    // Add the y Axis
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // text label for the y axis
+    svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left - 30)
+      .attr("x", 0 - (height / 2))
+      .attr("dy", "3em")
+      .style("text-anchor", "middle")
+      .text("Total hours");
+
+    let legend = svg
+      .selectAll(".legend")
+      .data(offenseNames.reverse()) // match stack order
+      .enter()
+      .append("g")
+      .attr("class", "legend")
+      .attr("transform", function (d, i) {
+        return "translate(0," + i * 15 + ")";
+      });
+
+    legend
+      .append("rect")
+      .attr("x", width - 10)
+      .attr("y", -70)
+      .attr("width", 10)
+      .attr("height", 10)
+      .style("fill", function (d, i) {
+        return color[offenseNames.length - 1 - i]; // match stack order
+      });
+
+    legend
+      .append("text")
+      .attr("x", width - 24)
+      .attr("y", -65)
+      .attr("font-size", '10px')
+      .attr("dy", ".35em")
+      .attr("class", "barGraphLegend")
+      .style("text-anchor", "end")
+      .text(function (d) {
+        return d;
+      });
+
+    d3.selectAll("input").on("change", change);
+
+    function change() {
+      (this.value === "grouped") ? transitionGrouped() : transitionStacked();
+    }
+
+    function transitionGrouped() {
+      rect
+        .transition()
+        .duration(500)
+        .delay(function (d, i) {
+          return i * 10;
+        })
+        .attr("x", function (d) {
+          return x(d.year) + z(d.offenseName);
+        })
+        .transition()
+        .attr("y", function (d) {
+          return y(d.data[d.offenseName]);
+        })
+        .attr("height", function (d) {
+          return height - y(d.data[d.offenseName]);
+        });
+    }
+    function transitionStacked() {
+      rect
+        .transition()
+        .duration(500)
+        .delay(function (d, i) {
+          return i * 10;
+        })
+        .attr("y", function (d) {
+          return y(d[1]);
+        })
+        .attr("height", function (d) {
+          return y(d[0]) - y(d[1]);
+        })
+        .transition()
+        .attr("x", function (d) {
+          return x(d.year);
+        })
+    }
+
+  }
+
+}

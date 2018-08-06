@@ -1,0 +1,85 @@
+<body class="home" *ngIf="counts">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                <!-- sidebar-->
+
+                <admin-sidebar></admin-sidebar>
+                <!-- end sidebar-->
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <admin-topbar></admin-topbar>
+
+                <!-- end topbar-->
+                <div class="user-dashboard">
+                    <!-- <h1>Hello, JS</h1> -->
+                    <div class="row">
+                        <div class="col-md-10 col-sm-5 col-xs-12 gutter ad-tp">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="cnts">
+                                        <div class="col-md-4 text-center lh">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h2 class="count-txt">{{counts.users}}</h2>
+                                            <h4 class="count-sub-txt">Total no. of Users</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="cnts">
+                                        <div class="col-md-4 text-center lh">
+                                            <i class="la la-industry" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h2 class="count-txt">{{counts.companies}}</h2>
+                                            <h4 class="count-sub-txt">Total no. of Companies</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="cnts">
+                                        <div class="col-md-4 text-center lh">
+                                            <i class="la la-code-fork" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h2 class="count-txt">{{counts.projects}}</h2>
+                                            <h4 class="count-sub-txt">Total no. of Projects</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12 gr-cont">
+                            <div class="col-md-5 bg-white">
+                                <h4>Company vs Status</h4>                                
+                                <app-admin-dashboard-pie></app-admin-dashboard-pie>
+                            </div>
+                            <div class="col-md-7">
+                                    <app-admin-dashboard-bar></app-admin-dashboard-bar>
+                                </div>
+                        </div>
+                    </div>
+                   
+                </div>
+               
+
+            </div>
+            <!-- footer-->
+            <admin-footer></admin-footer>
+            <!-- end footer-->
+        </div>
+    </div>
+    <!-- Modal -->
+</body>

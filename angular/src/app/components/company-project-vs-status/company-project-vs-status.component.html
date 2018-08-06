@@ -1,0 +1,65 @@
+<div>
+    <h1>Project Vs Status</h1>
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="col-md-8 col-md-offset-2">
+          <div class="col-md-6 bg-g">*Select Project</div>
+          <div class="col-md-6 bg-hash">
+              <mat-select  name="projet_id" [(ngModel)]="project_id" (ngModelChange)="changeProject($event)" required>
+                  <mat-option *ngFor="let prj of projects" [value]="prj.id">
+                    {{prj.project_name}}
+                  </mat-option>
+                </mat-select>
+          </div> 
+          <div class="clearfix"></div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="tasklabel">
+              START DATE 
+              <br>
+              {{start_date | date: 'yyyy-MM-dd HH:mm a'}}
+            </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="tasklabel">
+                END DATE
+                <br>
+                {{end_date | date: 'yyyy-MM-dd HH:mm a'}}
+               </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="tasklabel">
+              TOTAL TASKS 
+              <br>
+              {{total_tasks}}
+              <br>
+              ({{planned_hour}} Hour)
+            </div>
+            </div>
+    
+            <div class="col-md-6">
+                <div class="tasklabel">
+                TASKS COMPLETED
+                <br>
+                {{completed_tasks}}
+                <br>
+                ({{actual_hour}} Hour)
+               </div>
+              </div>
+          </div>
+        </div>
+        </div>
+    
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="widget">
+                <div class="header">Task Vs Status</div>
+                <div id="chart2" class="chart-container">
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    

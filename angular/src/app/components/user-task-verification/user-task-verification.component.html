@@ -1,0 +1,196 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+        <user-sidebar></user-sidebar>
+        <!-- end sidebar-->
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <user-topbar></user-topbar>
+        <div class="col-md-12">
+            <h2 style="text-align:left;">Verification Task</h2>
+            <ul class="breadcrumb">
+              <li><a>Task</a></li>
+              <!-- <li><a routerLink="/company-request-management">Time Extension Request List</a></li> -->
+              
+              <li>Verification Task</li>
+            </ul>
+          </div>
+ 
+        <!-- end topbar-->
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+            <div class="col-md-10 col-sm-12 col-xs-12 gutter ">
+              <div class="white project-planning">
+                <h4 style="background-color: #1cc6dc;color:#fff;padding: 10px;" class="text-center">Verification Task</h4>
+                <div class="pull-right" *ngIf="isProjects">
+
+                  <mat-form-field class="filter">
+                    <mat-select (change)="getVerificationTasks()" [(ngModel)]="info.projectId" >
+                      <mat-option value="all">All Project</mat-option>
+                      <mat-option *ngFor="let proj of projects" value="{{proj.id}}">{{proj.project_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="preloader">
+                    <app-spinner></app-spinner>
+                </div>
+                <div *ngIf="!isProjects">
+                    <div>Presently there is no completed task to verify.</div>
+                </div>
+
+                <div *ngIf="isProjects" style="margin-top: 65px;">
+                <div *ngFor="let myTask of showDetails; let i = index" >
+                  <div class="form-group" *ngIf="myTask?.showModule">
+                    <div class="col-md-2">
+                      <label for="">
+                        <b>Project Name </b>
+                      </label>
+                      <span> : </span>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="row">
+                        <label for="" class="label2">
+                          <b>{{myTask.tbl_project.project_name}}</b>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                
+
+                     
+                        <div class="col-md-12 col-xs-12 pull-right" *ngIf="myTask?.showModule">
+                          <div class="task">
+                            <div class="col-md-10 col-xs-12">
+                              <!-- <p>dfd</p> -->
+                              <h5 class="mdl-name">{{myTask.module_name}}</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div [dragula]="'myBag'"> -->
+                        <!-- <div *ngFor="let task of myTasks[i].tbl_project_tasks; let j = index" > -->
+                        <div *ngFor="let task of myTask.tbl_project_tasks; let j = index">
+                          <!-- <div *ngFor="let task1 of myTasks[i].tbl_project_tasks[j].tbl_task_status_assocs; let y = index"> -->
+                          <div class="col-md-11 col-xs-12 pull-right">
+                            <!-- <div class="task assigned" ng-style="background-color :task.status?.tbl_task_status?.color" > -->
+                            <div class="task assigned" *ngIf="task.showThisTask" [ngStyle]="{'background-color': task.status?.tbl_task_status.color}">
+
+                              <div>
+                                <div class="col-md-8 col-xs-7 martop">
+                                  <!-- <h5> {{task.status?.tbl_task_status.color }}</h5>-->
+                                  <label class="tsk-lbl">Task:</label>
+                                  <h5 class="tsk-dt">{{task.task_name}}</h5>
+                                  <div class="clearfix"></div>
+                                  <label class="tsk-lbl">Total hour :</label>
+                                  <h5 class="tsk-dt">{{task.planned_hour + task.buffer_hour}} hrs</h5>
+                                  <div class="align-task">
+                                    <label class="tsk-lbl">Planned hour :</label>
+                                    <h5 class="tsk-dt">{{task.planned_hour}} hrs</h5>
+                                  </div>
+                                  <div class="align-task">
+                                    <label class="tsk-lbl">Buffer hour :</label>
+                                    <h5 class="tsk-dt">{{task.buffer_hour}} hrs</h5>
+                                  </div>
+                                  <div class="align-task" *ngIf="task?.status.tbl_task_status.id==5">
+                                    <label class="tsk-lbl">Actual Hour :</label>
+                                    <h5 class="tsk-dt">{{task?.actual_hour }} Hrs</h5>
+                                  </div>
+                                  <div class="align-task">
+                                    <label class="tsk-lbl">Assigned planned start date :</label>
+                                    <h5 class="tsk-dt">{{task.planned_start_date_time | date:'MMM dd yyyy hh:mm aa'}}</h5>
+                                  </div>
+                                  <div class="align-task">
+                                    <label class="tsk-lbl">Assigned planned end date :</label>
+                                    <h5 class="tsk-dt">{{task.planned_end_date_time | date:'MMM dd yyyy hh:mm aa'}}</h5>
+                                  </div>
+                                  <div class="align-task">
+                                    <label class="tsk-lbl">Status :</label>
+                                    <h5 class="tsk-dt">{{task?.status.tbl_task_status.status }}</h5>
+                                  </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="row">
+                                    <div class="col-md-4 col-xs-5" *ngIf="task.showRequest">
+                                      <ul class="taskedit-request">
+                                        <button matTooltip="Aditional time request" (click)="getId1(task,i,j)" type="button" class="btn round-button request-bt"
+                                          data-toggle="modal" data-target="#extentionTask">Request</button>
+                                      </ul>
+                                    </div>
+                                    <div class="col-md-8 col-xs-5">
+                                      <!-- ---------------------------------------------------------------------------------------------------- -- -->
+                                      <ul class="taskedit">
+                                        <app-spinner class="loadingImg{{task.id}}" style="display: none"></app-spinner>
+                                
+                                        <li *ngIf="task.status?.status_id == 5">
+                                          <button matTooltip="Re-submit" class="iconButton verButtons{{task.id}}" data-toggle="collapse" data-target="#demo1" (click)="clearReTask()">
+                                            <i class="fa fa-stop" aria-hidden="true"></i>
+                                          </button>
+                                          <ul class="collapse bx-shdw" id="demo1">
+                                            <div class="col-md-12 text-left">
+                                              <label class="pad-top">Category * : </label>
+                                              <mat-form-field class="inputfileds">
+                                                <mat-select placeholder="Category" name='reason' [(ngModel)]="reTask.category"  >
+                                                  <mat-option value="billable" >Billable</mat-option>
+                                                  <mat-option value="Non-Billable" >Non Billable</mat-option>
+                                                </mat-select>
+                                              </mat-form-field>
+                                              <div class="clearfix"></div>
+                                              <div class="col-md-12 col-xs-6 text-left">
+                                                <div class="row">
+                                                  <label class="pad-top">Reason * :</label>
+                                                </div>
+                                              </div>
+                                              <textarea rows="4" cols="50" name="name" [(ngModel)]="reTask.reason"> </textarea>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <br>
+                                            <div class="col-md-4">
+                                              <button type="submit" (click)="resubmit(task)" class="btn round-button closepane">Resubmit</button>
+                                            </div>
+                                          </ul>
+                                        </li>
+                                        
+                                     
+                                        <li *ngIf="task.status?.status_id == 5">
+                                          <button data-toggle="tooltip" matTooltip="Verify" class="iconButton verButtons{{task.id}}" (click)="verifyTask(task)">
+                                            <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                                          </button>
+                                        </li>
+                                  
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="clearfix"></div>
+                              </div>
+                            </div>
+                            <!-- </div> -->
+                          </div>
+                          <!-- </div> -->
+                        </div>
+                    
+                  
+                </div>
+                </div>
+                <!-- <div class="col-md-12" *ngIf="!viewAllTasks">
+                  <button type="button" class="btn round-button dropdown-toggle mrg-tp pull-right" data-toggle="dropdown" (click)="viewAll()">View All</button>
+                  <button type="button" (click)="getId(i)" data-toggle="modal" data-target="#addTaskModal" class="btn round-button pull-right right-btn">Add Task</button>
+                </div>
+                <div class="col-md-12" *ngIf="viewAllTasks">
+                  <button type="button" class="btn round-button dropdown-toggle mrg-tp pull-right" data-toggle="dropdown" (click)="todayTask()">Show Today's Task Only</button>
+                  <button type="button" (click)="getId(i)" data-toggle="modal" data-target="#addTaskModal" class="btn round-button pull-right right-btn">Add Task</button>
+                </div> -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

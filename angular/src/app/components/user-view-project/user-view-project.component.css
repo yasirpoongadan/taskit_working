@@ -1,0 +1,57 @@
+.task {
+    background: #dadada;
+    width: 100%;
+    padding: 6px 0;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+.task h5 {
+
+    padding-top: 6px;
+    display: -webkit-inline-box;
+}
+.taskedit {
+    border-left: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+}
+.task ul li {
+    width: auto;
+    float: left;
+    padding: 8px;
+}
+.module{
+    background: #fbf6f1;
+    width: 100%;
+    padding: 6px 0;
+    display: inline-block;
+    margin-bottom: 6px
+}
+.module ul li {
+    width: auto;
+    float: left;
+    padding: 8px;
+}
+
+.taskedit2 {
+    border-left: 1px solid #f5f0f0;
+    display: inline-block;
+    width: 100%;
+    margin-top: 5px;
+}
+.inln{
+    display: inline;
+}
+.pro-lbl{
+    min-width: 132px;
+    margin-bottom: 15px;
+}
+.abst{    width: 21%;
+    float: right;}
+    .tsk-lbl{
+        color: #828282;
+    }
+    .tsk-dt{
+color : black !important
+    }

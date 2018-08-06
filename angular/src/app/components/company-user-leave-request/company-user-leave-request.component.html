@@ -1,0 +1,235 @@
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+      
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                 <!-- sidebar-->
+               
+                 <company-sidebar></company-sidebar> 
+                 <!-- end sidebar-->
+            </div>
+            
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <company-topbar></company-topbar> 
+                
+                    <!-- end topbar-->
+                
+                
+                <div class="user-dashboard">
+                    <h2>Request Management</h2>
+                    <ul class="breadcrumb">
+                      <li><a routerLink="/">Leave Request Management</a></li>
+                      <li><a routerLink="/company-leave-request-list">Leave Request Management List</a></li>
+                      
+                      <li>Leave Request User View</li>
+                    </ul>
+                   
+                    <div class="row">
+                    <!-- <div *ngFor="let myTask of myTasks; let i = index">            -->
+              <div class="col-md-5 col-sm-12 col-xs-12 gutter ">
+               <div  class="white" >
+            
+                 <div class="photo">
+                   <img *ngIf="leavedata?.tbl_user_profile.tbl_login.profile_image == ''" src="./assets/images/user1.png">
+                   <img *ngIf="leavedata?.tbl_user_profile.tbl_login.profile_image != ''"  src="../assets/profile_upload/{{leavedata?.tbl_user_profile.tbl_login.profile_image}}">
+                 </div>
+                 <div class="clearfix"></div>
+                 <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Name</label></div>
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{leavedata?.tbl_user_profile?.f_name}}</label></div>
+                 </div>
+                
+                 <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Leave Start Date</label></div>
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{leavedata?.start_date}}</label></div>
+                 </div>
+                 
+                 <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Leave End Date</label></div>
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{leavedata?.end_date}}</label></div>
+                 </div>
+                 
+                 <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Leave Hour</label></div>
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{leavedata?.leave_hrs}}</label></div>
+                 </div>
+              <div *ngIf="leavedata?.request_status == 'Rejected'">
+                <div class="form-group">
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Reject Reason</label></div>
+                   <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{leavedata?.reject_reason}}</label></div>
+                 </div>
+                </div>
+                <div *ngIf="leavedata?.request_status == 'Accepted'">
+                    <div class="form-group">
+                       <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Status</label></div>
+                       <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">Accepted</label></div>
+                     </div>
+                    </div>
+                 <div class="col-md-4">
+                    <button *ngIf="leavedata?.request_status == 'Pending'" class="btn round-button"  (click)="getacceptId(leavedata.id)" data-toggle="modal" data-target="#acceptModal" type="submit">Accept</button>
+                 
+                    <button *ngIf="leavedata?.request_status == 'Pending'" class="btn round-button" (click)="getrejectId(leavedata.id)" data-toggle="modal" data-target="#rejectModal" type="submit">Reject</button>
+                  </div>
+  
+              </div>
+              </div>
+                         <div class="col-md-7 col-sm-12 col-xs-12 gutter">
+                          <div *ngFor="let myTask of myTasks; let i = index">    
+                    <div class="white">
+                 <div class="col-md-12 mrg-2">
+                   <div class="col-md-4">
+                     <label>
+                       Project Name
+                     </label>
+                   </div>
+                   <div class="col-md-4 col-xs-5">
+                     <!-- <input class="effect-1 style" type="text" placeholder="44:00 Hr"> -->
+                     <span class="focus-border">{{myTask?.project_name}}</span>
+                   </div>
+
+                 </div>
+                 <div class="col-md-12 mrg-2">
+                  <div class="col-md-4">
+                    <label>
+                      Total Hours
+                    </label>
+                  </div>
+                  <div class="col-md-4 col-xs-5">
+                    <!-- <input class="effect-1 style" type="text" placeholder="44:00 Hr"> -->
+                    <span class="focus-border">{{sum}}</span>
+                  </div>
+
+                </div>
+                <div *ngFor="let task of myTasks[i].tbl_project_modules; let j = index ">
+                  
+                    <!-- <div *ngFor="let task1 of task; "> -->
+                    <div class="col-md-12 col-xs-12 pull-right">
+                   <div class="task">
+                     <div class="col-md-8 col-xs-7">
+                       <h5>{{task?.module_name}}</h5>
+                     </div>
+                     <div class="col-md-4 col-xs-5">
+                       <ul class="taskedit">
+                          <li>{{task?.ttlModHour}} Hr</li>
+                         <!-- <li>{{getHours(myTask.tbl_project_tasks)}}</li> -->
+                         <!-- <li class="pull-right"><a href=""><i class="fa fa-close" aria-hidden="true"></i></a></li>
+                         <li class="pull-right"><a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a></li> -->
+                         
+                       </ul>
+                     </div>
+                   </div>
+                 </div><!---task end-->
+                 <div *ngFor="let task1 of myTasks[i].tbl_project_modules[j].tbl_project_tasks; let y = index">
+                 <div class="col-md-11 col-xs-12 pull-right">
+                    <!-- <div *ngFor="let task of myTasks[i].tbl_project_modules; "> -->
+                        <!-- <div ngFor="let task1 of myTasks[i].tbl_project_tasks[j].tbl_task_status_assocs; let y = index"> -->
+                   <div class="task hash">
+                    <div class="col-md-12">
+                      <h5 class="mrgn-t">{{task1.task_name}}</h5>
+                    </div> 
+                     <div class="col-md-12 col-xs-12">
+                       <ul class="">
+                          <!-- <li>{{task1?.task_name}}</li> -->
+                          <!-- <br> -->
+                         <!-- <li>assign person</li> -->
+                         <li><label for="" class="tsk-lbl"></label><h5 class="tsk-dt"></h5></li>
+                         <li><label for="" class="tsk-lbl">Hours: </label><h5 class="tsk-dt">{{task1?.planned_hour + task1?.buffer_hour}} Hrs</h5></li>
+                         <li><label for="" class="tsk-lbl">Start Date: </label><h5 class="tsk-dt">{{task1?.planned_start_date_time | date:'EEE, d MMM,y'}}</h5></li>
+                         <li><label for="" class="tsk-lbl">End Date: </label><h5 class="tsk-dt">{{task1?.planned_end_date_time | date:'EEE, d MMM,y'}}</h5></li>
+                          <!-- <li class="pull-right"><a href=""><i class="fa fa-close" aria-hidden="true"></i></a></li>
+                         <li class="pull-right"><a href=""><i class="fa fa-pencil" aria-hidden="true"></i></a></li>  -->
+                         
+                       </ul>
+                     </div>
+                
+                     
+ 
+                     <div class="clearfix"></div>
+                    </div>
+                  </div>
+                   </div>
+                 <!-- </div> -->
+
+
+                </div>
+                                 
+                             </div>
+
+                            </div>
+
+
+                         </div>
+
+
+
+                     </div>
+
+                </div>
+                
+            </div>
+<!-- --------------------------------------------- rejectModal ----------------------------------------------------------------- -->
+    
+    <div id="rejectModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+    
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"  #closeBtn>&times;</button>
+              <h4 class="modal-title">Reject Reason </h4>
+            </div>
+            <form  role="form"  #f="ngForm" (ngSubmit)="Reject(reason);" novalidate>
+            <div class="modal-body delete-popup">
+              
+                  <textarea matInput placeholder="Reject reason" name ="reason" [(ngModel)]="reason.reject_reason"  required></textarea>
+            
+    
+            </div>
+    
+            <div class="modal-footer">
+                <button type="submit" [disabled]="btnDisbled" class="btn round-button">Reject</button>
+            </div>
+          </form>
+          </div>
+    
+        </div>
+      </div>
+      <!-----------------------------------------------------------------rejectModal-------------------------------------->
+      <!-- --------------------------------------------- acceptModal ----------------------------------------------------------------- -->
+    
+    <div id="acceptModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+    
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"  #closeBtn1>&times;</button>
+              <h4 class="modal-title">Accept Leave </h4>
+            </div>
+            <form  role="form"  #f="ngForm" (ngSubmit)="Accept(accept);" novalidate>
+                <div class="modal-body delete-popup">
+                    <!-- <i class="fa fa-exclamation"></i> -->
+          
+          
+                    <h4 class="textalign">Are you sure?</h4>
+          
+                  </div>
+    
+            <div class="modal-footer">
+                <button type="submit" [disabled]="btnDisbled" class="btn round-button">Accept</button>
+            </div>
+          </form>
+          </div>
+    
+        </div>
+      </div>
+      <!-----------------------------------------------------------------acceptModal-------------------------------------->
+                <!-- footer-->
+                <company-footer></company-footer>
+       <!-- end footer-->
+        </div>
+         </div>
+        <!-- Modal -->
+     </body>

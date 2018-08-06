@@ -1,0 +1,209 @@
+
+
+    <body class="home" >
+        <div class="container-fluid display-table">
+            <div class="row display-table-row">
+      
+                <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                    <!-- sidebar-->
+      
+                    <company-sidebar></company-sidebar>
+                    <!-- end sidebar-->
+                </div>
+      
+                <div class="col-md-12 col-xs-12">
+                    <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                    <!-- topbar-->
+                    <company-topbar></company-topbar>
+                    <!-- end topbar-->
+      
+      
+                    <div class="user-dashboard">
+                        <!-- <h1>Hello, JS</h1> -->
+                        <h2>Request Management</h2>
+                        <ul class="breadcrumb">
+                          <li>
+                            <a>Request Management</a>
+                          </li>
+
+
+                          <li>New Task Request list </li>
+                        </ul>
+                        <div class="row">
+                          
+                            <div class="col-md-12 col-sm-5 col-xs-12 gutter ad-tp dash-tbl" >
+                              <div class="col-md-12 spinner-cont" *ngIf="showSpinner">
+                                  <app-spinner  class="tbl-spnner"></app-spinner>
+                              </div>
+      
+                                <div class="example-header" >
+                                    <mat-form-field class="mat-fltr">
+                                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                    </mat-form-field>
+                                </div>
+                             
+                          <div class="example-container mat-elevation-z8 ">
+                          <mat-table #table [dataSource]="dataSource" matSort>
+            
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="slno">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> SL NO. </mat-header-cell>
+                              <mat-cell *matCellDef="let row; let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}} </mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="user_name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>NAME</mat-header-cell>
+                                <!-- <mat-cell *matCellDef="let row">
+                                  <div class="user" *ngIf="profilCheck(row?.tbl_new_task_request?.tbl_user_profile?.tbl_login?.profile_image); else image"><i class="fa fa-user"></i></div>
+                                  <ng-template #image>
+                                      <div class="user" ><img src="./assets/images/sign.jpg"></div>
+                                  </ng-template>
+                                </mat-cell> -->
+                                <mat-cell *matCellDef="let row"> {{row.tbl_new_task_request.tbl_user_profile.f_name}} </mat-cell>
+                              </ng-container>
+
+                            <!-- Theme Name -->
+                            <ng-container matColumnDef="name">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> PROJECT NAME  </mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row?.tbl_new_task_request?.tbl_project_module?.tbl_project?.project_nam}} </mat-cell>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="task name">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> TASK NAME </mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row?.tbl_new_task_request?.task_name}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="reqstatus">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </mat-header-cell>
+                              <mat-cell *matCellDef="let row"> {{row?.tbl_new_task_request?.request_status}} </mat-cell>
+                            </ng-container>
+                            <!-- Progress Column -->
+                            <!-- <ng-container matColumnDef="mybid">
+                              <mat-header-cell *matHeaderCellDef mat-sort-header> Your Bids </mat-header-cell>
+                              <mat-cell *matCellDef="let row">  -->
+                                
+                                <!-- {{row.status}} -->
+                                <!-- {{row.h_font_family }} -->
+                                <!-- <p *ngFor="let bid of row.mybid">{{row.h_font_family }} : {{bid.date_time | date: 'dd-MM-yyyy h:mm a'}}</p> -->
+                              <!-- </mat-cell>
+                            </ng-container> -->
+                          
+                            <!-- ID Column -->
+                            <!-- <ng-container matColumnDef="topbid">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Top Bid </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> {{row.progress_text_color }} </mat-cell>
+                              </ng-container> -->
+                          
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> ACTION </mat-header-cell>
+                                <mat-cell *matCellDef="let row"> <button mat-icon-button [matMenuTriggerFor]="menu">
+                                  <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                  
+                                  <!-- <button mat-menu-item [routerLink]="['/edit-theme/',row._id]">
+                                    <mat-icon>mode_edit</mat-icon>
+                                    <span>Edit</span>
+                                  </button> -->
+                                  <button mat-menu-item   [routerLink]="['/company-task-manage', row?.tbl_new_task_request.id]"> 
+                                      <mat-icon class="mat-menu-icn"><i class="material-icons mat-assign-icn">visibility</i></mat-icon>
+                                      <span>View</span>
+                                    </button>
+                                </mat-menu>
+                                 </mat-cell>
+                              </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </mat-row>
+                         
+                          </mat-table>
+                          <div class="col-md-12 noItemFound" *ngIf="existStatus">
+                              <div class="col-md-4 col-md-offset-4">
+                                  <mat-toolbar   class="back-color">No item found!</mat-toolbar>
+                              </div>
+                              </div>
+                      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                          </div>
+                          </div>
+                        </div>
+                       
+                    </div>
+                   
+      
+                </div>
+                <!-- footer-->
+                <!-- <admin-footer></admin-footer> -->
+                <!-- end footer-->
+            </div>
+        </div>
+        <!-- Modal -->
+      
+      
+      
+        <div id="assignModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+      
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title"></h4>
+                </div>
+                <!-- <div class="modal-header"> -->
+                <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                <!-- </div> -->
+                <div class="modal-body delete-popup">
+                  <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <label class="modal-lft-lbl">Team Name:</label> 
+                            </div>
+                            <div class="col-md-7">
+                                <label id="team-nm" class="modal-lft-lbl">{{teamName}}</label>
+                
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4 "><label class="modal-lft-lbl">Team Members :</label></div>
+                            <div class="col-md-7 ">
+                              <mat-form-field class="inputfileds"> 
+                                <mat-select name='selected' multiple [(ngModel)]="teamMembers" (ngModelChange)="memberSelect($event)">
+                                  <mat-option [value]="member.id" *ngFor="let member of members; let i=index" >{{member.f_name}} {{member.l_name}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                        </div>
+      
+                        <div class="col-md-12">
+                            <div class="col-md-4 "><label class="modal-lft-lbl">Team Head :</label></div>
+                            <div class="col-md-7 ">
+                              <mat-form-field class="inputfileds">
+                                <mat-select name='selected2'  [(ngModel)]="teamHead" (ngModelChange)="headSelect($event)">
+                                  
+                                    <mat-option *ngFor="let member of selectedTeamMembers;" [value]="member.id" >{{member.f_name}} {{member.l_name}}</mat-option>
+                                  
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                          {{errMessage}}
+                        </div>
+                      </div>
+                      
+                  </div>
+                  
+      
+                </div>
+      
+                <div class="modal-footer">
+                  <app-spinner *ngIf="spinner"></app-spinner>
+                  <button *ngIf="!spinner" type="button" (click)="assignTeam()" class="btn round-button" >Assign</button>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+      </body>

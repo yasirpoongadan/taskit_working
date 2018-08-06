@@ -1,0 +1,19 @@
+body {
+    background: #f7f7f7;
+
+}
+.panel-danger{    border: none;
+    margin-top: 20%;}
+    .panel-footer{background-color:#fff;}
+    .panel-danger>.panel-heading{    border: none;
+        color: #fff;
+        background-color: #f37600;
+        text-align: center;
+        font-size: 28px;
+        padding: 54px;}
+        .panel-body{    padding: 30px;
+            font-size: 22px;
+            line-height: 31px;
+            text-align: center;}
+            .panel-footer {
+                padding: 28px 15px;text-align:center;}

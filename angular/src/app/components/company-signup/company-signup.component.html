@@ -1,0 +1,96 @@
+<body class="logn">
+    <div class="row">
+	   <div class="col-md-8">
+			<div class="row">
+				<div class="logn-img">
+					<img src="./assets/images/sign.jpg" class="img-responsive"/>
+					<div class="paragraph">
+						<div class="col-md-12" style="text-align:center;">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt bibendum malesuada. Fusce tincidunt nibh quis nisi tristique, sed ultrices lorem aliquam. Nam facilisis posuere vehicula. Integer tempus rhoncus volutpat.
+						</div>
+					</div>
+				</div>
+			</div>
+	   </div>
+	   <div class="col-md-4 bgz">
+			<h3>Registration</h3>
+			<section>
+				<form id="theForm" class="simform" autocomplete="off">
+					<div class="text-center" *ngIf="registr">
+					<label>{{ssMsg}}</label>						
+					</div>
+					<div class="text-center" *ngIf="showLoader">
+						<app-spinner></app-spinner>
+					</div>
+					<div class="simform-inner" *ngIf="!registr">
+						<div  *ngFor="let item of questions;let i=index;" class="nxt-cntainer">
+							<ng-container *ngIf="counter == i">
+								<label class="inp-hd" >{{item.question}}</label>
+								<input type="text" [attr.maxlength]="item.length" *ngIf="item.type == 'text' else password" [(ngModel)]="item.ans" name="item.ans" [focus]="counter == i" >
+								<!-- <input type="text" [attr.maxlength]="item.length" *ngIf="item.type == 'text' else password" [(ngModel)]="item.ans" name="item.ans" [myFocus]="counter == i"  > -->
+								<!-- [attr.autofocus]="counter == i"  -->
+								<!-- <input type="text" id="xx" [hidden]="xd"placeholder="hhh" [attr.maxlength]="item.length"   [attr.autofocus]="true">
+								<input type="text" id="ass" [hidden]="!xd" placeholder="sss"  >
+								{{counter}}
+								{{i}} -->
+								<ng-template #password>
+									<input type="password" *ngIf="item.type == 'password' else multiple" [(ngModel)]="item.ans" name="item.ans" autofocus>
+									<ng-template #multiple>
+											<select class="inp"  [(ngModel)]="item.ans" name="item.ans">
+													<ng-container *ngIf="i == 3 else size" >
+														<ng-container *ngFor="let c of industry">
+																<option  value="{{c.id}}">{{c.industry}}</option>
+				
+														</ng-container>
+														
+													</ng-container>
+													<ng-template #size>
+															<ng-container *ngFor="let s of cmpSize">																
+																<option  value="{{s.id}}">{{s.size_range}}</option>
+															</ng-container>
+													</ng-template>
+													<!-- <option>Select Company Size</option>
+													<option>1-10</option>
+													<option>1-20</option> -->
+												</select>
+									</ng-template>
+									
+								</ng-template>
+							<button *ngIf="counter != 8" class="btn-nxt" type="submit" (click)="validate(i)" [ngClass]="{'inp-top': counter==6}"><i class="la la-arrow-right"></i></button>
+							<button *ngIf="counter != 0" class="btn-nxt lft-cls" type="submit" (click)="subCount(i)" [ngClass]="{'inp-top': counter==6}"><i class="la la-arrow-left"></i></button>		
+							</ng-container>
+						</div>
+						<div class="progress">
+								<div class="progress-bar" role="progressbar" aria-valuenow="70"
+								aria-valuemin="0" aria-valuemax="100" [style.width.%]="progressBarWidth">
+								  <span class="sr-only">70% Complete</span>
+								</div>
+							  </div>
+						<div class="errMsg">{{errMessage}}</div>
+								  
+						<div class="errMsg clr-grn" *ngIf="counter == 8|| counter == 7">{{passMessage}}</div>
+							  
+						
+						<button *ngIf="counter == 8" class="submit-form trans-clr" type="submit" (click)="register()"><i class="la la-arrow-right"></i></button>
+						
+					</div><!-- /simform-inner -->
+					<span class="final-message"></span>
+				</form><!-- /simform -->	
+				<a routerLink="/home" class="hm-lnk">Back to Home</a>		
+			</section>
+			
+			
+			
+		</div>
+			
+		  
+	   
+   </div>
+
+    <!-- Modal -->
+ 
+		<script>
+			
+		</script>
+
+</body>

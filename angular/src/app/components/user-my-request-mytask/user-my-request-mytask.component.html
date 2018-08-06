@@ -1,0 +1,134 @@
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+      
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                 <!-- sidebar-->
+               
+                 <user-sidebar></user-sidebar> 
+                 <!-- end sidebar-->
+            </div>
+            
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <user-topbar></user-topbar> 
+                
+                    <!-- end topbar-->
+                
+                
+                <div class="user-dashboard">
+                        <h2>My Request</h2>
+                        <ul class="breadcrumb">
+                          <li><a href="#">My Request</a></li>
+                          
+                          
+                          <li>My New Task Request list </li>
+                        </ul>
+                    <div class="row">
+     <!-----------------------------------------------------------------table-------------------------------------->
+   
+  
+   
+  
+  <div class="col-md-12">
+      <div class="row">
+      <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner" >
+          <div class=""  >
+              <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+            <animateTransform attributeType="xml"
+              attributeName="transform"
+              type="rotate"
+              from="0 25 25"
+              to="360 25 25"
+              dur="0.6s"
+              repeatCount="indefinite"/>
+            </path>
+          </svg>
+      </div>
+      </div> -->
+      
+  
+      <div class="col-md-12 optionz">
+          <div class="row">
+            <div class="col-md-6">
+                <div class="example-header">
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                  </div>
+            </div>
+   
+        </div>
+      </div>
+  
+  
+  
+         
+      <div class="example-container mat-elevation-z8 ">
+            <div *ngIf="preloader">
+                    <app-spinner></app-spinner>
+                </div>
+
+    <mat-table [dataSource]="dataSource" matSort>
+   <!-- Name Column -->
+   <ng-container matColumnDef="slno">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Sl_No </mat-header-cell>
+      <mat-cell *matCellDef="let row;let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}}</mat-cell>
+    </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="taskname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>TASK NAME </mat-header-cell>
+        <mat-cell *matCellDef="let row">  {{row.task_name}}</mat-cell>
+      </ng-container>
+  
+     <!-- Progress Column -->
+     <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> DATE </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.createdAt | date:'EEE, d MMM,y'}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="time">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> REQUESTED TIME </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.planned_hours+row.buffer_hours}} Hr</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.request_status}}  </mat-cell>
+      </ng-container>
+  
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+    <div class="col-md-15 ">
+        <!-- <div *ngIf="showSpinner" class="deletespinner">
+            <mat-spinner></mat-spinner>
+           </div> -->
+    </div>
+    <div class="col-md-12 noItemFound" *ngIf="notExist">
+        <div class="col-md-4 col-md-offset-4">
+            <mat-toolbar   class="back-color">No item found!</mat-toolbar>
+        </div>
+      </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+  
+  
+  </div>
+  </div>
+  
+  
+                    </div>
+                </div>
+                
+            </div>
+                <!-- footer-->
+                <user-footer></user-footer>
+       <!-- end footer-->
+        </div>
+         </div>
+        <!-- Modal -->
+     </body>

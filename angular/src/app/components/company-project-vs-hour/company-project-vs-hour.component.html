@@ -1,0 +1,18 @@
+<div>
+    <h1>Project Vs Task Hours</h1>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="widget">
+                <!-- <div id="chart" class="chart-container">
+            
+                </div> -->
+               
+                  <div *ngIf="exists else empty" id="stacked-bar-chart-container1">
+                    </div>
+                    <ng-template #empty>
+                            <h4 class="no-dtx">No data to display!</h4>
+                    </ng-template>
+            </div>
+        </div>
+    </div>
+    

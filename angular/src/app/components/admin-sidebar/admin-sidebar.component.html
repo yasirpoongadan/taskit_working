@@ -1,0 +1,40 @@
+<div class="logo">
+    <a><img src="./assets/images/logo.jpg" alt="" class="">
+   
+</a>
+</div>
+
+<nav class="navbar navbar-default">
+
+<!-- Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+ 
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse navi" id="bs-example-navbar-collapse-1">
+    <ul class="zx nav navbar-nav">
+        <li  [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/admin-dashboard"><i class="fa fa-desktop" aria-hidden="true"></i><span class="">Dashboard</span></a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/admin-company"><i class="fa fa-building-o"></i> Company</a></li>
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/admin-plan"><i class="fa fa-file-text" aria-hidden="true"></i><span class="">Plan</span></a></li>
+    </ul>
+ 
+ 
+</div><!-- /.navbar-collapse -->
+
+</nav>
+<div class="footerlink">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    <i class="fa fa-twitter" aria-hidden="true"></i>
+    <i class="fa fa-google" aria-hidden="true"></i>
+    <p>Copyright 2018  All Rights Reserved.</p>
+   </div>

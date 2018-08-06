@@ -1,0 +1,178 @@
+<body class="home">
+    <div class="container-fluid display-table">
+      <div class="row display-table-row">
+  
+        <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+          <!-- sidebar-->
+  
+          <user-sidebar></user-sidebar>
+          <!-- end sidebar-->
+        </div>
+  
+        <div class="col-md-12 col-xs-12">
+          <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+          <!-- topbar-->
+          <user-topbar></user-topbar>
+          <!-- end topbar-->
+  
+  
+          <div class="user-dashboard">
+            <!-- <h1>Hello, JS</h1> -->
+            <div class="row">
+                <ul class="breadcrumb text-left">
+                    <li><a routerLink="/user-projects">Projects</a></li>
+                    
+                    
+                    <li>Project Details</li>
+                  </ul>
+              <div class="col-md-12 col-sm-12 col-xs-12 gutter ">
+                <div class="white">
+  
+                  <div class="col-md-6" *ngIf="showData">
+                    
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">Project Name</label>
+                        <p for="" class="inln">{{project[0].project_name}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">Project Code</label>
+                        <p for="" class="inln">{{project[0].project_code}}</p>
+                    </div>
+                    <!-- <div class="col-md-12">
+                        <label for="">Team Leader</label>
+                        <p for="">{{project[0].project_name}}</p>
+                    </div> -->
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">Team Members</label>
+                        <p for="" class="inln">{{project[0]?.project_name}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">Start Date</label>
+                        <p for="" class="inln">{{project[0]?.planned_start_date| date:'EEE, d MMM,y'}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">End Date</label>
+                        <p for="" class="inln">{{project[0]?.planned_end_date| date:'EEE, d MMM,y'}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="" class="pro-lbl">Status</label>
+                        <p for="" class="inln">{{project[0]?.status}}</p>
+                    </div>
+
+
+                  <div class="col-md-12 col-xs-12 pull-right">
+                    <ng-container  *ngFor="let item of project[0].tbl_project_modules; let i=index">
+                        <div class="module">
+                            <div class="col-md-9 col-xs-7">
+                              <h5>{{item.module_name}}</h5>
+                            </div>
+                            <div class="col-md-3 col-xs-5">
+                              <ul class="taskedit" >
+                                <li>{{item.total_hour}}Hrs</li>
+                                
+                              </ul>
+                            </div>
+                          </div>
+                          <ng-container *ngFor="let i of item.tbl_project_tasks">
+                              <div class="task assigned relt" >
+                                  <div class="col-md-12 col-xs-12 martop">
+                                    <a data-toggle="tooltip" matTooltip="Task"> 
+                                        <label for="" class="tsk-lbl">Task : </label>    
+                                        <h5 class="tsk-dt">{{i.task_name}}</h5>                              
+                  
+                                    </a>
+                                    <div class="clearfix"></div>
+                                      <a data-toggle="tooltip" matTooltip="Planned start date">
+                                        <label for="" class="tsk-lbl">Planned start date : </label>
+                                        <h5 class="tsk-dt">{{i.planned_start_date_time | date:'EEE, d MMM,y'}}</h5>
+                                      </a>
+                                 
+                                    <a data-toggle="tooltip" matTooltip="Planned end date">
+                                      <label for="" class="tsk-lbl">Planned end date: </label>
+                                      <h5 class="tsk-dt">{{i.planned_end_date_time | date:'EEE, d MMM,y'}} hrs</h5>
+                                    </a>
+                                
+                                    <a data-toggle="tooltip" matTooltip="Status">
+                                        <label for="" class="tsk-lbl" *ngIf="task?.end_date_time">Status: </label>                                    
+                                      <h5 class="tsk-dt">{{i.status}}</h5>
+                                    </a>
+
+
+                                    <div class="abst">
+                                        <a data-toggle="tooltip" matTooltip="Total hour">
+                                                                        
+                                          <h5 class="tsk-dt">  {{i.planned_hour+i.buffer_hour}}Hrs</h5>
+                                        </a>
+                                      
+                                    </div>
+                                  </div>
+                                 
+                                  <div class="clearfix"></div>
+                                </div>
+
+
+
+                              <!-- <div class="col-md-10 pull-right">
+                                <div class="row">
+                                    <div class="task" >
+                                        <div class="col-md-9 col-xs-7">
+                                          <span>Task : </span>
+                                          <h5>{{i.task_name}}</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-7">
+                                            <span>Planned start date : </span>
+                                          <h5>{{i.planned_start_date_time | date:'EEE, d MMM,y'}}</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-7">
+                                            <span>Planned end date: </span>
+                                          <h5>{{i.planned_end_date_time | date:'EEE, d MMM,y'}}</h5>
+                                        </div>
+                                        <div class="col-md-9 col-xs-7">
+                                          <h5>{{i.status}}</h5>
+                                        </div>
+                                        <div class="col-md-3 col-xs-5">
+                                          <ul class="taskedit2">
+                                            <li>{{i.planned_hour+i.buffer_hour}}Hrs</li>
+                                            
+                                          </ul>
+                                        </div>
+                                      </div>
+                                </div>
+                                  
+                                </div> -->
+                          </ng-container>
+                          
+                          
+                    </ng-container>
+                      
+                    </div>
+                  </div>
+                  
+                <div class="text-center">
+                    <app-spinner *ngIf="spinner"></app-spinner>
+  
+                  </div>
+                  
+                </div>
+                <!--white-->
+              </div>
+  
+  
+  
+            </div>
+  
+  
+          </div>
+          <!-- footer-->
+          <!-- <admin-footer></admin-footer> -->
+          <!-- end footer-->
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+  
+  
+  
+  
+    <!--delete modal------>
+  </body>

@@ -1,0 +1,15 @@
+
+.tasklabel{       background: #efefef;
+    padding: 25px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size : 12px;
+  }
+  h1{text-align:center;}
+  .bg-g{background:#17a88f;color:#fff; padding: 10px;}
+  .bg-hash{background:#E9E9E9;padding: 10px;;}
+  .bg-hash select{background:none;border:none;width:100%;}
+  .total{font-weight:700;padding-top: 20px; line-height: 36px;}

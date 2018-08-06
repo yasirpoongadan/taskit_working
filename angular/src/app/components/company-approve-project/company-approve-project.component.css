@@ -1,0 +1,155 @@
+.panel-body {
+    padding: 50px;
+}
+.mrg-top label{padding-top: 20px;}
+.round-button{
+    float:none !important;
+  }
+  .center-bt {
+      margin: 20px auto 10px auto;
+      float: none;
+  }
+ .no-edit {font-weight: 400 !important;}
+ .line-breaker {
+    white-space: pre-line;
+  }
+
+
+  .task{background:#fbf6f1;width:100%;padding:6px 0;display: inline-block;margin-bottom:6px;}
+  button, input, optgroup, select, textarea{outline:none !important;}
+  .taskedit{border-left:1px solid #ccc;    display: inline-block;width:100%;margin-top: 5px;}
+  .task ul li{width:auto;float:left;padding: 8px;}
+      a{color:#111;}
+  .task h5{padding-top:13px;padding-top: 6px;}
+  .hash{background:#f7f6f4;}
+  .round-button {
+      border-radius: 20px;
+      margin: 0;
+      float: left;
+      background: #f37600;
+      color: #fff;
+      padding: 7px 15px;
+      -webkit-transition: background 2s;
+      transition: background 2s;
+      margin-bottom:15px;
+  }
+  .round-button:hover {
+      background: #ffaa05;
+      color: #fff;
+  }
+  .dropdown ul.dropdown-menu:before {
+      content: "";
+      border-bottom: 10px solid #fff;
+      border-right: 10px solid transparent;
+      border-left: 10px solid transparent;
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      z-index: 10;
+  }
+  .round-button:hover, .round-button:focus, .round-button.focus{color:#fff;}
+  button, input, optgroup, select, textarea{outline:none;}
+  .effect-1 ~ .focus-border{position: absolute; bottom: 0; left: 15px; width: 0; height: 2px;background-color: #bba28b; transition: 0.4s;right:15px;}
+  .effect-1:focus ~ .focus-border{width: 95%; transition: 0.4s;}
+  .effect-1{border: 0; padding: 7px 0; border-bottom: 1px solid #ccc;width:100%;}
+  .style{width:100%;}
+  label{font-size:15px;
+    color:#4a4a4a;
+    font-weight:bold !important;
+    padding:5px 0;}
+  .mrg-2{margin-bottom:10px;}
+  .dropdown-menu > li > a {
+      display: block;
+      padding: 3px 20px;
+      clear: both;
+      font-weight: normal;
+      line-height: 25px;
+      color: #333333;
+      white-space: nowrap;
+  }
+  .addmodule {
+      padding: 20px 10px!important;
+      min-width: 357px;
+      right: 0px;
+      left: inherit;
+  }
+  .style{border:none;border-bottom: 1px solid #ccc;}
+  .white {
+      background: #ffffff none repeat scroll 0 0;
+      
+      display: inline-block;
+      padding: 33px 25px;
+      width: 100%;
+  }
+  .btn-file{padding:0;}
+  .white {
+      background: #ffffff none repeat scroll 0 0;
+      
+      display: inline-block;
+      padding: 33px 25px;
+      width: 100%;
+      margin-bottom:20px;
+  }
+  .center-bt{margin:20px auto 10px auto;float:none;}
+  @media only screen and (max-width : 767px) {
+  .mrg-2 {
+      margin-bottom: 37px;
+  }
+  
+  .task ul li{    padding: 2px;}	
+  .addmodule{    min-width: 274px;}
+  }
+  .round-button{float:inherit !important;}  
+  .right-btn{float:right !important;margin-left: 15px;}
+
+
+ .dwnload{ background: #f39f00;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  color: #fff;
+  font-weight: bold;
+  clear: left;
+  margin-right: 10px;
+}
+.mr-top{margin-top:20px;}
+.modal-content{border-radius:0;box-shadow:none;}
+.modal-header {
+    padding: 7px 15px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #da524f;
+}
+.modal-title {
+    margin: 0;
+    line-height: 26px;
+    font-size: 15px;
+    color: #fff;
+}
+.modal{top:0;}
+.modal-header {
+    padding: 10px 30px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #fe6a07;
+  }
+  .modal-content{
+  box-shadow:none;
+  border-radius: 9px;
+  overflow: hidden;
+  
+  }
+  .modal-title{color:#fff;}
+  .modal-body{    padding:20px 30px;}
+  .modal-body input{border:none;}
+  .modal-body input{padding: 0;}
+  .pad-top{padding-top:20px;}
+  .wdth{width:100% !important;}
+  .brd{    border: none;
+    height: 54px;}
+.prepared li{float: 
+left;width:auto;text-align:left;    line-height: 26px;}
+.all-buttons{display: flex;}
+.round-button{margin-right: 10px;}
+.line-under{
+    text-decoration: underline;
+}

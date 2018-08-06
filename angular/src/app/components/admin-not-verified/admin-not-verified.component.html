@@ -1,0 +1,174 @@
+
+  
+  <!-- <p>You selected: {{selected}} </p> -->
+
+  <div class="col-md-12">
+    <div class="row">
+    <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner" >
+        <div class=""  >
+            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+        <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+          <animateTransform attributeType="xml"
+            attributeName="transform"
+            type="rotate"
+            from="0 25 25"
+            to="360 25 25"
+            dur="0.6s"
+            repeatCount="indefinite"/>
+          </path>
+        </svg>
+    </div>
+    </div> -->
+    
+
+    <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-10">
+              <div class="example-header">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+          </div>
+          <div class="col-md-2">
+              <div *ngIf="all_value">
+              <mat-form-field class="filter"> 
+                  
+                    <mat-select  (change)="refresh()" [(value)]="selected">
+                      <!-- <mat-option>None</mat-option> -->
+                      <mat-option value="all">All</mat-option>
+                      <mat-option value="Active">Active</mat-option>
+                      <mat-option value="Block">Block</mat-option>
+                      <mat-option value="Delete">Delete </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!--    
+          <div class="example-header" >
+              <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+              </mat-form-field>
+          </div> -->
+       
+    <div class="example-container mat-elevation-z8 ">
+  <mat-table [dataSource]="dataSource" matSort>
+ <!-- Name Column -->
+ <ng-container matColumnDef="slno">
+    <mat-header-cell *matHeaderCellDef >Sl_No </mat-header-cell>
+    <mat-cell *matCellDef="let row;let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}} </mat-cell>
+  </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="cmp_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>COMPANY NAME </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.cmp_name}} </mat-cell>
+    </ng-container>
+
+ <!-- Name Column -->
+ <ng-container matColumnDef="email">
+  <mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL </mat-header-cell>
+  <mat-cell *matCellDef="let row"> {{row.tbl_login.email}} </mat-cell>
+</ng-container>
+  
+   <!-- Progress Column -->
+   <ng-container matColumnDef="contactnumber">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> CONTACT NUMBER </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.contact_no}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="companystatus">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> COMPANY STATUS </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.tbl_login.cmp_status}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> STATUS </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <div *ngIf="row.tbl_login.block_status==false && row.tbl_login.delete_status==false"> Active</div>
+        <div *ngIf="row.tbl_login.block_status==true && row.tbl_login.delete_status==false"> Blocked</div>
+        <div *ngIf=" row.tbl_login.delete_status==true"> Deleted</div>
+      </mat-cell>
+    </ng-container>
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> ACTION </mat-header-cell>
+    <mat-cell *matCellDef="let row">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button *ngIf="row.tbl_login.delete_status==false" (click)="getId(row.tbl_login.id)" data-toggle="modal" data-target="#deleteModal" mat-menu-item >
+                <i class="material-icons">delete</i>
+              <span>Delete</span>
+            </button>
+            <button *ngIf="row.tbl_login.delete_status==true" mat-menu-item disabled>
+              <i class="material-icons">delete_forever</i>
+            <span>Deleted</span>
+          </button>
+            <button *ngIf="row.tbl_login.block_status==false && row.tbl_login.delete_status==false" (click)="blockCompany(row.tbl_login.id)" mat-menu-item>
+                <i class="material-icons">block</i>
+              <span>Block</span>
+            </button>
+            <button *ngIf="row.tbl_login.block_status==true && row.tbl_login.delete_status==false" (click)="unblockCompany(row.tbl_login.id)" mat-menu-item>
+                <i class="material-icons">block</i>
+              <span>Unblock</span>
+            </button>
+          </mat-menu>
+       
+      </mat-cell>
+  </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+  <div class="col-md-15 ">
+      <!-- <div *ngIf="showSpinner" class="deletespinner">
+          <mat-spinner></mat-spinner>
+         </div> -->
+  </div>
+  <div class="col-md-12 noItemFound" *ngIf="notExist">
+      <div class="col-md-4 col-md-offset-4">
+          <mat-toolbar   class="back-color">No item found!</mat-toolbar>
+      </div>
+    </div>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+
+</div>
+</div>
+
+<!-- --------------------------------------------- delete modal ----------------------------------------------------------------- -->
+
+
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete </h4>
+        </div>
+        <!-- <div class="modal-header"> -->
+        <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+        <!-- </div> -->
+        <div class="modal-body delete-popup">
+          <i class="fa fa-exclamation"></i>
+
+
+          <h4 class="textalign">Are you sure?</h4>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" (click)="deleteCompany(id)" class="btn round-button" data-dismiss="modal">Delete</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  

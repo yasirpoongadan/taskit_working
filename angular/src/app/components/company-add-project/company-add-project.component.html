@@ -1,0 +1,103 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <company-topbar></company-topbar>
+        <br>
+        <div class="col-md-12"><h2>Add Project</h2></div>
+        <div class="col-md-5 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+              <!-- <h3>Add Project</h3> -->
+              <div class="row">
+
+                <div class="col-md-5 col-xs-6"><label>Project Name *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <input matInput [(ngModel)]="project.project_name" name="project_name" autofocus required formControlName="project_nameValidation">
+                  </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-5 col-xs-6"><label>Type *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <mat-select name="project_type" [(ngModel)]="project.project_type" required formControlName="project_typeValidation">
+                      <mat-option value="Billable">Billable</mat-option>
+                      <mat-option value="Non-billable">Non-billable</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-5 col-xs-6"><label>Category *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <mat-select [(ngModel)]="project.category_id" name="category_id" required formControlName="category_idValidation">
+                      <mat-option *ngFor="let item of categories" [value]="item.id">
+                        {{ item.category_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="showPMlist" matTooltip="To add a new category, please go to the Project Category by clicking the master settings on the left corner !"><i class="material-icons info-icon">info_outline</i></span>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-5 col-xs-6"><label>Priority *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <mat-select name="priority" [(ngModel)]="project.priority" required formControlName="priorityValidation">
+                      <mat-option value="Low">Low</mat-option>
+                      <mat-option value="Medium">Medium</mat-option>
+                      <mat-option value="High">High</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-5 col-xs-6"><label>Description *:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <textarea matInput [(ngModel)]="project.description" name="description" required formControlName="descriptionValidation"
+                      matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="6"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="clearfix"></div>
+
+                <div *ngIf="showPMlist">
+                  <div class="col-md-5 col-xs-6"><label>Assigned To :</label></div>
+                  <div class="col-md-7 col-xs-6">
+                    <mat-form-field [formGroup]="formGroup">
+                      <mat-select [(ngModel)]="project.pm_id" name="pm_id" required formControlName="pm_idValidation">
+                        <mat-option value="Me">Me</mat-option>
+                        <mat-option *ngFor="let item of pm" [value]="item.login_id">
+                          {{ item.f_name }} {{ item.l_name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <button type="submit" [disabled]="addProjectBtnDisable" (click)="addProject(project)" class="btn round-button center-bt">Submit</button>
+                    <div *ngIf="addProjectSpinner">
+                      <app-spinner></app-spinner>
+                  </div>
+  
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,35 @@
+<!-- <h2>{{title}}</h2> -->
+
+        <!-- <span>Project:</span>
+   <mat-form-field class="filter"> 
+        
+          <mat-select  (change)="refresh()" [(value)]="selected"> 
+         
+            <mat-option value="Select Project">*Select Project</mat-option>
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Block">Block</mat-option>
+            <mat-option value="Delete">Delete </mat-option>
+
+          </mat-select>
+        </mat-form-field> -->
+        <h1>Task Vs Status</h1>
+        <div class="col-md-4 bg-g">*Select Person</div>
+         <div class="col-md-4 bg-hash">
+           <select>
+               <option value="">sd</option>
+               <!-- <option *ngFor="let usr of users" value="{{usr.id}}">{{usr.f_name}} {{usr.l_name}}</option> -->
+           </select>
+         </div> 
+
+<div   class="no-g-data">
+   <!-- <svg  width="960" height="500"></svg> -->
+   <div id="bchart"></div> 
+
+</div>
+   
+<ng-template #empty>
+   <div class="col-md-12 no-g-data">
+       <img src="assets/images/sad.png" alt="sad">
+       <h4>No Data Available!</h4>
+   </div>
+</ng-template>

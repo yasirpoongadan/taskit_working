@@ -1,0 +1,131 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <user-sidebar></user-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <user-topbar></user-topbar>
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+                <div class="col-md-12">
+                        <h2 _ngcontent-c14="">Projects</h2>
+                        <ul _ngcontent-c14="" class="breadcrumb">
+                          <li _ngcontent-c14=""><a _ngcontent-c14="" href="#">Dashboard</a></li>
+                          
+                          
+                          <li _ngcontent-c14="">Projects</li>
+                        </ul>
+                    </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 gutter ">
+              <div class="white" >
+                  <div class="col-md-12" *ngIf="showxData">
+                      <div class="col-md-4">
+                          <mat-form-field>
+                              <mat-select placeholder="Status" (change)="getProjects()" [(value)]="statusSelected">
+                                  <mat-option [value]="'All'" >
+                                      All
+                                  </mat-option>
+                                <mat-option [value]="'Drafted'" >
+                                    Drafted
+                                </mat-option>
+                                <mat-option  [value]="'In Progress'">
+                                    In Progress
+                                </mat-option>
+                                <mat-option  [value]="'Planned'">
+                                    Planned
+                                </mat-option>
+                                <mat-option  [value]="'Completed'">
+                                    Completed
+                                </mat-option>
+                                <mat-option  [value]="'Cancelled'">
+                                    Cancelled
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                      </div>
+                      <div class="col-md-4" >
+                        <mat-form-field>
+                            <mat-select placeholder="Projects" (change)="getSelectedProjects()" [(ngModel)]="ProjectSelected">
+                                <mat-option [value]="'All'" >
+                                    All
+                                </mat-option>
+                                <mat-option [value]="item.id" *ngFor="let item of proSelector    ">
+                                    {{item?.project_name}}
+                                </mat-option>
+                            
+                            </mat-select>
+                        </mat-form-field>
+                            
+                      </div>
+
+                      <div class="col-md-4" >
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Filter" value="" [(ngModel)]="searchTerm">
+                          </mat-form-field>
+                    </div>
+                  </div>
+                <div class="text-center loader-cont">
+                  <app-spinner *ngIf="spinner"></app-spinner>
+
+                </div>
+                <div class="col-md-12" *ngIf="!noItems else noDisp">
+                    <ng-container *ngFor="let i of projects | project:searchTerm">
+                  
+                        <div class="col-md-3  text-center"  >
+                            <div class="pro-container">
+                                <h4 ><strong>{{i?.project_name}}</strong></h4>
+                                <p>{{i?.project_code}}</p>
+                                <p >Status: <span>{{i?.status}}</span></p>
+                                <p >Planned Start Date: <span>{{i?.planned_start_date |date: 'yyyy-MM-dd HH:mm a'}}</span></p>
+                                <p >Planned End Date: <span>{{i?.planned_end_date | date: 'yyyy-MM-dd HH:mm a'}}</span></p>
+                                <p >Description: <span>{{i?.description }}</span></p>
+                                <button class="viw-btn" (click)="viewProject(i.id)">View More</button>
+                                <ng-template #noDate><span [innerHTML]="text"></span>-</ng-template>
+                            </div>
+                            
+                        </div>
+                    
+                  
+                  </ng-container>
+                </div>
+               <ng-template #noDisp>
+                   <!-- <div class="clear-fix"></div> -->
+                    <div class="col-md-12 text-center">
+                        <h4 class="text-center" id="no-projects">No Projects</h4>
+                    </div>
+               </ng-template>
+              </div>
+              <!--white-->
+            </div>
+
+
+
+          </div>
+
+
+        </div>
+        <!-- footer-->
+        <!-- <admin-footer></admin-footer> -->
+        <!-- end footer-->
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+
+
+  <!--delete modal------>
+</body>

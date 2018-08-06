@@ -1,0 +1,77 @@
+.photo {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: #ccc;
+    float: left;
+    overflow: hidden;
+}
+.inputfile + label {
+    width: auto;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 4px 0px;
+    position: absolute;
+    right: 36px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+	background: #fe6c07e0;
+}
+.label2 {
+    color: #909090;
+    font-size: 15px;
+}
+label {
+    font-size: 15px;
+    color: #4a4a4a;
+    font-weight: normal;
+    padding: 5px 0;
+}
+.fa-camera {
+     padding-top: 8px;
+    color: #fff;
+    font-size: 18px !important;
+    text-align: center;
+    padding-left: 40x;
+    margin-left: 11px;
+}
+.relatve {
+    position: relative;
+    max-width: 180px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.employ-pic .inputfile-1 + label {
+    color: #ffffff;
+    background-color: #32c5d2;
+}
+.mrg-tp {
+    margin-top: 15px !important;
+}
+.style2 {
+    border: none;
+    border-bottom: 1px solid #ccc;
+	width:100%;
+}
+.center-bt {
+    margin: 20px auto 10px auto;
+    float: none;
+}
+.photo img{width:100%;}
+.form-group{margin-bottom:12px;overflow:hidden;}

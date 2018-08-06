@@ -1,0 +1,37 @@
+<div>
+  <h1>Resources Vs Task Hours</h1>
+  <div class="row">
+    <br>
+    <div class="col-md-8 col-sm-8 col-xs-12">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6 bg-g">*Select Project</div>
+        <div class="col-md-6 bg-hash">
+          <mat-select name="projet_id" required [(ngModel)]="project_id" (ngModelChange)="changeProject($event)">
+            <mat-option *ngFor="let prj of projects" [value]="prj.id">
+              {{prj.project_name}}
+            </mat-option>
+          </mat-select>
+        </div>
+
+        <div class="clearfix"></div>
+
+
+      </div>
+    </div>
+    <br>
+    <div class="col-md-12 col-sm-12 col-xs-12" >
+      <div *ngIf="(userExists && proExists) else empty" class="widget">
+        <!-- <div id="chart" class="chart-container">
+
+        </div> -->
+
+        <div id="stacked-bar-chart-container" style="width:1000px;height:400px">
+        </div>
+        
+      </div>
+      <ng-template #empty>
+          <h4 class="no-dt">No data to display!</h4>
+      </ng-template>
+    </div>
+  </div>
+</div>

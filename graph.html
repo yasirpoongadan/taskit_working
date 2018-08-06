@@ -1,0 +1,163 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Test barchart</title>
+    <!-- d3 import -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.min.js"></script>
+    <!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>  -->
+    <!-- font -->
+    <!-- <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i|Poppins:300,400,500,600,700&amp;subset=latin-ext" rel="stylesheet"> -->
+    <!-- for style other than leaflet -->
+    <!-- <style type="text/css">
+      svg {
+        font-family:'Poppins', sans-serif;
+        font-size:9pt;
+        shape-rendering: crispEdges;
+      }
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+      }
+      path.domain {
+        stroke: none;
+      }
+      .y .tick line {
+        stroke: #ddd;
+      }
+      .tooltip_stats {
+        background: white;
+        border: 2px solid black
+      }
+      .leaflet-tooltip-left.tooltip_stats::before {
+        border-left-color: black;
+      }
+      .leaflet-tooltip-right.tooltip_stats::before {
+        border-right-color: black;
+      }
+      h1 {
+        font-family: 'Droid Serif', serif;
+        font-weight:600;
+        font-size:24pt;
+        fill:#2c2c2c;
+        color:black;
+        margin-bottom:5px;
+        margin-top:10px;
+      }
+      h2 {
+        font-family: 'Droid Serif', serif;
+        font-weight:600;
+        font-size:16pt;
+        fill:#2c2c2c;
+        color:black;
+        margin-bottom:5px;
+        margin-top:10px;
+      }
+      h3 {
+        font-family:'Poppins', sans-serif;
+        font-weight:300;
+        font-size:8pt;
+      }
+      h4 {
+        font-family:'Droid Serif', serif;
+        font-weight:400;
+        font-size:9pt;
+        color:#2c2c2c;
+        text-align:right;
+      }
+      h5 {
+        font-family:'Droid Serif', serif;
+        font-weight:400;
+        font-size:10pt;
+        color:#2c2c2c;
+        text-align:left;
+      }
+      .legend {
+      line-height: 18px;
+      color: #555;
+      }
+      .legend i {
+          width: 18px;
+          height: 18px;
+          float: left;
+          margin-right: 8px;
+          opacity: 0.7;
+      }
+      .info {
+          padding: 6px 8px;
+          font-size:9pt;
+          font-family:'Poppins', sans-serif;
+          background: white;
+          background: rgba(255,255,255,0.8);
+          box-shadow: 0 0 15px rgba(0,0,0,0.2);
+          border-radius: 5px;
+      }
+      .info h4 {
+          margin: 0 0 5px;
+          color: #777;
+      }
+      .rect{
+        margin: 10px;
+      }
+      /*Styles the div that holds the highchart */
+      #container {
+        margin: 0 auto;
+        padding-left:20px;
+        padding-top:20px;
+        padding-right:30px;
+        padding-bottom:10px;
+        min-width: 310px;
+        max-width: 600px; 
+        position:relative;
+      }
+      #cpchart, #lpchart {
+        border: 1px solid white;
+        float: left;
+        height: 300px;
+        color: white;
+        padding-bottom:5px;
+        padding-top:10px;
+        width: 700px;
+      }
+      #credits{
+        /*
+        position:absolute;
+        bottom:0;
+        left:0;
+        padding: 10px;*/
+        font-family: 'Droid Serif', serif;
+        font-weight:300;
+        font-size:8pt;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+      
+    </style> -->
+  </head>
+  
+  <body>
+  <div id="container" style="min-width: 400px; max-width: 700px; height: 680px; margin: 0 auto">
+  <!--   <h1>Headline here</h1>
+    <h5>subhead</h5> -->
+    <div id="cpchart"></div>
+  <!--   <div id="credits"> 
+      Source: here <br /> byline here
+    </div> -->
+  </div>
+  <script type="text/javascript">
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(registration) {
+        // Registration was successful
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      }, function(err) {
+        // registration failed :(
+        console.log('ServiceWorker registration failed: ', err);
+      });
+    });
+  }
+  </script>
+  </body>
+  </html>

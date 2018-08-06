@@ -1,0 +1,365 @@
+<body class="home">
+  <div class="container-fluid display-table">
+      <div class="row display-table-row">
+    
+          <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+               <!-- sidebar-->
+             
+               <company-sidebar></company-sidebar> 
+               <!-- end sidebar-->
+          </div>
+          
+          <div class="col-md-12 col-xs-12">
+              <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+              <!-- topbar-->
+              <company-topbar></company-topbar> 
+              
+                  <!-- end topbar-->
+              
+              
+              <div class="user-dashboard">
+                  <h2>Request Management</h2>
+                  <ul class="breadcrumb">
+                    <li><a routerLink="/">Request Management</a></li>
+                    <li><a routerLink="/company-request-management">Time Extension Request List</a></li>
+                    
+                    <li>Time Extension Request View</li>
+                  </ul>
+                 
+                  <div class="row">
+                      
+            <div class="col-md-5 col-sm-12 col-xs-12 gutter ">
+             <div class="white">
+               <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Project Name</label></div>
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{project?.project_name}}</label></div>
+               </div>
+               
+               <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Project Code</label></div>
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{project?.project_code}}</label></div>
+               </div>
+               
+               <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Project Start Date</label></div>
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{project?.planned_start_date | date:'EEE, d MMM,y'}}</label></div>
+               </div>
+              
+               <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Team Members</label></div>
+               
+                
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2" *ngFor="let name of teammembers; ">{{name}}, </label></div>
+        
+              </div>
+     
+               <!-- <div class="form-group">
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="">Remark</label></div>
+                 <div class="col-md-6 col-sm-6 col-xs-6"><label for="" class="label2">{{reqdetails?.remarks}}</label></div>
+               </div> -->
+
+               
+             </div>
+            </div>
+              <div class="col-md-7 col-sm-12 col-xs-12 gutter">
+
+                           <div class="white">
+               <div class="col-md-12 mrg-2">
+                 <div class="col-md-4">
+                   <label>
+                     Total Hours
+                   </label>
+                 </div>
+                 <div class="col-md-4 col-xs-5">
+                   <!-- <input class="effect-1 style" type="text" placeholder="44:00 Hr"> -->
+                   <span class="focus-border">{{sum}} Hr</span>
+                 </div>
+
+               </div>
+               <div *ngFor="let task of myTasks; let i = index ">
+                  <div class="col-md-12 col-xs-12 pull-right">
+                 <div class="task">
+                   <div class="col-md-8 col-xs-7">
+                     <h5>{{task.module_name}}</h5>
+                   </div>
+                   <div class="col-md-4 col-xs-5">
+                     <ul class="taskedit">
+                       <li>{{task.ttlModHour}}Hr</li>
+                      
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+               <!---task end-->
+               <div *ngFor="let task1 of myTasks[i].tbl_project_tasks; let y = index">
+               <div class="col-md-11 col-xs-12 pull-right">
+                  <div *ngIf="task1?.id != reqdetails?.task_id">
+                 <div class="task hash">
+                  <div class="col-md-12">
+                    <h5 class="mrgn-t">{{task1.task_name}}</h5>
+                  </div> 
+                   <div class="col-md-12 col-xs-12">
+                     <ul class="">
+                       <li><label for="" class="tsk-lbl">Assigned Person: </label><h5 class="tsk-dt">{{task1?.tbl_user_profile.f_name}}</h5></li>
+                       <li><label for="" class="tsk-lbl">Hours: </label><h5 class="tsk-dt">{{task1?.planned_hour + task1?.buffer_hour}} hrs</h5></li>
+                       <li><label for="" class="tsk-lbl">Start Date: </label><h5 class="tsk-dt">{{task1?.planned_start_date_time | date:'medium'}}</h5></li>
+                       <li><label for="" class="tsk-lbl">End Date: </label><h5 class="tsk-dt">{{task1?.planned_end_date_time | date:'medium'}}</h5></li>
+                      
+                       
+                     </ul>
+                   </div>
+                   
+                   <div class="clearfix"></div>
+                 
+                 </div>
+
+                </div>
+                <div *ngIf="task1?.id == reqdetails?.task_id && (reqdetails?.req_status=='Pending' || (reqdetails?.req_status=='Approval' && role_id==1))  ">
+                <div class="task highlight">
+                    <div class="col-md-3 col-xs-7">
+                      <h5>{{task1.task_name}}</h5>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <ul class="">
+                          <li><label for="" class="tsk-lbl">Assigned Person: </label><h5 class="tsk-dt">{{task1?.tbl_user_profile.f_name}}</h5></li>
+                          <li><label for="" class="tsk-lbl">Existing hours: </label><h5 class="tsk-dt">{{oldtasktime}} hrs</h5></li>
+                          <li><label for="" class="tsk-lbl">Requested hours: </label><h5 class="tsk-dt">{{reqdetails?.additional_hours}} hrs</h5></li>
+                          <li><label for="" class="tsk-lbl">Total Hours: </label><h5 class="tsk-dt">{{task1?.planned_hour + task1?.buffer_hour}} hrs</h5></li>
+                          <li><label for="" class="tsk-lbl">Start Date: </label><h5 class="tsk-dt">{{task1?.planned_start_date_time | date:'medium'}}</h5></li>
+                          <li><label for="" class="tsk-lbl">End Date: </label><h5 class="tsk-dt">{{task1?.planned_end_date_time | date:'medium'}}</h5></li>
+                        </ul>
+                        
+                        <br>
+                        <div class="pull-right">
+                          <button class="bt"  (click)="getEditId(reqdetails?.id,reqdetails?.additional_hours,reqdetails?.task_id,task1?.tbl_user_profile.id,task1?.tbl_user_profile.cmp_id)" data-toggle="modal" data-target="#editModal">Edit</button>
+                          <button class="bt"  (click)="getIdinApprove(task1.id,task1.planned_hour,task1.buffer_hour,reqdetails.additional_hours,reqdetails?.id)" data-toggle="modal" data-target="#approvedModal">Approve</button>
+                          <button class="bt"  (click)="getId(reqdetails?.id)" data-toggle="modal" data-target="#rejectModal">Reject</button>
+                          <button *ngIf="sendtoAdminBtnShow" class="bt" (click)="getId(reqdetails?.id)" data-toggle="modal" data-target="#sendtoadminModal">Send to admin</button>
+                          
+                        </div>  
+                      </div>
+                    <div class="clearfix"></div>
+                    
+                  </div>
+
+                 </div>
+               </div>
+              </div>
+            </div>
+               <!---task end-->
+        
+               <div class="clearfix"></div> 
+              
+                               
+                           </div>
+                       </div>
+
+
+<!-- --------------------------------------------- edit modal ----------------------------------------------------------------- -->
+  
+
+<div id="editModal" class="modal fade">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+        <h4 class="modal-title">Edit Requested Time</h4>
+      </div>
+      <div class="modal-body">
+          <form  role="form"  #f="ngForm" (ngSubmit)="updateReqtime(reqtime);" novalidate>
+          
+                  <div class="col-md-11">
+                 
+                            
+                      <div class="form-group" >
+                          
+                 
+                            <div class="col-md-5 paddtop">
+                                <label>Old Time</label>
+                             </div> 
+                             <div class="col-md-6">
+                           
+                                  <label>{{oldtasktime}} hrs</label>
+                        
+                             </div>
+                             <div class="clearfix"></div>
+    
+                              <div class="col-md-5 paddtop">
+                                  <label>Requested Time</label>
+                               </div>
+                               <div class="col-md-6">
+                                  <mat-form-field>
+                                      <input matInput type="number" name ="additional_hr" [(ngModel)]="reqtime.additional_hr"  required>
+                                      
+                                   </mat-form-field>
+                               </div>
+                               <div class="clearfix"></div>
+                         
+                               
+                              
+                        </div>
+                        
+                    <br>
+          
+                    <div class="row">
+                      <div class="col-md-4">
+                        <button type="submit" [disabled]="btnDisbled" class="btn round-button">Submit</button>
+      
+                      </div>
+                      <!-- <div class="col-md-8" *ngIf="showSpinner">
+                        <svg class="svgclass" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                          x="0px" y="0px" width="40px" height="40px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                          xml:space="preserve">
+                          <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"
+                            />
+                          </path>
+                        </svg>
+                      </div> -->
+      
+                    </div>
+      
+                 
+                  </div>
+                 
+                
+             
+      </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-----------------------------------------------------------------edit modal-------------------------------------->
+<!-------------------approve modal---------------------------------->
+<div id="approvedModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"  #closeBtn>&times;</button>
+        <h4 class="modal-title">Approve </h4>
+      </div>
+      <!-- <div class="modal-header"> -->
+      <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+      <!-- </div> -->
+      <div class="modal-body delete-popup">
+        <!-- <i class="fa fa-exclamation"></i> -->
+
+
+        <h4 class="textalign">Do you wish to continue?</h4>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="approved(id)" class="btn round-button" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-------------------approve end modal---------------------------------->
+<!-------------------reject modal---------------------------------->
+<div id="rejectModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"  #closeBtn2>&times;</button>
+        <h4 class="modal-title">Reject Modal </h4>
+      </div>
+      <!-- <div class="modal-header"> -->
+      <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+      <!-- </div> -->
+      <div class="modal-body delete-popup">
+        <!-- <i class="fa fa-exclamation"></i> -->
+
+
+        <h4 class="textalign">Do you wish to continue?</h4>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="rejecttimeextreq(id)" class="btn round-button" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-------------------reject modal---------------------------------->
+  <!-------------------sendtoadminModal---------------------------------->
+<div id="sendtoadminModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn3>&times;</button>
+        <h4 class="modal-title">Send to Admin </h4>
+      </div>
+      <!-- <div class="modal-header"> -->
+      <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+      <!-- </div> -->
+      <div class="modal-body delete-popup">
+        <!-- <i class="fa fa-exclamation"></i> -->
+
+
+        <h4 class="textalign">Do you wish to continue?</h4>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="sendtoadmin(id)" class="btn round-button" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-------------------sendtoadminModal---------------------------------->
+    <!-------------------sendtoadminModal---------------------------------->
+<div id="approveModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn3>&times;</button>
+        <h4 class="modal-title">Approved </h4>
+      </div>
+      <!-- <div class="modal-header"> -->
+      <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+      <!-- </div> -->
+      <div class="modal-body delete-popup">
+        <!-- <i class="fa fa-exclamation"></i> -->
+
+
+        <h4 class="textalign">Do you whish to continue?</h4>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="approved(id)" class="btn round-button" data-dismiss="modal">Yes</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-------------------sendtoadminModal---------------------------------->
+  </div>
+
+    </div>
+              
+          </div>
+              <!-- footer-->
+              <company-footer></company-footer>
+     <!-- end footer-->
+      </div>
+       </div>
+      <!-- Modal -->
+   </body>

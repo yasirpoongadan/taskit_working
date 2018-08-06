@@ -1,0 +1,12 @@
+.panel-body {
+    padding: 50px;
+}
+.mrg-top label{padding-top: 20px;}
+.round-button{
+    float:none !important;
+  }
+  .center-bt {
+      margin: 20px auto 10px auto;
+      float: none;
+  }
+ .no-edit{font-weight: 400;}

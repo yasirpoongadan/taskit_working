@@ -1,0 +1,575 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <user-sidebar></user-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <user-topbar></user-topbar>
+        <br>
+        <div class="col-md-12">
+          <h2>Project Estimation</h2>
+        </div>
+        <div class="col-md-5 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+              <!-- <h3>Project Estimation</h3> -->
+              <div class="row">
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Project Name :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.project_name}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Project Code :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.project_code}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Assignee :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{pm}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Category :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{category?.category_name}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Priority :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.priority}}</label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Description :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">
+                      {{project?.description}}
+                    </label>
+                  </div>
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Date :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{pro_date}}</label>
+                  </div>
+                </div>
+                <br>
+                <div class="col-md-4 col-xs-6"><label>Team Members :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field class="inputfileds">
+                    <mat-select name='selected' multiple [(ngModel)]="team_member">
+                      <mat-option [value]="members.id" *ngFor="let members of team_members;">{{members.f_name}} {{members.l_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <br>
+
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Requirement Summary :</label>
+                </div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6">
+                    <label class="no-edit">{{project?.requirement_summary}}</label>
+                  </div>
+                </div>
+                <br>
+
+
+                <div class="col-md-4 col-xs-6">
+                  <label>Attatchment :</label>
+                </div>
+                <div class="col-md-7 col-xs-6 mr-top">
+                  <a data-toggle="tooltip" title="Download" href="../assets/docs/{{project?.requirement_attatchment}}" class="download-link"
+                    download="">
+                    <button class="dwnload">
+                      <i class="fa fa-download"></i>
+                    </button>Download</a>
+                  <br>
+                </div>
+                <br>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7 col-sm-12 col-xs-12 gutter">
+          <div *ngFor="let item of previousEstimations">
+            <div class="white">
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <label>
+                    <b>{{item.team_name}}</b>
+                  </label>
+                  <div class="clearfix"></div>
+                  <label>Team Lead : {{item.tbl_project_estimation_team.tbl_user_profile.f_name}} {{item.tbl_project_estimation_team.tbl_user_profile.l_name}}</label>
+                </div>
+                <div class="col-md-6 text-right">
+                  Total Hours : {{item.estimation_hour}} Hrs
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <br>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-md-12">
+                <button type="button" (click)="expand()" class="btn round-button pull-right right-btn" data-toggle="collapse" attr.data-target="#demo{{item.id}}">{{labelToExpand}}</button>
+              </div>
+              <div class="clearfix"></div>
+              <div id="demo{{item.id}}" class="collapse">
+
+                <form (ngSubmit)="copyModule()">
+                  <div *ngFor="let modules of item.tbl_estimation_modules">
+                    <div class="col-md-10 col-xs-12 pull-right">
+                      <div class="task">
+                        <div class="col-md-8 col-xs-7 dis">
+                          <mat-checkbox name="copyModules_{{modules.id}}" [value]="modules" [(ngModel)]="copyModules[modules.id]"></mat-checkbox>
+                          <!-- <mat-checkbox  name="data_{{i}}" [(ngModel)]="surveyattenders[i].check">{{data.name}}</mat-checkbox> -->
+                          <h5>{{modules.module_name}}</h5>
+                        </div>
+                        <div class="col-md-4 col-xs-5">
+                          <ul class="taskedit">
+                            <li>{{modules.module_time}} Hr</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngFor="let tasks of modules.tbl_estimation_tasks">
+                      <div class="col-md-9 col-xs-12 pull-right">
+                        <div class="task hash">
+                          <div class="col-md-8 col-xs-7">
+                            <h5>{{tasks.task_name}}</h5>
+                          </div>
+                          <div class="col-md-4 col-xs-5">
+                            <ul class="taskedit">
+                              <li>{{tasks.planned_hour + tasks.buffer_hour}} Hr</li>
+                            </ul>
+                          </div>
+                          <div class="clearfix"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-md-12">
+                    <button type="submit" class="btn round-button pull-right">Copy Modules</button>
+                  </div>
+                </form>
+                <div class="clearfix"></div>
+              </div>
+              <br>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+
+
+
+          <div class="white">
+            <div class="col-md-12" *ngIf="rejectReasonShow">
+              <label class="pull-right reason">Reason for rejecting the previous estimation :
+                <span style="color:#7e7d7d"> {{reasonforReject}}</span>
+              </label>
+            </div>
+            <div class="col-md-8 mrg-2 pull-right">
+
+              <br>
+              <div class="col-md-4">
+                <label>Total Estimated Hours</label>
+              </div>
+              <div class="col-md-5 col-xs-5">
+                <!-- <input class="effect-1 style" type="text" placeholder="44:00 Hr"> -->
+                <label class="effect-1 style">{{estimated_hour}} </label>
+                <span class="focus-border"></span>
+              </div>
+              <div class="col-md-3 col-xs-7" *ngIf="!disabled">
+                <div class="row">
+                  <button type="button" class="btn round-button pull-right dropdown-toggle right-btn" data-toggle="dropdown">Add Module</button>
+
+                  <ul class="dropdown-menu addmodule" role="menu">
+                    <form class="form-horizontal" (ngSubmit)="addModule()" novalidate>
+                      <div class="col-md-8">
+                        <input class="style" required autofocus [(ngModel)]="module.name" name="module" type="text" placeholder="Module Name">
+                      </div>
+                      <div class="col-md-4">
+                        <button type="submit" class="btn round-button pull-right">Save</button>
+                      </div>
+                    </form>
+                  </ul>
+
+                </div>
+              </div>
+              <br>
+            </div>
+
+            <div *ngFor="let module of modules; let i = index">
+              <div class="col-md-10 col-xs-12 pull-right">
+                <div class="task">
+                  <div class="col-md-8 col-xs-7">
+                    <h5 *ngIf="!show[i]">{{module.name}}</h5>
+                    <div *ngIf="show[i]">
+                      <form class="form-horizontal" (ngSubmit)="editModule(i)" novalidate>
+                        <div class="col-md-8">
+                          <mat-form-field>
+                            <input matInput name="name" autofocus [(ngModel)]="module.name" required>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                          <button type="submit" class="btn round-button pull-right">Save</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-xs-5" *ngIf="!show[i]">
+                    <ul class="taskedit">
+                      <li>{{module.time}} Hr</li>
+                      <li class="pull-right">
+                        <a href="#" data-toggle="modal" data-target="#deleteModuleModal" (click)="getId(i)" data-backdrop="static" data-keyboard="false">
+                          <i class="fa fa-close" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                      <li class="pull-right">
+                        <a>
+                          <i (click)="editModules(i)" class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngFor="let task of module.tasks; let j = index">
+                <div class="col-md-9 col-xs-12 pull-right">
+                  <div class="task hash">
+                    <div class="col-md-8 col-xs-7">
+                      <h5>{{task.name}}</h5>
+                    </div>
+                    <div class="col-md-4 col-xs-5">
+                      <ul class="taskedit">
+                        <li>{{task.planned_hour + task.buffer_time}} Hr</li>
+                        <li class="pull-right">
+                          <a href="#" data-toggle="modal" data-target="#deleteTaskModal" (click)="getId1(i,j)" data-backdrop="static" data-keyboard="false">
+                            <i class="fa fa-close" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                        <li class="pull-right">
+                          <a href="#" data-toggle="modal" data-target="#editTaskModal" (click)="getId1(i,j)">
+                            <i class="fa fa-pencil" aria-hidden="true" data-backdrop="static" data-keyboard="false"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="clearfix"></div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="col-md-12">
+                <button type="button" *ngIf="!disabled" (click)="getId(i)" data-toggle="modal" data-target="#addTaskModal" class="btn round-button pull-right right-btn"
+                  data-backdrop="static" data-keyboard="false">Add Task</button>
+              </div>
+            </div>
+            <!-- --------------------------------------------- add task modal ----------------------------------------------------------------- -->
+            <div id="addTaskModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn1>&times;</button>
+                    <h4 class="modal-title">Add Task </h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" #f="ngForm" (ngSubmit)="addTask(index);" novalidate>
+
+                      <div>
+                        <div class="example-container">
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Task Name* :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <mat-form-field>
+                              <input matInput name="name" autofocus [(ngModel)]="task.name" required>
+                            </mat-form-field>
+                          </div>
+                          <br>
+
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Planned Hours* :</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="planned_hour" min="0" [(ngModel)]="task.planned_hour" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+
+
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Buffer Time* :</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="buffer_time" min="0" [(ngModel)]="task.buffer_time" (keypress)="_keyPress($event)" required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Verification Hour* :</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="verification_hour" min="0" [(ngModel)]="task.verification_hour" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Description* :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <!-- <mat-select name="description" [(ngModel)]="task.description" required>
+                                <mat-option value="Billable">Billable</mat-option>
+                                <mat-option value="Non-billable">Non-billable</mat-option>
+                              </mat-select> -->
+                              <textarea matInput [(ngModel)]="task.description" name="description" required matAutosizeMinRows="3" class="brd" matAutosizeMaxRows="6"></textarea>
+                            </mat-form-field>
+                          </div>
+                          <br>
+
+                        </div>
+                      </div>
+                      <br>
+
+                      <div class="">
+                        <div class="col-md-12">
+                          <button type="submit" class="btn round-button right-btn">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+
+
+
+
+            <!-- ----------------------------------------------------------------------add task modal------------------------------------------------------------------
+           
+              <!-- --------------------------------------------- delete module modal ----------------------------------------------------------------- -->
+            <div id="deleteModuleModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete </h4>
+                  </div>
+                  <!-- <div class="modal-header"> -->
+                  <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                  <!-- </div> -->
+                  <div class="modal-body delete-popup">
+                    <i class="fa fa-exclamation"></i>
+
+
+                    <h4 class="textalign">Are you sure?</h4>
+
+                  </div>
+
+                  <div class="modal-footer" style="text-align:center;">
+                    <button type="button" (click)="deleteModule(index)" class="btn round-button center-bt" data-dismiss="modal">Delete</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ----------------------------------------------------------------------delete module modal--------------------------------------------------------------------- -->
+
+            <!-- --------------------------------------------- delete task modal ----------------------------------------------------------------- -->
+            <div id="deleteTaskModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete </h4>
+                  </div>
+                  <!-- <div class="modal-header"> -->
+                  <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+                  <!-- </div> -->
+                  <div class="modal-body delete-popup">
+                    <i class="fa fa-exclamation"></i>
+
+
+                    <h4 class="textalign">Are you sure?</h4>
+
+                  </div>
+
+                  <div class="modal-footer" style="text-align:center;">
+                    <button type="button" (click)="deleteTask(i,j)" class="btn round-button center-bt" data-dismiss="modal">Delete</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ----------------------------------------------------------------------delete task modal--------------------------------------------------------------------- -->
+
+            <!-- --------------------------------------------- edit task modal ----------------------------------------------------------------- -->
+            <div id="editTaskModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closeBtn2></button>
+                    <h4 class="modal-title">Edit Task </h4>
+                  </div>
+                  <div class="modal-body">
+                    <form role="form" #f="ngForm" (ngSubmit)="editTask(i, j);" novalidate>
+
+                      <div>
+                        <div class="example-container">
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Task Name :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <mat-form-field>
+                              <input matInput name="name" autofocus [(ngModel)]="selectedTask.name" required>
+                            </mat-form-field>
+                          </div>
+                          <br>
+
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Planned Hours:</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="planned_hour" min="0" [(ngModel)]="selectedTask.planned_hour" required>
+                            </mat-form-field>
+                          </div>
+
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Buffer Time :</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="buffer_time" min="0" [(ngModel)]="selectedTask.buffer_time" required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Verification Hour* :</label>
+                          </div>
+                          <div class="col-md-3 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <input type="number" matInput name="verification_hour" min="0" [(ngModel)]="selectedTask.verification_hour" (keypress)="_keyPress($event)"
+                                required>
+                            </mat-form-field>
+                          </div>
+                          <div class="clearfix"></div>
+                          <div class="col-md-3 col-xs-6">
+                            <label class="pad-top">Description :</label>
+                          </div>
+                          <div class="col-md-7 col-xs-6">
+                            <mat-form-field class="wdth">
+                              <!-- <mat-select name="description" [(ngModel)]="task.description" required>
+                              <mat-option value="Billable">Billable</mat-option>
+                              <mat-option value="Non-billable">Non-billable</mat-option>
+                            </mat-select> -->
+                              <textarea matInput [(ngModel)]="selectedTask.description" name="description" required matAutosizeMinRows="3" class="brd"
+                                matAutosizeMaxRows="6"></textarea>
+                            </mat-form-field>
+                          </div>
+                          <br>
+
+                        </div>
+                      </div>
+                      <br>
+
+                      <div class="">
+                        <div class="col-md-12">
+                          <button type="submit" class="btn round-button right-btn">Submit</button>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ----------------------------------------------------------------------edit task modal------------------------------------------------------------------ -->
+
+            <div class="clearfix"></div>
+            <div class="pull-right">
+              <div class="col-md-6">
+                <label>Time taken for estimation:</label>
+              </div>
+              <div class="col-md-6">
+                <!-- <input class="effect-1 style" type="text" placeholder="44:00 Hr"> -->
+                <mat-form-field>
+                  <input type="number" matInput name="time_for_estimation" min="0" [(ngModel)]="time_for_estimation" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="">
+              <div class="col-md-12">
+                <button type="submit" *ngIf="!disabled" [disabled]="estimateProject" (click)="estimate()" class="btn round-button pull-right right-btn">Submit</button>
+                <div *ngIf="estimateSpinner">
+                  <app-spinner></app-spinner>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

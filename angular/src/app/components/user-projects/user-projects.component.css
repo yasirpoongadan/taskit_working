@@ -1,0 +1,29 @@
+.pro-container{
+    box-shadow: 0px 0px 18px -1px #ccc;
+    min-height: 277px;
+    padding: 40px;
+    margin-bottom: 35px;
+}
+.viw-btn{
+    background: #fe6a07 none repeat scroll 0 0;
+    border-radius: 100px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 27px 10px 27px;
+    border: none
+}
+.loader-cont{
+    position: absolute;
+    margin: 0 auto;
+    width: 100%;
+    top: 47%;
+
+}
+#no-projects{
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: #ccc;
+    margin: 128px 0;
+}

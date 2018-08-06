@@ -1,0 +1,157 @@
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+      
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                 <!-- sidebar-->
+               
+                 <company-sidebar></company-sidebar> 
+                 <!-- end sidebar-->
+            </div>
+            
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <company-topbar></company-topbar> 
+                
+                    <!-- end topbar-->
+                
+                
+                <div class="user-dashboard">
+                        <h2>Request Management</h2>
+                        <ul class="breadcrumb">
+                          <li><a >Leave Request Management</a></li>
+                                                 
+                          <li>Leave Request Management List </li>
+                        </ul>
+                    <div class="row">
+                      <!-----------------------------------------------------------------table-------------------------------------->
+                            
+  
+  <!-- <p>You selected: {{selected}} </p> -->
+  
+  <div class="col-md-12">
+        <div class="row">
+        <!-- <div class="col-md-12 preloader2" *ngIf="showSpinner" >
+            <div class=""  >
+                <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                width="50%" height="59px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+            <path fill="#000" d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z">
+              <animateTransform attributeType="xml"
+                attributeName="transform"
+                type="rotate"
+                from="0 25 25"
+                to="360 25 25"
+                dur="0.6s"
+                repeatCount="indefinite"/>
+              </path>
+            </svg>
+        </div>
+        </div> -->
+        
+    
+        <div class="col-md-12 optionz">
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="example-header">
+                      <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                      </mat-form-field>
+                    </div>
+              </div>
+             
+          </div>
+        </div>
+    
+    
+    <!--    
+              <div class="example-header" >
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                  </mat-form-field>
+              </div> -->
+           
+        <div class="example-container mat-elevation-z8 ">
+      <mat-table [dataSource]="dataSource" matSort>
+     <!-- Name Column -->
+     <ng-container matColumnDef="slno">
+        <mat-header-cell *matHeaderCellDef>Sl_No </mat-header-cell>
+        <mat-cell *matCellDef="let row;let i = index"> {{(paginator.pageIndex * paginator.pageSize) + (i+1)}} </mat-cell>
+      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef > NAME </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.tbl_user_profile.f_name}} </mat-cell>
+        </ng-container>
+                <!-- Name Column -->
+        <ng-container matColumnDef="start_date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Leave Start Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.start_date}} </mat-cell>
+        </ng-container>
+              <!-- Name Column -->
+        <ng-container matColumnDef="start_available_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Start Available hrs </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.start_available_hrs}} </mat-cell>
+        </ng-container>  
+                <!-- Name Column -->
+        <ng-container matColumnDef="end_date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Leave end date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.end_date}} </mat-cell>
+        </ng-container>
+                <!-- Name Column -->
+        <ng-container matColumnDef="end_available_hrs">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> End available hrs </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.end_available_hrs}} </mat-cell>
+        </ng-container>
+             <!-- Name Column reject_reason-->
+             <ng-container matColumnDef="request_status">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+                <mat-cell *matCellDef="let row" > {{row.request_status}} </mat-cell>
+               
+              </ng-container>
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> ACTION </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              <a  routerLink="/company-user-leave-request/{{row.id}}" ><button class="bt">view</button></a>
+              </mat-cell>
+          </ng-container>
+
+    
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;">
+        </mat-row>
+      </mat-table>
+      <div class="col-md-15 ">
+          <!-- <div *ngIf="showSpinner" class="deletespinner">
+              <mat-spinner></mat-spinner>
+             </div> -->
+      </div>
+      <div class="col-md-12 noItemFound" *ngIf="notExist">
+          <div class="col-md-4 col-md-offset-4">
+              <mat-toolbar   class="back-color">No item found!</mat-toolbar>
+          </div>
+        </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+    
+    
+    </div>
+    </div>
+  
+   
+      
+
+        
+       <!-----------------------------------------------------------------end table-------------------------------------->
+                    </div>
+                </div>
+                
+            </div>
+                <!-- footer-->
+                <company-footer></company-footer>
+       <!-- end footer-->
+        </div>
+         </div>
+        <!-- Modal -->
+     
+     </body>

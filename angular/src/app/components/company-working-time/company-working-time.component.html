@@ -1,0 +1,431 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <company-sidebar></company-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <company-topbar></company-topbar>
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+              <h2>Master Settings</h2>
+              <ul class="breadcrumb">
+                <li><a >Master Settings</a></li>
+                <!-- <li><a routerLink="/company-request-management">Time Extension Request List</a></li> -->
+                
+                <li>Office Time</li>
+              </ul>
+              <div class="col-md-4 col-sm-12 col-xs-12 gutter ">
+                <div class="white">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="col-md-11"><label for=""><b>Working Hours</b></label></div>
+                      <div class="col-md-1"><button class="bg-grey-btn" (click)="setWorkTime()"><i class="fa fa-pencil" aria-hidden="true"></i></button></div>
+                      <div class="col-md-12 padd-15">
+                        <div class="col-md-6">
+                          <label class="thin-lbl" for="">Office Start Time</label>
+                        </div>
+                        <div class="col-md-6">
+                          <label *ngIf="show" for="">{{default?.start_time}}</label>
+                        </div>
+                      </div>
+                      <div class="col-md-12 padd-15">
+                        <div class="col-md-6">
+                          <label class="thin-lbl" for="">Office End Time</label>
+                        </div>
+                        <div class="col-md-6">
+                          <label *ngIf="show" for="">{{default?.end_time}}</label>	
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="form-group padd-15">
+                      <div class="col-md-11 padd-15"><label for=""><b>Breaks</b></label></div>
+                      
+                      <div class="col-md-12 padd-15" *ngFor="let item of breaks; let i = index; trackBy:trackByIndex">
+                        <div class="col-md-5">
+                          <label class="thin-lbl" for="">{{item?.title}}</label>
+                        </div>
+                        <div class="col-md-5">
+                          <label *ngIf="show" for="">{{item?.start_time}}</label> - 
+                          <label *ngIf="show" for="">{{item?.end_time}}</label>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="bg-grey-btn bg-trans" (click)="deleteBreak(item.id)"><i class="la la-trash"></i></button>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                  
+                  
+                
+                  </div>
+                 
+                  <app-spinner *ngIf="spinner"></app-spinner>
+                  
+                  <button class="rnd-btn plus-btn" (click)="addBreak()">+</button>
+                </div><!--white-->
+               </div>
+               
+               <div class="col-md-8">
+                 <div class="white">
+                   <h4>Day Settings</h4>
+                   <table>
+                     <thead>
+                        <tr>
+                            <th></th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                            <th>Sun</th>
+                         </tr>
+                     </thead>
+                     
+                     
+                     <tbody *ngIf="showTbl">
+
+                          <ng-container *ngFor="let item of createRange(5)">
+                              <tr>
+                                <td class="week-nm">{{item}} Week</td>
+                                <td *ngFor="let i of createRange(7); let x=index">
+                                   <button class="week-btn clr-green" *ngIf="timings[i][item].id else chngd" (click)="openModal(i,item)">Changed</button>
+                                   <ng-template #chngd>
+                                   <button class="week-btn" (click)="openModal(i,item)" >Default</button>
+                                    
+                                   </ng-template>
+                                
+                                  
+                                </td>
+                              </tr>
+                          </ng-container>
+                  
+                       
+                     </tbody>
+                   </table>
+                 </div>
+               </div>
+               
+        </div>
+
+
+      </div>
+      <!-- footer-->
+      <!-- <admin-footer></admin-footer> -->
+      <!-- end footer-->
+    </div>
+  </div>
+  </div>
+  <!-- Modal -->
+
+  <div id="assignModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Working Hours</h4>
+        </div>
+        <!-- <div class="modal-header"> -->
+        <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+        <!-- </div> -->
+        <div class="modal-body delete-popup">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  <label class="modal-lft-lbl">Office Start Time:</label>
+                </div>
+                <div class="col-md-7">
+                    
+                  <ngb-timepicker [(ngModel)]="startTime" ></ngb-timepicker>
+                    
+
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  <label class="modal-lft-lbl">Office End Time:</label>
+                </div>
+                <div class="col-md-7">
+                   
+                  <ngb-timepicker [(ngModel)]="endTime"></ngb-timepicker>
+                    
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+          <app-spinner *ngIf="spinner"></app-spinner>
+          <button *ngIf="!spinner" type="button" [disabled]="editWorkinBtnDisable" (click)="saveWorkTime()" class="btn round-button">Save</button>
+          <div *ngIf="editWorkingSpinner">
+            <app-spinner></app-spinner>
+        </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+   <!--Break Modal -->
+   <div id="breakModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Break</h4>
+        </div>
+        <!-- <div class="modal-header"> -->
+        <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+        <!-- </div> -->
+        <div class="modal-body delete-popup">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                  <div class="col-md-4">
+                      <label class="modal-lft-lbl">Break Title:</label>
+                    </div>
+                    <div class="col-md-7 text-left">
+                        
+                        <mat-form-field>
+                            <input matInput placeholder="Title" [(ngModel)]="breakTitle">
+                          </mat-form-field>
+                    </div>
+                <div class="col-md-4">
+                  <label class="modal-lft-lbl">Break Start Time:</label>
+                </div>
+                <div class="col-md-4">
+                  <ngb-timepicker [(ngModel)]="breakStartTime" ></ngb-timepicker>
+                </div>
+                <div class="col-md-1">
+                  <span class="houricon" matTooltip="Time should be in 24 hour format ">
+                    <i class="material-icons info-icon">info_outline</i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  <label class="modal-lft-lbl">Break End Time:</label>
+                </div>
+                <div class="col-md-4">
+                  <ngb-timepicker [(ngModel)]="breakEndTime" ></ngb-timepicker>
+                </div>
+                <div class="col-md-1">
+                  <span class="houricon" matTooltip="Time should be in 24 hour format ">
+                    <i class="material-icons info-icon">info_outline</i>
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+          <app-spinner *ngIf="spinner"></app-spinner>
+          <button  type="button" [disabled]="addBreakBtnDisable" (click)="saveBreak()" class="btn round-button">Add Break</button>
+          <div *ngIf="addBreakSpinner">
+            <app-spinner></app-spinner>
+        </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+  <!----------------------------------------------- delete modal ----------------------------------------------------------------- -->
+  <div id="deleteModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delete </h4>
+          </div>
+          <!-- <div class="modal-header"> -->
+          <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+          <!-- </div> -->
+          <div class="modal-body delete-popup text-center">
+            <i class="fa fa-exclamation"></i>
+
+
+            <h4 class="textalign">Are you sure?</h4>
+
+          </div>
+
+          <div class="modal-footer" style="text-align:center;">
+            <button type="button" (click)="confirm(planId)" class="btn round-button center-bt" data-dismiss="modal">Delete</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  <!--delete modal------>
+
+
+  <!--Break Modal -->
+
+  <div id="weekModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+  
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" (click)="closeDayPopup()">&times;</button>
+            <h4 class="modal-title">Edit Working Hours</h4>
+          </div>
+          <!-- <div class="modal-header"> -->
+          <!-- <h4 class="modal-title">Are you sure to delete?</h4> -->
+          <!-- </div> -->
+          <div class="modal-body delete-popup">
+            <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12 text-left">
+                            <mat-checkbox [(ngModel)]="holiday" >Off day?</mat-checkbox> 
+                      <!-- {{holiday}} -->
+                          </div>
+                      <div class="col-md-4">
+                        <label class="modal-lft-lbl">Office Start Time:</label>
+                      </div>
+                      <div class="col-md-4">
+                        <ngb-timepicker [(ngModel)]="xtime" [readonlyInputs]="holiday" [spinners]="!holiday"></ngb-timepicker>
+                      </div>
+                      <div class="col-md-1">
+                        <span class="houricon" matTooltip="Time should be in 24 hour format ">
+                          <i class="material-icons info-icon">info_outline</i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <label class="modal-lft-lbl">Office End Time:</label>
+                      </div>
+                      <div class="col-md-4">
+                        <ngb-timepicker [(ngModel)]="ytime" [readonlyInputs]="holiday" [spinners]="!holiday"></ngb-timepicker>
+                      </div>
+                      <div class="col-md-1">
+                        <span class="houricon" matTooltip="Time should be in 24 hour format ">
+                          <i class="material-icons info-icon">info_outline</i>
+                        </span>
+                      </div>
+                    </div>
+      
+                    <div class="form-group padd-7">
+                        <div class="col-md-11 padd-7 text-left"><label for=""><b>Breaks</b></label></div>
+                        
+                        <div class="col-md-12 padd-7" *ngFor="let item of breaks; let i = index; trackBy:trackByIndex">
+                          <div class="col-md-6">
+                            <label class="thin-lbl" for="">{{item.title}}</label>
+                          </div>
+                          <div class="col-md-5">
+                            <label *ngIf="show" for="">{{item.start_time}}</label> - 
+                            <label *ngIf="show" for="">{{item.end_time}}</label>
+                          </div>
+                          <!-- <div class="col-md-1">
+                              <button class="bg-grey-btn bg-trans" (click)="deleteBreak(item.id)"><i class="la la-trash"></i></button>
+                          </div> -->
+                          
+                        </div>
+                        
+                        <div class="col-md-12 padd-7" *ngFor="let item of dayBreak; let i = index; trackBy:trackByIndex">
+                            <div class="col-md-6">
+                              <label class="thin-lbl" for="">{{item.title}}</label>
+                            </div>
+                            <div class="col-md-5">
+                              <label *ngIf="show" for="">{{item.start_time}}</label> - 
+                              <label *ngIf="show" for="">{{item.end_time}}</label>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="bg-grey-btn bg-trans" (click)="deleteExtraBreak(item.id)" [disabled]="holiday"><i class="la la-trash"></i></button>
+                            </div>
+                            
+                          </div>
+                          <div class="col-md-12" *ngIf="showAddBreak">
+                              <!-- <div class="row"> -->
+                               
+                                      <div class="col-md-4">
+                                          <div class="row">
+                                              <mat-form-field>
+                                                  <input matInput placeholder="Title" [(ngModel)]="xtrabreakTitle" [disabled]="holiday" class="mrgn-tp">
+                                                </mat-form-field>
+                                          </div>
+                                       
+                                      </div>
+                   
+                                  <div class="col-md-3">
+                                      
+                                    <ngb-timepicker [(ngModel)]="atime" [readonlyInputs]="holiday" [spinners]="!holiday" class="tpkr"></ngb-timepicker>
+                                      
+                  
+                                  </div>
+                                
+                                  <div class="col-md-3">
+                                     
+                                    <ngb-timepicker [(ngModel)]="btime" [readonlyInputs]="holiday" [spinners]="!holiday" class="tpkr"></ngb-timepicker>
+                                      
+                  
+                                  </div>
+                                  <div class="col-md-2">
+                                    <button class="btn add-brk" (click)="saveExtraBreak()"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                    <button class="btn add-brk red" (click)="closeExtraBreak()">x</button>
+                                    
+                                  </div>
+                  
+                              <!-- </div> -->
+                  
+                            </div>
+                          <button class=" plus-btn mrgn-ed" (click)="addExtraBreak()" [disabled]="holiday" [ngClass]="{ 'dsbld' : holiday}">+</button>
+
+                          
+                      </div>
+                  </div>
+      
+                </div>
+          </div>
+  
+          <div class="modal-footer">
+            <app-spinner *ngIf="spinner"></app-spinner>
+            <button *ngIf="!spinner" type="button" (click)="saveDayWorkTime()" class="btn round-button">Save</button>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  
+</body>

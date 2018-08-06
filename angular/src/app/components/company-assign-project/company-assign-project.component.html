@@ -1,0 +1,148 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+      <div class="col-md-1 col-xs-2 display-table-cell v-align box" id="navigation">
+        <company-sidebar></company-sidebar>
+      </div>
+      <div class="col-md-12 col-xs-12">
+        <company-topbar></company-topbar>
+        <br>
+        <div class="col-md-12"><h2>Assign Team Head</h2></div>
+        <div class="col-md-6 col-xs-12">
+          <div class="panel panel-default">
+            <div class="panel-body mrg-top">
+
+              <!-- <h3>Assign Team Head</h3> -->
+              <div class="row">
+
+                <div class="col-md-4 col-xs-6"><label>Project Name :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.project_name}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+
+                <div class="col-md-4 col-xs-6"><label>Project Code :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.project_code}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <!-- <div class="col-md-4 col-xs-6"><label>Assignee</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-4 col-xs-6"><label class="no-edit">{{project?.assignee_id}}</label></div>
+                </div>
+                <br> -->
+
+                <div class="col-md-4 col-xs-6"><label>Category :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{category?.category_name}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-xs-6"><label>Priority :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.priority}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-xs-6"><label>Description :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{project?.description}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <div class="col-md-4 col-xs-6"><label>Date :</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <div class="col-md-12 col-xs-6"><label class="no-edit">{{pro_date}}</label></div>
+                </div>
+                <br>
+                <div class="clearfix"></div>
+                <div class="col-md-12 col-xs-12"><label>Assigned To* :</label></div>
+                <br>
+                <div></div>
+                <div class="col-md-11 pull-right "*ngFor="let item of allteam">
+                  <div class="col-md-5 col-xs-6"><label>{{item?.team_name}} :</label></div>
+                  <div class="col-md-6 col-xs-6">
+                    <mat-form-field [formGroup]="formGroup">
+                      <mat-select name="developer_id+(item?.id)" [(ngModel)]="project_assign.assigned_ids[item?.id]" (change)="changeTeam(item)" 
+                        formControlName="developerValidation">
+                        <mat-option value="">None</mat-option>
+                        <mat-option *ngFor="let teamassoc of item.tbl_team_assocs" [value]="teamassoc">
+                          {{ teamassoc?.tbl_user_profile?.f_name }} {{ teamassoc?.tbl_user_profile?.l_name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br>
+                <!-- <div class="col-md-11 pull-right">
+                  <div class="col-md-5 col-xs-6"><label>Designer Head :</label></div>
+                  <div class="col-md-6 col-xs-6">
+                    <mat-form-field [formGroup]="formGroup">
+                      <mat-select name="designer_id" [(ngModel)]="project_assign.designer_id" (ngModelChange)="changeDesigner($event)" required
+                        formControlName="designerValidation">
+                        <mat-option value="">None</mat-option>
+                        <mat-option *ngFor="let item of designerTeam" [value]="item">
+                          {{ item.f_name }} {{ item.l_name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <br> -->
+                <!-- <div class="col-md-11 pull-right">
+                  <div class="col-md-5 col-xs-6"><label>QC Head :</label></div>
+                  <div class="col-md-6 col-xs-6">
+                    <mat-form-field [formGroup]="formGroup">
+                      <mat-select name="qc_id" (ngModelChange)="changeQC($event)" [(ngModel)]="project_assign.qc_id" required formControlName="qcValidation">
+                        <mat-option value="">None</mat-option>
+                        <mat-option *ngFor="let item of qcTeam" [value]="item">
+                          {{ item.f_name }} {{ item.l_name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div> -->
+                <br>
+                <br>
+                <div class="col-md-4 col-xs-6"><label>Requirement Summary*:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <textarea matInput [(ngModel)]="project_assign.requirement" name="requirement" required formControlName="reqValidation"
+                      matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="6"></textarea>
+                  </mat-form-field>
+                  <input (change)="displayDoc($event)" name="file"  type="file" accept=".jpeg, .png, .gif,.jar, .pdf" />
+                </div>
+                <br>
+
+                <div class="col-md-4 col-xs-6"><label>Forward Estimation Request*:</label></div>
+                <div class="col-md-7 col-xs-6">
+                  <mat-form-field [formGroup]="formGroup">
+                    <mat-select name="forward_to" [(ngModel)]="project_assign.forward_to" required formControlName="forwardValidation">
+                      <mat-option *ngFor="let item of teamhead" [value]="item">
+                        {{ item.f_name }} {{ item.l_name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <button type="submit" [disabled]="assignProjectBtnDisable" (click)="assignProject(project_assign)" class="btn round-button center-bt">Submit</button>
+                    <div *ngIf="assignSpinner">
+                      <app-spinner></app-spinner>
+                  </div>
+  
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -1,0 +1,69 @@
+<div class="logo">
+    <a ><img src="./assets/images/logo.jpg" alt="" class="">
+   
+</a>
+</div>
+
+<nav class="navbar navbar-default">
+
+<!-- Brand and toggle get grouped for better mobile display -->
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+ 
+</div>
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="collapse navbar-collapse navi" id="bs-example-navbar-collapse-1">
+    <ul class="zx nav navbar-nav">
+        <li  [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/user-dashboard"><i class="fa fa-desktop" aria-hidden="true"></i><span class="">Dashboard</span></a></li>
+        <li  [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/user-projects"><i class="fa fa-suitcase" aria-hidden="true"></i><span class="">Projects</span></a></li>
+        <li  [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+          <a routerLink="/user-task-management"><i class="fa fa-tasks" aria-hidden="true"></i><span class="">My Tasks</span></a></li>
+       
+         <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+              <a routerLink="/user-leave-request"><i class="fa fa-bed"></i> Leave Request</a></li>
+
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-file-text-o" aria-hidden="true"></i><span class="">My Request</span></a>
+            
+              <ul class="dropdown-menu" role="menu" data-animations="fadeInDown fadeInRight fadeInUp fadeInLeft">
+              
+                <li><a routerLink="/user-my-request">Time Extension Requests</a></li>
+                <li><a routerLink="/user-my-request-mytask">New Task Requests</a></li>
+              </ul>
+            
+          </li>      
+          <li *ngIf="isAssigned" [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+            <a routerLink="/user-task-verification"><i class="fa fa-list-alt"></i> Task Verification</a></li>     
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions] = "{exact:true}">
+             <a routerLink="/user-activity-log"><i class="fa fa-list-alt"></i> Activity Log</a></li>     
+       
+       
+    </ul>
+ 
+ 
+</div><!-- /.navbar-collapse -->
+
+</nav>
+
+<div class="footerlink">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+    <i class="fa fa-twitter" aria-hidden="true"></i>
+    <i class="fa fa-google" aria-hidden="true"></i>
+    <p>Copyright 2018  All Rights Reserved.</p>
+   </div>
+
+   <style>
+@media only screen and (max-width: 1366px){
+.navbar-default {
+    min-height: 769px;
+}
+}
+   
+   </style>

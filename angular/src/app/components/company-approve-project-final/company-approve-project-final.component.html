@@ -1,0 +1,222 @@
+<body class="home">
+  <div class="container-fluid display-table">
+    <div class="row display-table-row">
+
+      <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+        <!-- sidebar-->
+
+        <company-sidebar></company-sidebar>
+        <!-- end sidebar-->
+      </div>
+
+      <div class="col-md-12 col-xs-12">
+        <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+        <!-- topbar-->
+        <company-topbar></company-topbar>
+        <!-- end topbar-->
+
+
+        <div class="user-dashboard">
+          <!-- <h1>Hello, JS</h1> -->
+          <div class="row">
+              <ul class="breadcrumb text-left">
+                  <li><a routerLink="/project">Projects</a></li>
+                  <li>Project Details</li>
+                </ul>
+                
+            <div class="col-md-12 col-sm-12 col-xs-12 gutter ">
+              <div class="white">
+                  <div class="pull-right">
+                      <button  data-toggle="modal" data-target="#confirmAopprovalModal" class="btn round-button " data-backdrop="static" data-keyboard="false">Approve</button>
+                    </div>
+
+                      <!-- --------------------------------------------- apporal modal ----------------------------------------------------------------- -->
+                      <div id="confirmAopprovalModal" class="modal fade" role="dialog">
+                          <div class="modal-dialog">
+                  
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Approval </h4>
+                              </div>
+                              <div class="modal-body delete-popup">
+                                <i class="fa fa-check-circle"></i>
+                  
+                  
+                                <h4 class="textalign">Do You Wish to continue ?</h4>
+                  
+                              </div>
+                  
+                              <div class="modal-footer" style="text-align:center;">
+                                <button type="button" (click)="approveProject()" class="btn round-button center-bt" data-dismiss="modal">Approve</button>
+                              </div>
+                            </div>
+                  
+                          </div>
+                        </div>
+                  
+                        <!-- ----------------------------------------------------------------------reject modal-------------------------------------------------------- -->
+  
+                <div class="col-md-12" >
+                 
+                  
+                  <div class="col-md-12">
+                      <label for="" class="pro-lbl">Project Name</label>
+                      <p for="" class="inln">{{projects[0]?.tbl_project?.project_name}}</p>
+                  </div>
+                  <div class="col-md-12">
+                      <label for="" class="pro-lbl">Project Code</label>
+                      <p for="" class="inln">{{projects[0]?.tbl_project?.project_code}}</p>
+                  </div>
+                  <!-- <div class="col-md-12">
+                      <label for="">Team Leader</label>
+                      <p for="">{{project.project_name}}</p>
+                  </div> -->
+                  <!-- <div class="col-md-12">
+                      <label for="" class="pro-lbl">Team Members</label>
+                      <div *ngFor="let teammember of project?.tbl_project_member_assocs">
+                      <p for="" class="inln">{{teammember.tbl_user_profile.f_name}}</p>
+                      </div>
+                  </div> -->
+                  <div class="col-md-12">
+                      <label for="" class="pro-lbl">Start Date</label>
+                      <p for="" class="inln">{{projects[0]?.tbl_project?.planned_start_date| date: 'yyyy-MM-dd HH:mm a'}}</p>
+                  </div>
+                  <div class="col-md-12">
+                      <label for="" class="pro-lbl">End Date</label>
+                      <p for="" class="inln">{{projects[0]?.tbl_project?.planned_end_date| date: 'yyyy-MM-dd HH:mm a'}}</p>
+                  </div>
+                  <div class="col-md-12">
+                      <label for="" class="pro-lbl">Status</label>
+                      <p for="" class="inln">{{projects[0]?.tbl_project?.status}}</p>
+                  </div>
+                  <div class="col-md-12" *ngIf="project?.tbl_project?.status == 'Cancelled'">
+                    <label for="" class="pro-lbl">Cancellation Time:</label>
+                    <p for="" class="inln">{{projects[0]?.tbl_project?.updatedAt | date: 'yyyy-MM-dd HH:mm a'}} </p>
+                </div>
+                  <div class="col-md-12">
+                    <label for="" class="pro-lbl">Project Cost:</label>
+                    <p for="" class="inln">{{projects[0]?.tbl_project?.project_cost}} </p>
+                </div>
+                <div class="col-md-12">
+                  <label for="" class="pro-lbl">Description:</label>
+                  <p for="" class="inln">{{projects[0]?.tbl_project?.description}} </p>
+              </div>
+                
+
+              <div  *ngFor="let project of projects;">
+                <div class="col-md-12 col-xs-12 pull-right">
+                  <ng-container  >
+                      <div class="module">
+                          <div class="col-md-9 col-xs-7">
+                            <h5>{{project?.module_name}}</h5>
+                          </div>
+                          <div class="col-md-3 col-xs-5">
+                            <ul class="taskedit" >
+                              <li>{{project?.totalhour}} Hrs</li>
+                              
+                            </ul>
+                          </div>
+                        </div>
+                        <ng-container *ngFor="let i of project.tbl_project_tasks; let i=index">
+                            <div class="col-md-10 pull-right">
+                              <div class="row">
+                                  <div class="task assigned " >
+                                      <div class="task-detailz">
+                                        <label class="tsk-lbl">Task name:</label>
+                                        <h5 class="tsk-dt">{{i.task_name}}</h5>
+                                      </div>
+                                      <div class="task-detailz">
+                                          <label class="tsk-lbl">Assigned person:</label>
+                                        <h5 class="tsk-dt">{{i.tbl_user_profile.f_name}} {{i.tbl_user_profile.l_name}}</h5>
+                                      </div>
+                                   
+                                      <div class="task-detailz">
+                                          <label class="tsk-lbl">Planned start date:</label>
+                                          <h5 class="tsk-dt">{{i.planned_start_date_time | date: 'yyyy-MM-dd HH:mm a'}} </h5>
+                                      </div>
+                                      <div class="task-detailz">
+                                          <label class="tsk-lbl">Planned end date:</label>
+                                          <h5 class="tsk-dt">{{i.planned_end_date_time | date: 'yyyy-MM-dd HH:mm a'}} </h5>
+                                      </div>
+                                      <div class="task-detailz">
+                                          <label class="tsk-lbl">Planned Hour:</label>
+                                        <ul class="taskedit2">
+                                          <li>{{i.planned_hour+i.buffer_hour}} Hrs </li>
+                                        </ul>
+                                      </div>
+                                      <div class="task-detailz" *ngIf="i.actual_hour">
+                                          <label class="tsk-lbl">Actual Hour:</label>
+                                        <ul class="taskedit2">
+                                          <li>{{i.actual_hour}} Hrs </li>
+                                        </ul>
+                                      </div>
+                                      <div class="task-detailz" >
+                                          <label class="tsk-lbl">Status:</label>
+                                        <ul class="taskedit2">
+                                          <li class="text-primary"><b>{{i.tbl_task_status_assocs[0]?.tbl_task_status.status}} </b> </li>
+                                        </ul>
+                                      </div>
+                                      <div class="task-detailz" *ngIf="i.tbl_task_status_assocs[0]?.tbl_task_status.id==2 && i.tbl_task_status_assocs[0]?.reason ">
+                                          <label class="tsk-lbl">Reason to Pause:</label>
+                                        <ul class="taskedit2">
+                                          <li>{{i.tbl_task_status_assocs[0]?.reason}}  </li>
+                                        </ul>
+                                      </div>
+                                      <div class="task-detailz" *ngIf="i.tbl_task_status_assocs[0]?.tbl_task_status.id==4 ">
+                                          <label class="tsk-lbl">Reason to Hold:</label>
+                                        <ul class="taskedit2">
+                                          <li>{{i.tbl_task_status_assocs[0]?.reason}}  </li>
+                                        </ul>
+                                      </div>
+
+                                      <div class="task-detailz" *ngIf="i.tbl_task_status_assocs[0]?.progress_id">
+                                          <label class="tsk-lbl">Progress Percentage:</label>
+                                        <ul class="taskedit2">
+                                          <li>{{i.tbl_task_status_assocs[0]?.progress.percentage}}% </li>
+                                        </ul>
+                                      </div>
+                                     
+                                    
+                                   
+                                    </div>
+                              </div>
+                                
+                              </div>
+                        </ng-container>
+                        
+                        
+                  </ng-container>
+                    
+                  </div>
+                </div>
+                
+                <div class="text-center">
+                  <app-spinner *ngIf="spinner"></app-spinner>
+
+                </div>
+                </div>
+              </div>
+              <!--white-->
+            </div>
+
+
+
+          </div>
+
+
+        </div>
+        <!-- footer-->
+        <!-- <admin-footer></admin-footer> -->
+        <!-- end footer-->
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+
+
+  <!--delete modal------>
+</body>

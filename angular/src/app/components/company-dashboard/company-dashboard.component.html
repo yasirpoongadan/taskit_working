@@ -1,0 +1,363 @@
+<body class="home">
+    <div class="container-fluid display-table">
+        <div class="row display-table-row">
+
+            <div class="col-md-1 col-xs-12 display-table-cell v-align box" id="navigation">
+                <!-- sidebar-->
+                <company-sidebar></company-sidebar>
+                <!-- end sidebar-->
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+                <!-- topbar-->
+                <company-topbar></company-topbar>
+                <!-- end topbar-->
+
+
+                <div class="user-dashboard">
+
+                    <mat-tab-group color="primary" (selectedTabChange)="onTabLinkClick($event)">
+
+                        <mat-tab label="Task Vs Status">
+                            <div *ngIf="preloader">
+                                <app-spinner></app-spinner>
+                            </div>
+
+                            <company-task-vs-status></company-task-vs-status>
+                        </mat-tab>
+                        <mat-tab label="Resources Vs Task Hours">
+                            <div class="sales">
+                                <div *ngIf="preloader">
+                                    <app-spinner></app-spinner>
+                                </div>
+                                <h1><b>Resources Vs Task Hours</b></h1>
+                                <div class="row">
+                                    <br>
+                                    <div class="col-md-8 col-sm-8 col-xs-12">
+                                        <div class="col-md-10 col-md-offset-1">
+                                            <div class="col-md-6 bg-g">*Select Project</div>
+                                            <div class="col-md-6 bg-hash">
+                                                <mat-select name="projet_id" required [(ngModel)]="project_id" (ngModelChange)="changeProjectResourceVsTaskhour($event)">
+                                                    <mat-option *ngFor="let prj of projectsResourceVsTaskhour" [value]="prj.id">
+                                                        {{prj.project_name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <br>
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div *ngIf="(userExists && proExists) else empty" class="widget">
+                                            <!-- <div id="chart" class="chart-container">
+                                      </div> -->
+                                            <div class="clearfix"></div>
+                                            <div id="stacked-bar-chart-container" style="width:1000px;height:400px">
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <ng-template #empty>
+                                            <h4 class="no-dt">No data to display!</h4>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Project Vs Task Hours">
+                            <!-- <company-project-vs-hour></company-project-vs-hour> -->
+                            <div class="sales">
+                                <div *ngIf="preloader">
+                                    <app-spinner></app-spinner>
+                                </div>
+                                <h1><b>Project Vs Task Hours</b></h1>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="widget">
+                                            <!-- <div id="chart" class="chart-container">
+                                       
+                                           </div> -->
+
+                                            <div *ngIf="exists else empty" id="stacked-bar-chart-container1">
+                                            </div>
+                                            <ng-template #empty>
+                                                <h4 class="no-dtx">No data to display!</h4>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Project Vs Status">
+                            <!-- <company-project-vs-status></company-project-vs-status> -->
+                            <div class="sales">
+                                <div *ngIf="preloader">
+                                    <app-spinner></app-spinner>
+                                </div>
+                                <h1><b>Project Vs Status</b></h1>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <div class="col-md-6 bg-g">*Select Project</div>
+                                            <div class="col-md-6 bg-hash">
+                                                <mat-select name="projet_id" [(ngModel)]="project_id" (ngModelChange)="changeProjectVsStatus($event)" required>
+                                                    <mat-option *ngFor="let prj of ProjectVsStatus" [value]="prj.id">
+                                                        {{prj.project_name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="tasklabel">
+                                                        START DATE
+                                                        <br> {{start_date | date: 'yyyy-MM-dd HH:mm a'}}
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="tasklabel">
+                                                        END DATE
+                                                        <br> {{end_date | date: 'yyyy-MM-dd HH:mm a'}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="tasklabel">
+                                                        TOTAL TASKS
+                                                        <br> {{total_tasks}}
+                                                        <br> ({{planned_hour}} Hour)
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="tasklabel">
+                                                        TASKS COMPLETED
+                                                        <br> {{completed_tasks}}
+                                                        <br> ({{actual_hour}} Hour)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <div class="widget">
+                                            <div class="header">Task Vs Status</div>
+                                            <div id="chart2" class="chart-container">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Module Vs Status">
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="sales">
+                                    <div *ngIf="preloader">
+                                        <app-spinner></app-spinner>
+                                    </div>
+                                    <h1><b>Module Vs Status</b></h1>
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <div class="col-md-3 bg-g">*Select Project</div>
+                                            <div class="col-md-3 bg-hash">
+                                                <mat-select name="projet_id" [(ngModel)]="project_id" (ngModelChange)="changeProject($event)" required>
+                                                    <mat-option *ngFor="let prj of projects" [value]="prj.id">
+                                                        {{prj.project_name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <span class="total">Total {{module_count}} Milestone</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="graph-ul" *ngIf="moduleExists else empty1">
+                                        <li *ngFor="let module of modules">
+                                            <div class="divModule">{{module?.module_name}}</div>
+                                            <div class="row">
+                                                <div class="col-md-6">Planned Hour
+                                                    <br>{{module?.planned_hour}}</div>
+                                                <div class="col-md-6">Actual Hour
+                                                    <br> {{module?.actual_hour}} </div>
+                                                <div id="module-{{module.id}}-progress"></div>
+                                                <company-progress-graph [containerId]="'module-'+ module.id +'-progress'" [progper]="module?.per"></company-progress-graph>
+                                                <div class="clearfix"></div>
+                                                <div class="col-md-12 label-bg">
+                                                    <div class="number">{{module?.total_tasks}}</div>
+                                                </div>
+                                                <div id="module-{{module.id}}-status"></div>
+                                                <company-status-graph [containerId]="'module-'+ module.id +'-status'" [pieData]="module?.pieData"></company-status-graph>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <ng-template #empty1>
+                                        <h4 class="mdl-sts">No data to display!</h4>
+                                    </ng-template>
+                                </div>
+
+                            </div>
+                        </mat-tab>
+                        <mat-tab label="Planned Vs Actual">
+
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="sales">
+                                    <div *ngIf="preloader">
+                                        <app-spinner></app-spinner>
+                                    </div>
+                                    <h1><b>Planned Vs Actual</b></h1>
+
+                                    <ul class="graph-ul-hour" *ngIf="statusExists else empty2">
+                                        <li class="text-center2">
+                                            <div class="firstRow firstColumn">PROJECTS</div>
+                                            <div class="secondRow firstColumn">Progress</div>
+                                            <div class="ThirdRow firstColumn">Planned
+                                                <br>vs
+                                                <br> Actual Hours</div>
+                                        </li>
+                                        <li class="text-center2" *ngFor="let project of projectforProVsStatusGraph;let i = index;">
+                                            <div class="prjtitle1">{{project[0]?.tbl_project?.project_name}}</div>
+                                            <div class="col-md-8 mr-top">
+                                                <div class="datelabel">Start
+                                                    <span class="pull-right">{{project[0]?.tbl_project?.planned_start_date | date: 'yyyy-MM-dd HH:mm
+                                                        a'}}
+                                                    </span>
+                                                </div>
+                                                <div class="datelabel">End
+                                                    <span class="pull-right">{{project[0]?.tbl_project?.planned_end_date | date: 'yyyy-MM-dd HH:mm
+                                                        a'}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <hr>
+                                            <div id="projct-{{i}}-progress"></div>
+                                            <company-progress-graph [containerId]="'projct-'+ i +'-progress'" [progper]="project.per"></company-progress-graph>
+                                            <label>{{project?.in_progress_tasks}}/{{project?.total_tasks}} tasks is In Progress</label>
+                                            <hr>
+                                            <div id="projct-{{i}}-bar"></div>
+                                            <company-bar-graph [containerId]="'projct-'+ i +'-bar'" [actual]="project.actual_hour" [planning]="project.planned_hour"></company-bar-graph>
+                                        </li>
+                                    </ul>
+                                    <ng-template #empty2>
+                                        <h4 class="mdl-sts">No data to display!</h4>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </mat-tab>
+                    </mat-tab-group>
+                    <!-- 
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="sales">
+                                    
+                                <company-task-vs-status></company-task-vs-status>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="sales">
+                                <company-resoure-vs-hour></company-resoure-vs-hour>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <div class="sales">
+                                <company-project-vs-hour></company-project-vs-hour>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                  <div class="sales">
+                                  <company-project-vs-status></company-project-vs-status>
+                                  </div>
+                              </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                  <div class="sales">
+                                      <h1>Module Vs Status</h1>
+                                      <div class="row">
+                                          <div class="col-md-8 col-md-push-1">
+                                              <div class="col-md-3 bg-g">*Select Project</div>
+                                              <div class="col-md-3 bg-hash">
+                                                  <mat-select  name="projet_id" [(ngModel)]="project_id" (ngModelChange)="changeProject($event)" required>
+                                                      <mat-option *ngFor="let prj of projects" [value]="prj.id">
+                                                        {{prj.project_name}}
+                                                      </mat-option>
+                                                    </mat-select>
+                                              </div> 
+                                              <div class="col-md-3">
+                                                  <span class="total">Total {{module_count}} Milestone</span>
+                                              </div>
+                                          </div> 
+                                      </div>
+                                      <ul class="graph-ul" *ngIf="moduleExists else empty1">
+                                          <li *ngFor="let module of modules" >
+                                              <div class="divModule" >{{module?.module_name}}</div>
+                                              <div class="row">
+                                                  <div class="col-md-6">Planned Hour <br>{{module?.planned_hour}}</div>
+                                                  <div class="col-md-6">Actual Hour<br> {{module?.actual_hour}} </div>
+                                                  <div id="module-{{module.id}}-progress"></div>
+                                                  <company-progress-graph [containerId]="'module-'+ module.id +'-progress'" [progper]="module?.per"></company-progress-graph>
+                                                  <div class="clearfix"></div>
+                                                  <div class="col-md-12 label-bg">
+                                                      <div class="number">{{module?.total_tasks}}</div>
+                                                  </div>
+                                                  <div id="module-{{module.id}}-status"></div>
+                                                  <company-status-graph [containerId]="'module-'+ module.id +'-status'" [pieData]="module?.pieData"></company-status-graph>
+                                              </div>
+                                          </li>
+                                          
+                                      </ul>
+                                      <ng-template #empty1>
+                                              <h4 class="mdl-sts">No data to display!</h4>
+                                      </ng-template>
+                                  </div>
+                                 
+                              </div>
+      
+                              <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                  <div class="sales">
+                                          <h1>Project Vs Status</h1>
+      
+                                          <ul class="graph-ul-hour" *ngIf="statusExists else empty2">
+                                                  <li class="text-center2">
+                                                      <div class="firstRow firstColumn">PROJECTS</div>
+                                                      <div class="secondRow firstColumn">Progress</div>
+                                                      <div class="ThirdRow firstColumn">Planned <br>vs<br> Actual Hours</div>
+                                                  </li>
+                                                  <li class="text-center2" *ngFor="let project of projectforProVsStatusGraph;let i = index;">
+                                                      <div class="prjtitle1">{{project[0]?.tbl_project?.project_name}}</div>
+                                                      <div class="col-md-8 mr-top">
+                                                      <div class="datelabel">Start <span class="pull-right">{{project[0]?.tbl_project?.planned_start_date | date: 'yyyy-MM-dd HH:mm a'}}</span></div>
+                                                      <div class="datelabel">End <span class="pull-right">{{project[0]?.tbl_project?.planned_end_date | date: 'yyyy-MM-dd HH:mm a'}}</span></div>
+                                                      </div>
+                                                      <div class="clearfix"></div>
+                                                      <hr>
+                                                      <div id="projct-{{i}}-progress"></div>
+                                                      <company-progress-graph [containerId]="'projct-'+ i +'-progress'" [progper]="project.per"></company-progress-graph>
+                                                      <label>{{project?.in_progress_tasks}}/{{project?.total_tasks}} tasks is In Progress</label>
+                                                      <hr>
+                                                      <div id="projct-{{i}}-bar"></div>
+                                                      <company-bar-graph [containerId]="'projct-'+ i +'-bar'" [actual]="project.actual_hour" [planning]="project.planned_hour"></company-bar-graph>
+                                                  </li>
+                                          </ul>   
+                                          <ng-template #empty2>
+                                                  <h4 class="mdl-sts">No data to display!</h4>
+                                          </ng-template>    
+                                  </div>
+                              </div>
+                            
+                        </div> -->
+                </div>
+
+            </div>
+            <!-- footer-->
+            <company-footer></company-footer>
+            <!-- end footer-->
+        </div>
+    </div>
+    <!-- Modal -->
+</body>

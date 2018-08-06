@@ -1,0 +1,1 @@
+{"reportBundlePath":"report-templates/estim-report-no-pro-and-cat-params.prpt","outputFilePath":"F:\\Projects\\taskit\\out\\report\\estimationexcel","outputType":"excelXlsx","params":[{"name":"start_date","value":1531420200,"type":"Integer"},{"name":"cmp_id","value":116,"type":"Integer"},{"name":"end_date","value":1531420200,"type":"Integer"}]}
